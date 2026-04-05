@@ -94,28 +94,23 @@ e2e_tests_folder: e2e/
 
 ## Pre-Built — Never Rebuild These
 
-The following files are pre-built and must not be modified
-unless a task explicitly requires it:
+List the files in your scaffold that must not be modified unless
+a task explicitly requires it. Update this list before the workshop.
 
 ```
-src/backend/middleware/auth.ts       JWT auth middleware
-src/backend/routes/auth.ts          Auth routes
-src/backend/index.ts                Express app entry point
-src/frontend/src/main.tsx           React app entry point
-src/frontend/src/App.tsx            Router and auth guard
-src/frontend/src/components/Navbar.tsx  Navigation shell
+{file path}      {description}
+{file path}      {description}
 ```
-
-The User model in `src/backend/prisma/schema.prisma` is pre-built.
-Do not modify it. Extend it with relations only if required by the task.
 
 ---
 
 ## Test User Credentials
 
+Update these to match your scaffold's pre-seeded test user.
+
 ```
-email:    test@example.com
-password: password123
+email:    {test-user-email}
+password: {test-user-password}
 ```
 
 Use these credentials in E2E tests — do not create new test users.
