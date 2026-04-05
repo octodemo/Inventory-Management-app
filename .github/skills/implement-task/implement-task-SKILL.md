@@ -17,17 +17,21 @@ This skill handles all four task types:
 - `[FRONTEND]` — UI components and pages
 - `[TEST]` — automated test coverage
 
+---
+
 ## Steps
 
 ### Step 1 — Read Stack Configuration
 Read `workshop-stack.md` in full before writing any code.
-This file defines:
-- Language, frameworks, and folder structure
-- Naming conventions and coding standards
+Derive from it:
+- Language and coding conventions
+- Framework and folder structure
 - Pre-built files that must never be modified
 - Test frameworks and test file locations
+- Test user credentials
 
-All code generated must conform to the stack defined in this file.
+All code generated must conform exactly to what is defined in
+`workshop-stack.md`. Never assume a stack — always derive it.
 
 ### Step 2 — Read Task File
 Read the task file from `issues/` — identify:
@@ -35,101 +39,79 @@ Read the task file from `issues/` — identify:
 - Parent story, feature, and epic
 - Description — what needs to be implemented
 - Acceptance criteria — what must be true when done
-- Dependencies — what must already exist
+- Dependencies — what must already exist before this task runs
 
 ### Step 3 — Read Supporting Context
 Based on task type, read these additional files:
 
 **For DATABASE tasks:**
-- `docs/design/design-doc.md` — entity fields, enums, relationships,
-  seed data plan
-- Existing schema file (from `workshop-stack.md` → `schema_file`)
+- `docs/design/design-doc.md` — entity fields, types, enums,
+  relationships, constraints, and seed data plan
+- Existing schema file (path from `workshop-stack.md`)
 
 **For BACKEND tasks:**
-- `docs/design/design-doc.md` — API contracts, request/response shapes,
-  business rules
-- Existing schema file — to understand available models
-- Auth middleware path (from `workshop-stack.md` → `auth_middleware`)
+- `docs/design/design-doc.md` — API contracts, request and response
+  shapes, authentication requirements, and business rules
+- Existing schema or model definitions (path from `workshop-stack.md`)
 
 **For FRONTEND tasks:**
-- `docs/design/design-doc.md` — component structure, data-testid values,
-  API endpoints to consume
+- `docs/design/design-doc.md` — component structure, test identifiers,
+  and API endpoints to consume
 - Parent story file in `docs/work-items/stories/` — acceptance criteria
   and user-facing behaviour
 
 **For TEST tasks:**
 - Parent story file — acceptance criteria to cover
-- `docs/design/design-doc.md` — data-testid values for element selection
-- Test credentials from `workshop-stack.md` → Test User Credentials
+- `docs/design/design-doc.md` — test identifiers for element selection
+- Test credentials from `workshop-stack.md`
 
 ### Step 4 — Generate Code
 
-Generate code following the type-specific rules below.
-Always follow the conventions defined in `workshop-stack.md`.
+Generate code following the type-specific scope rules below.
+All conventions, folder paths, naming patterns, and coding standards
+come from `workshop-stack.md` — not from this skill file.
 
 ---
 
 ## [DATABASE] Task Rules
 
-**Scope:** Schema changes and seed data only.
-Do not write API logic, UI, or tests.
+**Scope:** Data model and seed data only.
+Do not write API logic, UI code, or tests.
 
 **What to produce:**
-1. Updated schema file with new models and enums added.
-   - Mark all new additions with `// NEW`
-   - Never modify models marked `// PRE-BUILT`
-   - All categorical fields use enum types — never plain strings
-   - All relations must have both sides defined
+1. Updated data model or schema with new entities and types added.
+   - Follow the schema conventions defined in `workshop-stack.md`
+   - Never modify pre-built models listed in `workshop-stack.md`
+   - File path from `workshop-stack.md` → `schema_file`
 2. Updated seed file with realistic sample records.
-   - At least one record per enum variant
+   - At least one record per categorical variant defined in the design doc
    - At least 3-5 records per new entity
-   - Cover all status/condition/category combinations
+   - File path from `workshop-stack.md` → `seed_file`
 
-**Acceptance criteria check:**
-Before finishing, verify every acceptance criterion in the task file
-is satisfied by the generated schema and seed data.
-
-**Output files:**
-- Schema file (path from `workshop-stack.md` → `schema_file`)
-- Seed file (path from `workshop-stack.md` → `seed_file`)
+**Before finishing:**
+Verify every acceptance criterion in the task file is satisfied
+by the generated schema and seed data.
 
 ---
 
 ## [BACKEND] Task Rules
 
-**Scope:** API routes, controllers, and business logic only.
-Do not write schema changes, UI, or tests.
+**Scope:** API endpoints and business logic only.
+Do not write schema changes, UI code, or tests.
 
 **What to produce:**
-1. Route file registering the endpoints.
-   - File location from `workshop-stack.md` → `routes_folder`
-   - Route prefix from `workshop-stack.md` → API Conventions
-2. Controller file with business logic.
-   - File location from `workshop-stack.md` → `controllers_folder`
-   - One function per endpoint
-   - Business rules from the task description enforced explicitly
-   - Auth middleware applied to protected routes
-3. Register the new route in the app entry point if not already registered.
+1. API route definitions.
+   - Folder path from `workshop-stack.md` → `routes_folder`
+2. Business logic handlers or controllers.
+   - Folder path from `workshop-stack.md` → `controllers_folder`
+   - Enforce every business rule stated in the task description
+   - Apply authentication to protected routes as defined in `workshop-stack.md`
+3. Register new routes in the app entry point if not already registered.
+   - Entry point path from `workshop-stack.md` → `entry_point`
 
-**API conventions — always follow these:**
-- All errors return `{ error: string }` with correct HTTP status
-- 400 for validation errors
-- 401 for unauthenticated requests
-- 403 for unauthorised requests
-- 404 for not found
-- 409 for conflict (duplicate, constraint violation)
-- 201 for successful creation
-- 200 for successful retrieval or update
-- 204 for successful deletion
-
-**Acceptance criteria check:**
+**Before finishing:**
 Every endpoint and error scenario in the task acceptance criteria
-must be handled explicitly in the controller.
-
-**Output files:**
-- Route file in `routes_folder`
-- Controller file in `controllers_folder`
-- Updated app entry point if route registration needed
+must be handled explicitly.
 
 ---
 
@@ -140,31 +122,27 @@ Do not write API logic, schema changes, or tests.
 
 **What to produce:**
 1. Page or component file.
-   - Pages go in `pages_folder`, components in `components_folder`
-   - Functional components with hooks only
-   - API calls go in a service file in `services_folder` —
-     never inline in the component
-2. Service file for API calls if one does not already exist
-   for this domain entity.
+   - Folder paths from `workshop-stack.md` → `pages_folder` or
+     `components_folder`
+   - Follow component conventions from `workshop-stack.md`
+2. API service file if one does not already exist for this domain entity.
+   - Folder path from `workshop-stack.md` → `services_folder`
+   - API calls must go in the service file — not inline in the component
 3. Register the page in the router if it is a new page.
 
-**Frontend conventions — always follow these:**
-- Every interactive element must have a `data-testid` attribute
-- `data-testid` values must match exactly what is in the design doc —
-  do not invent new values
-- Use the existing auth context for the current user — do not rebuild auth
-- Handle loading states — show a loading indicator while fetching
-- Handle error states — show an error message if the API call fails
-- Handle empty states — show a meaningful message if there is no data
+**Test identifiers:**
+- Every interactive element must have a test identifier attribute
+- The attribute name and values come from the design doc — never invent them
+- These must match exactly what is defined in `docs/design/design-doc.md`
 
-**Acceptance criteria check:**
+**UI states to always handle:**
+- Loading state — while data is being fetched
+- Error state — if the API call fails
+- Empty state — if there is no data to display
+
+**Before finishing:**
 Every user-visible behaviour in the task acceptance criteria must be
 implemented and visible in the UI.
-
-**Output files:**
-- Page or component file
-- Service file (if new)
-- Updated router file (if new page)
 
 ---
 
@@ -174,32 +152,27 @@ implemented and visible in the UI.
 Do not write implementation code.
 
 **Determine test type from task content:**
-- If task title contains `[TEST]` and references user journeys → E2E test
-- If task title references API endpoints or business logic → Unit test
+- References a user journey end to end → E2E test
+- References API endpoints or business logic → Unit test
 
 **For E2E tests:**
-- File location from `workshop-stack.md` → `e2e_tests_folder`
-- Use only `data-testid` selectors — never CSS classes or element tags
-- Use test credentials from `workshop-stack.md` → Test User Credentials
+- Folder from `workshop-stack.md` → `e2e_tests_folder`
+- Framework from `workshop-stack.md` → `e2e_test_framework`
+- Use only test identifier selectors — never CSS classes or element tags
+- Use test credentials from `workshop-stack.md`
 - Cover the happy path from the story acceptance criteria
-- Cover at least one error scenario
-- Use the E2E framework defined in `workshop-stack.md` →
-  `e2e_test_framework`
+- Cover at least one error or validation scenario
 
 **For unit tests:**
-- File location from `workshop-stack.md` → `unit_tests_folder`
-- Test each API endpoint defined in the task
-- Mock database calls — do not use a real database in unit tests
-- Cover success responses and error responses
-- Use the unit test framework from `workshop-stack.md` →
-  `unit_test_framework`
+- Folder from `workshop-stack.md` → `unit_tests_folder`
+- Framework from `workshop-stack.md` → `unit_test_framework`
+- Test each endpoint or function defined in the task
+- Mock external dependencies — do not use real databases or services
+- Cover success and error responses
 
-**Acceptance criteria check:**
-Every acceptance criterion from the parent story that this test covers
-must have at least one test case.
-
-**Output files:**
-- Test file in the appropriate test folder
+**Before finishing:**
+Every acceptance criterion from the parent story that this test
+covers must have at least one test case.
 
 ---
 
@@ -214,11 +187,9 @@ status: done
 
 ## Step 6 — Summarise What Was Done
 
-After completing implementation, provide a brief summary:
+Provide a brief summary after completing implementation:
 - Files created or modified
-- Endpoints implemented (for BACKEND tasks)
-- Components created (for FRONTEND tasks)
-- Test cases written (for TEST tasks)
+- What was implemented (endpoints, components, or test cases)
 - Any assumptions made during implementation
 
 ---
@@ -227,15 +198,13 @@ After completing implementation, provide a brief summary:
 
 - Do NOT modify pre-built files listed in `workshop-stack.md`
   unless the task explicitly requires it
-- Do NOT rebuild authentication — use the existing auth middleware
-- Do NOT use `any` in TypeScript — follow strict mode
-- Do NOT make API calls inline in React components —
-  use the services folder
-- Do NOT invent `data-testid` values — use only what is in the design doc
-- Do NOT implement scope beyond what the task describes —
+- Do NOT implement anything not described in the task file —
   one task, one scope
-- Do NOT skip the stack configuration file — always read it first
-- Do NOT assume the stack — always derive it from `workshop-stack.md`
+- Do NOT invent test identifier values — use only what is in the design doc
+- Do NOT make API calls inline in UI components —
+  use the services folder defined in `workshop-stack.md`
+- Do NOT assume the stack — always derive everything from `workshop-stack.md`
+- Do NOT skip reading the stack configuration before writing code
 
 ## Validation Checklist
 
@@ -243,6 +212,6 @@ Before finishing, verify:
 - [ ] Every acceptance criterion in the task file is satisfied
 - [ ] All code follows the conventions in `workshop-stack.md`
 - [ ] No pre-built files were modified without explicit task requirement
-- [ ] `data-testid` values match the design doc exactly
+- [ ] Test identifier values match the design doc exactly
 - [ ] Task status updated to `done`
 - [ ] No scope beyond what the task describes was implemented
