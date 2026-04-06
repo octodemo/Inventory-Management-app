@@ -17,9 +17,12 @@ Local File                         ADO Work Item Type
 ─────────────────────────────────────────────────────
 epics/*.md              →          Epic
 features/*.md           →          Feature
-stories/*.md            →          User Story
+stories/*.md            →          User Story / Product Backlog Item / Requirement
 issues/*.md             →          Task
 ```
+
+> The exact work item type used for stories depends on the ADO project's
+> process template and is resolved automatically at sync time (see Step 0).
 
 ## Prerequisites
 Before starting, verify:
@@ -33,9 +36,36 @@ Before starting, verify:
   "organization": "https://dev.azure.com/{your-org}",
   "project": "{your-project-name}",
   "areaPath": "{your-project-name}\\{optional-area}",
-  "iterationRootPath": "{your-project-name}\\Sprint"
+  "iterationRootPath": "{your-project-name}\\Sprint",
+  "processTemplate": "Agile"
 }
 ```
+
+`processTemplate` is optional. Accepted values: `Agile`, `Scrum`, `CMMI`.
+If omitted, the agent will auto-detect it from the ADO project API.
+
+## Step 0 — Detect Process Template
+
+Before creating any work items, resolve the correct work item type for User Stories.
+
+**If `processTemplate` is set in `docs/ado-sync-config.json`:** use it directly — skip the API call.
+
+**If `processTemplate` is not set:** query the ADO project:
+```
+GET {organization}/_apis/projects/{project}?includeCapabilities=true&api-version=7.1
+```
+Read `capabilities.processTemplate.templateName` from the response.
+
+Map the template to the story work item type and store as `storyWorkItemType`:
+
+| Process Template | `storyWorkItemType`      |
+|------------------|--------------------------|
+| Agile            | `User Story`             |
+| Scrum            | `Product Backlog Item`   |
+| CMMI             | `Requirement`            |
+
+If detection fails or the template is unrecognised, default to `User Story` and log:
+`⚠️ Could not detect process template — defaulting to "User Story"`
 
 ## Step 1 — Load Sync State
 Read `docs/ado-sync-state.json` if it exists.
@@ -115,7 +145,7 @@ For each Feature file not already in sync state:
 
 For each Story file not already in sync state:
 
-**ADO Work Item Type:** `User Story`
+**ADO Work Item Type:** `{storyWorkItemType}` (resolved in Step 0 — one of `User Story`, `Product Backlog Item`, or `Requirement`)
 
 **Field mapping:**
 | Local Field | ADO Field |

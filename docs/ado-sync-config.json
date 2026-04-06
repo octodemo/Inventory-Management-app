@@ -2,5 +2,6 @@
   "organization": "https://dev.azure.com/{your-org}",
   "project": "{your-project-name}",
   "areaPath": "{your-project-name}\\{optional-area}",
-  "iterationRootPath": "{your-project-name}\\Sprint"
+  "iterationRootPath": "{your-project-name}\\Sprint",
+  "processTemplate": "Scrum"
 }

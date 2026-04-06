@@ -25,6 +25,10 @@ for the team and must reflect agreed, reviewed content only.
 ## What You Do
 1. Read `docs/ado-sync-config.json` — get the ADO organisation,
    project name, and area path to use for work items.
+1a. Detect the project's process template (Agile/Scrum/CMMI) to resolve
+    the correct story work item type (`User Story`, `Product Backlog Item`,
+    or `Requirement`). Use the `processTemplate` field in config if present;
+    otherwise auto-detect via the ADO project API.
 2. Read all Epic files in `docs/requirements/work-items/epics/`.
 3. Read all Feature files in `docs/requirements/work-items/features/`.
 4. Read all Story files in `docs/requirements/work-items/stories/`.
