@@ -24,7 +24,7 @@ reviewed and saved to docs/design/design-doc.md.
 
 ## Principles
 - Epics represent major functional areas — not technical layers.
-  (e.g. "Room Management" not "Backend Development")
+  (e.g. "Member Management" or "Loan Management" — not "Backend Development")
 - Every epic must trace back to one or more BRD functional requirements.
 - Do not create epics for work not present in the BRD.
 - Do not estimate effort at this stage — estimation is a separate phase.

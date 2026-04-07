@@ -31,7 +31,7 @@ capabilities.
 4. For each epic, produce one markdown file in the format below.
 5. **Save files to `docs/work-items/epics/`:**
    - Name each file: `epic-{NN}-{kebab-case-title}.md`
-     (e.g. `epic-01-room-management.md`)
+     (e.g. `epic-01-member-management.md`)
    - If the folder does not exist, create it.
    - If files already exist from a previous run, overwrite them.
 
@@ -83,7 +83,7 @@ warrants its own epic. For example:
 
 **Group by business capability, not technical layer:**
 - WRONG: "Database Layer", "API Development", "Frontend Development"
-- RIGHT: "Room Management", "Booking Management", "Reporting & Analytics"
+- RIGHT: "Member Management", "Booking Management", "Reporting & Analytics"
 
 **Check against BRD functional requirements:**
 Every FR-XXX must belong to exactly one epic.
@@ -101,7 +101,7 @@ the scope of an existing one.
 ## Naming Conventions
 - Epic titles use Title Case.
 - Epic IDs are zero-padded two-digit numbers: `epic-01`, `epic-02`.
-- File names are kebab-case: `epic-01-room-management.md`.
+- File names are kebab-case: `epic-01-{domain-capability}.md` (e.g. `epic-01-member-management.md`).
 - Use domain entity names in epic titles where they are the primary
   subject. (e.g. "Appointment Management" not "Booking System")
 

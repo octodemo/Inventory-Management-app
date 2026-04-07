@@ -38,7 +38,13 @@ FRONTEND depends on the API. TEST depends on the full stack.
 
 ## Steps
 1. Read all User Story files in `docs/requirements/work-items/stories/`.
-2. Read `docs/design/design-doc.md` — for each story, identify:
+2. Read `workshop-stack.md` — extract folder paths, file naming conventions,
+   and framework patterns. Use these when writing acceptance criteria and
+   descriptions so that file paths, folder references, and naming conventions
+   in each task match the actual project structure exactly.
+   (e.g. use `schema_file`, `routes_folder`, `pages_folder`, `e2e_tests_folder`
+   from `workshop-stack.md` rather than inventing paths.)
+3. Read `docs/design/design-doc.md` — for each story, identify:
    - Which domain entities and fields are involved (→ DATABASE tasks)
    - Which API endpoints are needed (→ BACKEND tasks)
    - Which UI components and pages are needed (→ FRONTEND tasks)

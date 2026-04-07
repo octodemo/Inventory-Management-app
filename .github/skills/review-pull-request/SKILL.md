@@ -20,12 +20,16 @@ You never modify code. You read and report only.
 ## Steps
 
 1. Read `.github/copilot-instructions.md` — coding standards and pre-built files
-2. Read the originating issue file from `issues/` folder — extract acceptance criteria and issue type
-3. Read the git diff or PR changes — check every changed file against the Issue requirements
-4. Determine the issue type from the title: [DATABASE], [BACKEND], [FRONTEND], or unit-test
-5. Run the checklist for that issue type (see below)
-6. Save the review to `docs/reviews/review-{issue-name}.md` in the format below
-7. Set review outcome: **APPROVE** (all pass) or **REQUEST CHANGES** (any fail)
+2. Read `workshop-stack.md` — extract the tech stack, folder paths, schema file locations,
+   ORM type, test framework, and pre-built file list. All path and technology references
+   in the checklist below must use values from this file, not hardcoded assumptions.
+3. Read the originating issue file from `issues/` folder — extract acceptance criteria and issue type
+4. Read the git diff or PR changes — check every changed file against the Issue requirements
+5. Determine the issue type from the title: [DATABASE], [BACKEND], [FRONTEND], or unit-test
+6. Run the checklist for that issue type (see below), substituting paths and conventions
+   from `workshop-stack.md` wherever placeholders appear
+7. Save the review to `docs/reviews/review-{issue-name}.md` in the format below
+8. Set review outcome: **APPROVE** (all pass) or **REQUEST CHANGES** (any fail)
 
 ---
 
@@ -78,18 +82,18 @@ Save this as `docs/reviews/review-{issue-name}.md`:
 ACCEPTANCE CRITERIA
 ✅/❌  Every AC from the Issue is satisfied by the diff
 
-SCHEMA
-✅/❌  Every model named in the Issue exists in schema.prisma
-✅/❌  All categorical fields use Prisma enum — not String
-       (e.g. status, type, discountModel must be enum types)
+SCHEMA  (use schema_file path from workshop-stack.md)
+✅/❌  Every model named in the Issue exists in the data model schema file
+✅/❌  All categorical fields use the stack's enumerated type — not plain strings
+       (e.g. status, type fields must be enums or equivalent, not free-form strings)
 ✅/❌  All relations declared on both sides (both model and related model)
-✅/❌  Pre-built User model is unchanged
+✅/❌  Pre-built models listed in workshop-stack.md are unchanged
 
-MIGRATION
-✅/❌  A new migration file exists under prisma/migrations/
+MIGRATION  (use migrations_folder path from workshop-stack.md)
+✅/❌  A new migration or schema change file exists in the migrations folder
 
-SEED DATA
-✅/❌  seed.ts is updated with records for every new model
+SEED DATA  (use seed_file path from workshop-stack.md)
+✅/❌  Seed data file is updated with records for every new model
 ✅/❌  At least 3 records per domain model
 ✅/❌  Seed covers every status variant (e.g. at least one ACTIVE, one DRAFT)
 ✅/❌  Pre-built test user seed is unchanged
@@ -113,24 +117,23 @@ ENDPOINTS
 ✅/❌  Request body shapes match the Issue
 ✅/❌  Response shapes match the Issue
 
-AUTH
-✅/❌  Every protected endpoint uses the authenticate middleware from
-       src/backend/middleware/auth.ts
+AUTH  (use auth_middleware path from workshop-stack.md)
+✅/❌  Every protected endpoint uses the authentication middleware defined in workshop-stack.md
 ✅/❌  Unprotected endpoints (if any) are explicitly noted in the Issue
 
 ERROR HANDLING
-✅/❌  All errors return { error: string } with correct HTTP status
+✅/❌  All errors return the error response shape defined in the design doc
 ✅/❌  Missing resource returns 404, not 500
 ✅/❌  Validation errors return 400, not 500
 
-TYPESCRIPT
-✅/❌  No use of `any` type anywhere in changed files
-✅/❌  Async functions use async/await — no raw .then() chains
+LANGUAGE CONVENTIONS  (derived from workshop-stack.md language/framework)
+✅/❌  No language anti-patterns (e.g. no `any` in TypeScript, no bare excepts in Python)
+✅/❌  Async patterns follow the stack convention (e.g. async/await, coroutines, promises)
 
-SCOPE
-✅/❌  Only files in src/backend/routes/, controllers/, services/ modified
+SCOPE  (use routes_folder, controllers_folder paths from workshop-stack.md)
+✅/❌  Only files in the backend route/controller/service folders modified
 ✅/❌  No frontend files modified
-✅/❌  schema.prisma not modified
+✅/❌  Data model schema file not modified
 ```
 
 ---
@@ -141,27 +144,27 @@ SCOPE
 ACCEPTANCE CRITERIA
 ✅/❌  Every AC from the Issue is satisfied by the diff
 
-COMPONENTS
+COMPONENTS  (use pages_folder, components_folder paths from workshop-stack.md)
 ✅/❌  Every component named in "What to Build" section exists in the diff
-✅/❌  HomePage.tsx updated — no longer shows "Features coming soon"
 
-DATA-TESTID VALUES
-✅/❌  Every data-testid listed in the Issue exists on the correct element
-       (check component source for data-testid="..." attributes)
-✅/❌  No data-testid values from the Issue are missing
+TEST IDENTIFIERS
+✅/❌  Every test identifier (e.g. data-testid) listed in the Issue exists
+       on the correct element in the component source
+✅/❌  No test identifiers from the Issue are missing
 
 API CALLS
 ✅/❌  Frontend calls the endpoints listed in the Issue's Context section
-✅/❌  Auth token is passed in Authorization header for protected endpoints
+✅/❌  Authentication token is passed correctly for protected endpoints
 
-TYPESCRIPT
-✅/❌  No use of `any` type anywhere in changed files
-✅/❌  Components are functional style with hooks — no class components
+LANGUAGE CONVENTIONS  (derived from workshop-stack.md frontend framework)
+✅/❌  No language anti-patterns for the chosen frontend framework
+✅/❌  Component style follows the convention defined in workshop-stack.md
+       (e.g. functional + hooks for React, Composition API for Vue)
 
-SCOPE
-✅/❌  Only files in src/frontend/src/ modified
+SCOPE  (use pages_folder, components_folder, services_folder from workshop-stack.md)
+✅/❌  Only files in the frontend UI folders modified
 ✅/❌  No backend route, controller, or schema files modified
-✅/❌  Pre-built files (App.tsx, main.tsx, LoginPage, RegisterPage) unchanged
+✅/❌  Pre-built files listed in workshop-stack.md are unchanged
        unless the Issue explicitly requires changes
 ```
 
@@ -178,13 +181,13 @@ COVERAGE
 ✅/❌  Every protected endpoint has a 401 test (no token)
 ✅/❌  At least one error case per endpoint (e.g. 404 not found, 400 invalid)
 
-TEST QUALITY
-✅/❌  Prisma client is mocked — no real database calls in unit tests
+TEST QUALITY  (use unit_test_framework from workshop-stack.md)
+✅/❌  Data access layer is mocked — no real database calls in unit tests
 ✅/❌  Tests are isolated — no shared mutable state between tests
 ✅/❌  No test imports production code that touches the file system or network
 
-SCOPE
-✅/❌  Only test files modified: src/backend/__tests__/
+SCOPE  (use unit_tests_folder from workshop-stack.md)
+✅/❌  Only test files in the unit tests folder modified
 ✅/❌  No production source files modified
 ```
 

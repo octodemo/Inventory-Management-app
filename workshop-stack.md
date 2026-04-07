@@ -1,5 +1,11 @@
 # Workshop Stack Configuration
 
+> **FACILITATOR ACTION REQUIRED — Update this file before Step 2 (Design) in `docs/COMPLETE-WORKSHOP-FLOW.md`.**
+> This file is read automatically by the design-agent, task-agent, and implement-agent.
+> If you do not update it before running the design-agent, the generated design document,
+> task file paths, and implementation code will not match your target tech stack.
+> Fill in your customer's language, framework, folder structure, and ORM before starting.
+
 This file defines the technology stack for the workshop.
 It is read by the implement-task skill during code implementation.
 Update this file before the workshop to match the customer's stack.

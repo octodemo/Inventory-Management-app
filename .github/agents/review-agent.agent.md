@@ -32,7 +32,7 @@ Review the PR for Issue #5
 3. Read the current git diff or PR changes — get the list of changed files
    and their content
 4. Read each changed file from the repository to inspect the full content where
-   the diff alone is insufficient (e.g. to verify enum declarations in schema.prisma)
+   the diff alone is insufficient (e.g. to verify enum declarations in the data model schema file)
 5. Use the review-pull-request skill for the full checklist and review comment format
 6. Save the review as a markdown file to `docs/reviews/review-{issue-name}.md`
 7. Display the review summary in the chat
@@ -42,8 +42,8 @@ Review the PR for Issue #5
 - Every AC from the Issue must have a pass/fail result — never skip one
 - APPROVE only if zero failures — partial passes still require REQUEST CHANGES
 - Flag any files modified outside the Issue's declared scope
-- Flag any `String` type used instead of a Prisma `enum` — this is always a failure
-- Flag any `any` type in TypeScript — this is always a failure
+- Flag any categorical field using a plain/free-form string type instead of the stack's enumerated type — this is always a failure
+- Flag any language-level anti-pattern for the stack defined in `workshop-stack.md` (e.g. `any` in TypeScript, bare `except` in Python) — always a failure
 - Flag any missing `data-testid` on interactive elements in FRONTEND PRs
 - Be specific in Required Fixes — reference the file and field, not just "fix the schema"
 

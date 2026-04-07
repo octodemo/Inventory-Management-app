@@ -16,8 +16,19 @@ Read the BRD as the primary source of requirements and produce:
    verbatim throughout the design — in data model names, API route paths,
    and component names. The BRD is your authoritative source for functional
    requirements.
-2. Produce `docs/design/design-doc.md` in the format below.
-3. **Save — handle re-runs correctly:**
+2. Read `workshop-stack.md` — extract the target tech stack. Use this to:
+   - Generate the Domain Model (Section 2) using the correct ORM or schema
+     format for the chosen stack (e.g. Prisma schema syntax, SQLAlchemy models,
+     EF Core entities, JPA annotations). If `workshop-stack.md` is not yet
+     filled in, describe the data model in plain entity-relationship terms.
+   - Generate the Component Structure (Section 4) using the correct frontend
+     framework conventions (e.g. React functional components, Vue SFCs,
+     Angular components).
+   - Generate the API Contracts (Section 3) using the folder/route conventions
+     defined in `workshop-stack.md` (e.g. `routes_folder`, `controllers_folder`).
+   - Reference the correct file extensions and naming patterns throughout.
+3. Produce `docs/design/design-doc.md` in the `## Design Doc Format` section below.
+4. **Save — handle re-runs correctly:**
    - If `docs/design/design-doc.md` does **not** exist: create it.
    - If it **already exists**: overwrite it with the updated content.
      Do not create duplicate files or numbered versions.
@@ -38,8 +49,10 @@ Include a Mermaid diagram.
 ## 2. Domain Model
 Describe each entity from the BRD, its fields, states, and relationships.
 Include a Mermaid ER diagram.
-Do not prescribe a specific ORM or database technology —
-describe the model in plain entity-relationship terms.
+If `workshop-stack.md` defines an ORM (e.g. Prisma, SQLAlchemy, EF Core),
+represent schema definitions in that ORM's syntax alongside the ER diagram.
+If `workshop-stack.md` is not yet filled in, describe the model in
+plain entity-relationship terms only.
 
 ## 3. API Contracts
 | Method | Path | Description | Auth Required |
@@ -143,10 +156,11 @@ This ensures nothing is designed that was not required, and nothing
 required is left undesigned.
 
 ## Do Not Do This
-- Do NOT prescribe a specific framework, ORM, or library anywhere in the
-  design document. Describe patterns and contracts, not implementations.
-  (e.g. say "the data layer exposes a repository interface" —
-  not "use Prisma" or "use Sequelize")
+- Do NOT prescribe a specific framework, ORM, or library in the design document
+  **unless it is already defined in `workshop-stack.md`**. If the stack is defined,
+  use its ORM/framework syntax in the data model and component structure sections.
+  If the stack is not yet defined, describe patterns and contracts only
+  (e.g. say "the data layer exposes a repository interface" — not "use Prisma").
 - Do NOT rename domain entities to generic equivalents.
 - Do NOT reduce a complex domain model to a simple CRUD pattern unless
   the BRD actually describes that.
