@@ -18,19 +18,12 @@ This workshop demonstrates an end-to-end AI-assisted software development lifecy
 **Agent:** `@brd-agent`
 
 ```
-PM: @brd-agent analyze requirement
+PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and  press enter
 
-Input: Requirement Issue or text description
-Output: docs/requirements/BRD.md
+What will BRD agent do:
+It will take Input: Requirement Issue or text description
+It will generate Output: docs/requirements/BRD.md
 
-Content:
-- Executive Summary
-- Business Context
-- Functional Requirements (FR-001, FR-002, etc.)
-- Non-Functional Requirements
-- Out of Scope
-- Success Criteria
-```
 
 **Duration:** 5-10 minutes
 
@@ -38,21 +31,22 @@ Content:
 
 ### Step 2: Create Design Document
 
-**Agent:** `@design-agent`
+
 
 ```
-Architect: @design-agent create design from BRD
+Architect: select design-agent in Agent dropdown in VS Code and type "create design from BRD" and press enter.
 
-Input: docs/requirements/BRD.md (primary source)
-Output: 
-  - docs/design/design-doc.md (architecture, API contracts, components)
-  - src/backend/prisma/schema.prisma (updated with domain models)
+What Design agent will do:
+It will take Input: docs/requirements/BRD.md (primary source)
+It will generate Output: 
+  - docs/design/design-doc.md (architecture, API contracts, data models, components)
+  - Data model definitions appropriate to the target tech stack
 
-Content:
+After running the design-agent, your design-doc.md will have these six sections:
 - Architecture Overview (Mermaid diagram)
-- Data Model (ER diagram, Prisma schema)
+- Data Model (ER diagram, schema definitions)
 - API Endpoints (REST contracts)
-- Component Structure (React hierarchy)
+- Component Structure (UI component hierarchy)
 - Key User Flows (Sequence diagrams)
 - Seed Data Plan
 ```
@@ -73,16 +67,16 @@ PM: @epic-agent create epics from design doc
 Input: docs/design/design-doc.md
 Output: docs/requirements/work-items/01-epic-{name}.md
 
-Metadata:
+The agent automatically adds the following metadata at the top of each epic file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
-id: epic-01-room-management
-title: Room Management System
+id: epic-{nn}-{capability-name}
+title: {Capability Title}
 type: epic
 status: planned
 features: []  # Populated by feature-agent
 ---
 
-Content:
+After running the epic-agent, each epic file will have these sections:
 - Epic description
 - Business objective
 - Acceptance criteria
@@ -105,17 +99,17 @@ PM: @feature-agent create features for epic-01
 Input: design-doc.md, epic files
 Output: docs/requirements/work-items/02-feature-{name}.md
 
-Metadata:
+The agent automatically adds the following metadata at the top of each feature file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
-id: feature-01-room-catalog
-title: Room Catalog
+id: feature-{nn}-{feature-name}
+title: {Feature Title}
 type: feature
-epic: epic-01-room-management
+epic: epic-{nn}-{capability-name}
 status: planned
 userStories: []  # Populated by user-story-agent
 ---
 
-Content:
+After running the feature-agent, each feature file will have these sections:
 - Feature description
 - Parent epic reference
 - Acceptance criteria
@@ -138,19 +132,19 @@ PM: @user-story-agent create stories for feature-01
 Input: BRD.md, design-doc.md, feature files
 Output: docs/requirements/work-items/03-user-story-{name}.md
 
-Metadata:
+The agent automatically adds the following metadata at the top of each story file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
-id: story-01-browse-rooms
-title: As a user, I can browse available rooms
+id: story-{nn}-{story-name}
+title: As a {role}, I can {action}
 type: user-story
-feature: feature-01-room-catalog
+feature: feature-{nn}-{feature-name}
 status: ready
 priority: must-have  # or should-have, could-have
 dependencies: []
 tasks: []  # Populated by task-agent
 ---
 
-Content:
+After running the user-story-agent, each story file will have these sections:
 - User story statement (As a... I can... so that...)
 - Business context
 - Acceptance criteria
@@ -181,17 +175,17 @@ Example files:
   - issues/03-FRONTEND-room-list.md
   - issues/04-TEST-room-e2e.md
 
-Metadata:
+The agent automatically adds the following metadata at the top of each task file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
-id: task-01-database
-title: [DATABASE] Room Model
+id: task-{nn}-{type}
+title: [{TYPE}] {Task Title}
 type: task
-userStory: story-01-browse-rooms
+userStory: story-{nn}-{story-name}
 status: ready
 dependencies: []
 ---
 
-Content:
+After running the task-agent, each task file will have these sections:
 - Task description
 - Acceptance criteria (technical)
 - Definition of done
@@ -443,12 +437,12 @@ Process:
 3. Loads appropriate context:
    [DATABASE]:
    - design-doc.md (schema requirements)
-   - existing schema.prisma
+   - existing data model schema file
    - BRD.md (business rules)
    
    [BACKEND]:
    - design-doc.md (API contracts)
-   - schema.prisma (read-only, for Prisma client)
+   - data model schema (read-only, for data access layer)
    - BRD.md (business rules)
    
    [FRONTEND]:
@@ -460,9 +454,9 @@ Process:
    - component data-testids from design doc
 
 4. Generates code with scope restrictions:
-   [DATABASE]: Only modifies schema.prisma, seed.ts, migrations/
-   [BACKEND]: Only modifies routes/, controllers/, services/
-   [FRONTEND]: Only modifies pages/, components/, services/
+   [DATABASE]: Only modifies data model schema, seed data, and migration files
+   [BACKEND]: Only modifies API route handlers, controllers, and service layer files
+   [FRONTEND]: Only modifies page views, UI components, and frontend service files
    [TEST]: Only modifies e2e/
 
 5. Updates status:
@@ -641,12 +635,10 @@ Then run tests:
 7. `docs/reviews/` - Code reviews (optional)
 
 ### Code Generated
-- `src/backend/prisma/schema.prisma` - Data models
-- `src/backend/routes/` - API endpoints
-- `src/backend/controllers/` - Business logic
-- `src/frontend/src/pages/` - React pages
-- `src/frontend/src/components/` - React components
-- `e2e/` - Playwright tests
+- Data model schema file (location depends on chosen tech stack) - Domain entities and relationships
+- API layer files (route handlers, controllers, services) - Backend business logic and endpoints
+- UI layer files (pages, components) - Frontend views and interactions
+- `e2e/` - End-to-end test scripts
 
 ### Deliverables
 - ✅ Complete work hierarchy (Epic → Feature → Story → Task)
@@ -688,7 +680,7 @@ Then run tests:
 ### For All Modes
 - VS Code (latest)
 - GitHub Copilot extension (signed in)
-- Node.js 18 or higher
+- Runtime environment appropriate for the chosen tech stack
 - Git
 
 ### For ADO Integration (Optional)

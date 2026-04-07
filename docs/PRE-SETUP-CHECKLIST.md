@@ -11,7 +11,6 @@ Verify on the facilitator machine:
 - [ ] VS Code installed (latest version)
 - [ ] GitHub Copilot extension installed and signed in
 - [ ] Git installed and configured
-- [ ] Node.js 18 or higher installed (verify: `node --version`)
 
 ---
 

@@ -7,6 +7,22 @@ sequence of specialised Copilot agents.
 
 ---
 
+## Start Here — Reading Order
+
+If you are new to this framework, read the documents in this order:
+
+| Step | File | What it gives you |
+|------|------|-------------------|
+| 1 | `README.md` *(this file)* | Overview, folder structure, setup, and quick-start commands |
+| 2 | `docs/PRE-SETUP-CHECKLIST.md` | Checklist of everything to prepare before the workshop begins |
+| 3 | `docs/COMPLETE-WORKSHOP-FLOW.md` | Full step-by-step guide to running the workshop with all agents |
+| 4 | `docs/FACILITATOR-GUIDE.md` | Narration scripts and talking points (facilitator only) |
+
+> **Just running the workshop?** Read steps 1 → 2 → 3.  
+> **Facilitating for an audience?** Read all four in order.
+
+---
+
 ## What This Framework Does
 
 Takes a single business requirement as input and produces:
@@ -27,7 +43,6 @@ Takes a single business requirement as input and produces:
 | VS Code | Latest |
 | GitHub Copilot extension | Latest (signed in) |
 | Git | Any recent version |
-| Node.js | 18 or higher |
 | Azure DevOps account | With a project created |
 | ADO MCP server | Installed and configured in VS Code |
 
@@ -131,7 +146,7 @@ Follow the agent sequence below in order.
 ### Phase 1 — Requirements
 
 ```
-@brd-agent [paste your requirement text here]
+PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and  press enter
 ```
 
 Output: `docs/requirements/BRD.md`
