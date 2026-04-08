@@ -24,7 +24,7 @@ If you are new to this framework, read the documents in this order:
 ### Before the Design Phase
 
 `workshop-stack.md` (repo root) is a **configuration file that must be filled in before Step 2 (Design)**.
-The design-agent, task-agent, and implement-agent all read it automatically.
+The design-agent, task-agent all read it automatically.
 Update it with the customer's tech stack — language, framework, folder paths, ORM, and test credentials —
 before invoking `@design-agent`. If left blank, agents will generate stack-agnostic output
 that may not match the actual project structure.
