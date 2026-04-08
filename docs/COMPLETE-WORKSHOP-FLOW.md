@@ -486,17 +486,117 @@ Repeat for all tasks in dependency order
 
 ---
 
+## Phase 6a: E2E Testing with Playwright
+
+### Step 9a: Generate and Run Playwright Tests
+
+**Agent:** `@playwright-agent`
+
+> **When to run this phase:**
+> Run after FRONTEND tasks are implemented and the application is running locally.
+> Can also be run earlier (before implementation) to generate the `.spec.ts` skeleton
+> files — they will run and fail until the application is built.
+>
+> **Requirements:**
+> - Application running at `baseURL` in `playwright.config.ts` (default: `http://localhost:5173`)
+> - Playwright installed: run `npm install` (included in `package.json`)
+> - For interactive MCP execution: Playwright MCP server configured
+>   (see `docs/playwright-mcp-setup.md`)
+
+**Step 9a-i: Generate test files**
+
+```
+QA Engineer: @playwright-agent create tests for all TEST tasks
+```
+
+What the playwright-agent will do:
+```
+Input:
+  - issues/*.md (TEST task files — acceptance criteria)
+  - docs/design/design-doc.md (data-testid values, user flows)
+  - docs/requirements/BRD.md (domain language, role names)
+  - workshop-stack.md (e2e_tests_folder, baseURL)
+  - playwright.config.ts (testDir, reporter config)
+
+Process:
+  1. Reads all TEST task files in issues/
+  2. Groups them by feature area into spec files
+  3. Extracts data-testid selectors from the design document
+  4. Maps acceptance criteria to test cases (1 AC → 1+ test)
+  5. Writes tests using data-testid selectors only — never CSS classes
+  6. Covers: happy path + form validation + empty state + error scenarios
+
+Output:
+  - e2e/{feature-name}.spec.ts  (one file per feature area)
+    Example files:
+      e2e/member-login.spec.ts
+      e2e/book-catalogue.spec.ts
+      e2e/loan-management.spec.ts
+      e2e/reservation.spec.ts
+```
+
+**Duration:** 5-10 minutes (automated)
+
+---
+
+**Step 9a-ii: Run tests (requires running application)**
+
+```
+QA Engineer: @playwright-agent run the e2e tests and report results
+```
+
+OR run directly in the terminal:
+
+```bash
+# Run all E2E tests
+npx playwright test
+
+# Run a specific spec file
+npx playwright test e2e/book-catalogue.spec.ts
+
+# Run in headed mode (see the browser)
+npx playwright test --headed
+
+# View the HTML test report
+npx playwright show-report docs/test-reports
+```
+
+What the playwright-agent will do when running via MCP:
+```
+Process (Playwright MCP mode):
+  1. Reads docs/playwright-mcp-setup.md for MCP tool names and config
+  2. Confirms the application is running at baseURL
+  3. Uses Playwright MCP tools to execute key flows interactively:
+     - playwright_navigate  → open application pages
+     - playwright_click     → interact using data-testid selectors
+     - playwright_fill      → fill forms
+     - playwright_screenshot → capture visual evidence
+  4. Runs full test suite via terminal: npx playwright test
+  5. Reads docs/test-reports/index.html and reports pass/fail summary
+
+Output:
+  - docs/test-reports/index.html   (Playwright HTML report)
+  - Pass/fail summary in chat
+```
+
+**Duration:** 5-10 minutes
+
+**Result:** Playwright `.spec.ts` files committed to `e2e/`, HTML test report at `docs/test-reports/`
+
+---
+
 ## Phase 7: Testing & Review
 
 ### Step 11: Run Tests
 
 ```
-QA Engineer: @implement-agent implement test tasks
-  - Generates Playwright E2E tests based on user story
-  - Uses data-testid selectors from design doc
+QA Engineer: @playwright-agent run the e2e tests and report results
+  - Executes all spec files in e2e/ against the running application
+  - Uses data-testid selectors from the design doc
+  - Generates HTML report to docs/test-reports/
   
-Then run tests:
-  npx playwright test --ui
+Then view the report:
+  npx playwright show-report docs/test-reports
 ```
 
 **Optional: Code Review**
@@ -599,6 +699,7 @@ Then run tests:
 | **task-agent** | Create tasks | Design + stories | Task files | 10 min |
 | **estimate-agent** | Estimate effort | All tasks | Estimates + HTML report | 5 min |
 | **sprint-planning-agent** | Create sprints | Estimates + capacity | Sprint plan HTML | 5-10 min |
+| **playwright-agent** | E2E test generation + execution | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report | 5-10 min |
 | **ado-sync-agent** | Sync to ADO | Local files | ADO work items | 5 min |
 | **work-queue-agent** | Show work | Sprint plan | Prioritized task list | On-demand |
 | **implement-agent** | Generate code | Task details | Code implementation | Per task |
