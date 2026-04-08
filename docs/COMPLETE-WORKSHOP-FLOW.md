@@ -325,7 +325,17 @@ Output HTML Report Contains:
 
 ---
 
-## Phase 5: Optional Azure DevOps Integration
+## Phase 5: Azure DevOps Integration *(optional — skip if not using ADO)*
+
+> **This phase is entirely optional.** The framework is fully functional without Azure DevOps. All work items are stored as local Markdown files (`docs/work-items/`, `issues/`) and can be used directly by any team regardless of tooling.
+>
+> **Requirements to run this phase:**
+> - Azure DevOps account with a project created
+> - Personal Access Token (PAT) with Work Items read/write scope
+> - ADO MCP server installed and configured in VS Code
+> - `docs/ado-sync-config.json` populated with your org and project details
+>
+> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 6.
 
 ### Step 9 (Optional): Push to Azure DevOps
 

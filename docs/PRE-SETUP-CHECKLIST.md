@@ -36,7 +36,9 @@ Verify on the facilitator machine:
 
 ---
 
-## 3. ADO Boards Setup
+## 3. ADO Boards Setup *(optional — skip if not using Azure DevOps)*
+
+> **GitHub-only or local-only users:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `@ado-sync-agent` to push work items to Azure DevOps Boards.
 
 - [ ] ADO project created and accessible
 - [ ] Sprints (Iterations) created in ADO:
@@ -53,7 +55,10 @@ Verify on the facilitator machine:
 
 ## 4. Config Files
 
-- [ ] Update `docs/ado-sync-config.json`:
+- [ ] Update `workshop-config.json` with:
+  - Workshop name, date, facilitator, customer name
+  - Team size and sprint hours per developer
+- [ ] *(Optional — ADO only)* Update `docs/ado-sync-config.json`:
   ```json
   {
     "organization": "https://dev.azure.com/{your-org}",
@@ -62,9 +67,6 @@ Verify on the facilitator machine:
     "iterationRootPath": "{your-project-name}\\Sprint"
   }
   ```
-- [ ] Update `workshop-config.json` with:
-  - Workshop name, date, facilitator, customer name
-  - Team size and sprint hours per developer
 
 ---
 
@@ -93,8 +95,8 @@ Run the full chain at least once end-to-end before the workshop:
 - [ ] `@task-agent` produces 3-4 tasks per story
 - [ ] `@estimate-agent` produces estimates and HTML report
 - [ ] `@sprint-planning-agent` produces sprint plan HTML report
-- [ ] `@ado-sync-agent` creates all work items in ADO correctly
-- [ ] ADO board shows correct Epic → Feature → Story → Task hierarchy
+- [ ] *(Optional — ADO only)* `@ado-sync-agent` creates all work items in ADO correctly
+- [ ] *(Optional — ADO only)* ADO board shows correct Epic → Feature → Story → Task hierarchy
 
 ---
 

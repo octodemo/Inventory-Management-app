@@ -46,13 +46,13 @@ Takes a single business requirement as input and produces:
 
 ## Prerequisites
 
-| Requirement | Version |
-|-------------|---------|
+| Requirement | Notes |
+|-------------|-------|
 | VS Code | Latest |
 | GitHub Copilot extension | Latest (signed in) |
 | Git | Any recent version |
-| Azure DevOps account | With a project created |
-| ADO MCP server | Installed and configured in VS Code |
+| Azure DevOps account | **Optional** — only required if using the ADO sync phase |
+| ADO MCP server | **Optional** — only required if syncing work items to ADO Boards |
 
 ---
 
@@ -120,7 +120,7 @@ bash init-workspace.sh
 .\init-workspace.ps1
 ```
 
-### 2. Configure ADO connection
+### 2. Configure ADO connection *(optional — skip if not using Azure DevOps)*
 
 Edit `docs/ado-sync-config.json`:
 
@@ -133,15 +133,19 @@ Edit `docs/ado-sync-config.json`:
 }
 ```
 
+If you are not using Azure DevOps, skip this step. The framework produces all work item files locally and the ADO sync phase (Phase 6) can be omitted entirely.
+
 ### 3. Update workshop settings
 
 Edit `workshop-config.json` with the workshop name, customer,
 team size, and sprint length.
 
-### 4. Verify ADO MCP server
+### 4. Verify ADO MCP server *(optional — skip if not using Azure DevOps)*
 
 Ensure the ADO MCP server is connected in VS Code and can list
 your ADO projects before running the workshop.
+
+> **GitHub-only or local-only users:** Skip this step. The ADO MCP server is not required for any phase except `@ado-sync-agent`.
 
 ---
 
@@ -226,7 +230,9 @@ Open the HTML report in a browser to review.
 
 ---
 
-### Phase 6 — ADO Sync
+### Phase 6 — ADO Sync *(optional — Azure DevOps only)*
+
+> **Skip this phase** if you are not using Azure DevOps. All work items are already stored as local Markdown files in `docs/work-items/` and `issues/` and can be used directly.
 
 Run this phase last, after all other phases are reviewed and approved.
 
