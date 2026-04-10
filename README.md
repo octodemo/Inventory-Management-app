@@ -15,19 +15,12 @@ If you are new to this framework, read the documents in this order:
 |------|------|-------------------|
 | 1 | `README.md` *(this file)* | Overview, folder structure, setup, and quick-start commands |
 | 2 | `docs/PRE-SETUP-CHECKLIST.md` | Checklist of everything to prepare before the workshop begins |
-| 3 | `docs/COMPLETE-WORKSHOP-FLOW.md` | Full step-by-step guide to running the workshop with all agents |
-| 4 | `docs/FACILITATOR-GUIDE.md` | Narration scripts and talking points (facilitator only) |
+| 3 | `workshop-stack.md` | **Fill this in before Phase 2.** Your tech stack config — language, framework, database, frontend, paths. See `docs/STACK-SETUP-GUIDE.md` for step-by-step help and ready-to-copy examples. |
+| 4 | `docs/COMPLETE-WORKSHOP-FLOW.md` | Full step-by-step guide to running the workshop with all agents |
+| 5 | `docs/FACILITATOR-GUIDE.md` | Narration scripts and talking points (facilitator only) |
 
-> **Just running the workshop?** Read steps 1 → 2 → 3.  
-> **Facilitating for an audience?** Read all four in order.
-
-### Before the Design Phase
-
-`workshop-stack.md` (repo root) is a **configuration file that must be filled in before Step 2 (Design)**.
-The design-agent, task-agent, scaffold-agent, implement-agent, unit-test-agent, and review-agent all read it automatically.
-Update it with the customer's tech stack — language, framework, folder paths, ORM, and test credentials —
-before invoking `@design-agent`. If left blank, agents will generate stack-agnostic output
-that may not match the actual project structure.
+> **Just running the workshop?** Read steps 1 → 2 → 3 → 4.  
+> **Facilitating for an audience?** Read all five in order.
 
 ---
 
