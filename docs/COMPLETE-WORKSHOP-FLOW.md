@@ -11,27 +11,34 @@ This workshop demonstrates an end-to-end AI-assisted software development lifecy
 
 ---
 
-## Phase 1: Requirements & Design
+## Phase 1: Requirements
 
 ### Step 1: Create BRD (Business Requirements Document)
 
 **Agent:** `@brd-agent`
 
 ```
-PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and  press enter
+PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and press enter
 
 What will BRD agent do:
 It will take Input: Requirement Issue or text description
 It will generate Output: docs/requirements/BRD.md
-
+```
 
 **Duration:** 5-10 minutes
 
 ---
 
+## Phase 2: Design
+
+> **Before running this step:** Fill in `workshop-stack.md` (repo root) with the customer's
+> tech stack — language, framework, folder paths, ORM, and test framework.
+> The design-agent reads it to produce stack-aware output. If left blank, the design
+> document will be stack-agnostic and may not match the actual project structure.
+
 ### Step 2: Create Design Document
 
-
+**Agent:** `@design-agent`
 
 ```
 Architect: select design-agent in Agent dropdown in VS Code and type "create design from BRD" and press enter.
@@ -55,7 +62,7 @@ After running the design-agent, your design-doc.md will have these six sections:
 
 ---
 
-## Phase 2: Work Breakdown (Top-Down Creation)
+## Phase 3: Work Breakdown (Top-Down Creation)
 
 ### Step 3: Create Epics
 
@@ -65,7 +72,7 @@ After running the design-agent, your design-doc.md will have these six sections:
 PM: @epic-agent create epics from design doc
 
 Input: docs/design/design-doc.md
-Output: docs/requirements/work-items/01-epic-{name}.md
+Output: docs/work-items/epics/epic-{nn}-{name}.md
 
 The agent automatically adds the following metadata at the top of each epic file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
@@ -97,7 +104,7 @@ Note: No effort estimates at this stage
 PM: @feature-agent create features for epic-01
 
 Input: design-doc.md, epic files
-Output: docs/requirements/work-items/02-feature-{name}.md
+Output: docs/work-items/features/feature-{nn}-{name}.md
 
 The agent automatically adds the following metadata at the top of each feature file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
@@ -130,7 +137,7 @@ Note: No effort estimates at this stage
 PM: @user-story-agent create stories for feature-01
 
 Input: BRD.md, design-doc.md, feature files
-Output: docs/requirements/work-items/03-user-story-{name}.md
+Output: docs/work-items/stories/story-{nn}-{name}.md
 
 The agent automatically adds the following metadata at the top of each story file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
@@ -199,9 +206,128 @@ Note: Tasks created but NOT estimated yet
 
 ---
 
-## Phase 3: Effort Estimation (Bottom-Up)
+## Phase 3b: Scaffold
 
-### Step 7: Estimate All Work
+### Step 6b: Generate Project Scaffold
+
+**Agent:** `@scaffold-agent`
+
+> **Run this step after tasks are created and before implementation begins.**
+> Ensure all `{placeholder}` values in `workshop-stack.md` are filled in.
+
+```
+Developer: @scaffold-agent generate the project scaffold
+
+What scaffold-agent will do:
+
+Input:
+  - workshop-stack.md (language, framework, build_tool, folders, etc.)
+
+Process:
+  1. Validates workshop-stack.md — no unfilled {placeholder} values
+  2. Creates dependency manifest:
+     - Node.js: package.json
+     - Python: requirements.txt
+     - Java: pom.xml or build.gradle
+     - .NET: {project}.csproj
+  3. Creates backend entry point stub
+  4. Creates empty folder structure:
+     routes/, controllers/, middleware/, services/, pages/, components/
+  5. Creates frontend entry point stubs
+  6. Creates seed file stub (if seed_file is set in workshop-stack.md)
+  7. Creates playwright.config.ts with baseURL from dev_server_url
+  8. Creates README.md stub
+  9. Updates Pre-Built section of workshop-stack.md
+
+Output:
+  src/{entry-point}         Backend entry point
+  src/{routes_folder}/      Empty routes folder
+  src/{components_folder}/  Empty components folder
+  src/{services_folder}/    Empty services folder
+  package.json / pom.xml / requirements.txt  Dependency manifest
+  playwright.config.ts      E2E test config (if dev_server_url set)
+  README.md                 Project README stub
+
+Note: Additive only — never overwrites existing files
+```
+
+**Duration:** 5 minutes
+
+**Result:** Project folder structure and entry points ready for implementation
+
+---
+
+## Phase 4: Implementation
+
+### Step 7: Implement Tasks
+
+**Agent:** `@implement-agent`
+
+Implement each task file in dependency order: DATABASE → BACKEND → FRONTEND → TEST
+
+```
+Developer: @implement-agent implement issues/01-DATABASE-{name}.md
+
+What implement-agent will do:
+
+Input:
+  - issues/{task}.md (acceptance criteria, task type)
+  - docs/design/design-doc.md (schema, API contracts, component specs)
+  - docs/requirements/BRD.md (business rules, entity names)
+  - workshop-stack.md (language, framework, folder paths, ORM, etc.)
+
+Process:
+  1. Reads task type: [DATABASE], [BACKEND], [FRONTEND], or [TEST]
+  2. Loads relevant design context:
+     [DATABASE]: data model section, business rules
+     [BACKEND]: API contracts, data model (read-only)
+     [FRONTEND]: component structure, data-testid values, API contracts
+     [TEST]: acceptance criteria, data-testid selectors
+  3. Generates code scoped strictly to the task type:
+     [DATABASE]: data model schema, seed data, migrations (relational only)
+     [BACKEND]: route handlers, controllers, service layer
+     [FRONTEND]: page views, UI components, frontend services
+     [TEST]: e2e/ test files
+  4. Uses entity and field names verbatim from the BRD
+  5. Uses tech stack, folder paths, and conventions from workshop-stack.md
+
+Output:
+  src/{appropriate-folder}/{filename}  (location from workshop-stack.md)
+```
+
+Repeat for each task in dependency order. 
+
+**On-demand — after each BACKEND task, optionally run:**
+
+```
+Developer: @unit-test-agent generate unit tests for issues/{task}.md
+
+Output:
+  {unit_tests_folder}/{test-filename}  (from workshop-stack.md)
+```
+
+**On-demand — review any implemented task:**
+
+```
+Developer or Lead: @review-agent review issues/{task}.md
+
+Output: Structured pass/fail review against task acceptance criteria
+```
+
+**Duration:** Variable (20-30 min per task depending on complexity)
+
+**Result:** Working application code in `src/`, unit tests in `{unit_tests_folder}`
+
+---
+
+## Phase 5: Effort Estimation (Bottom-Up)
+
+> **Note on ordering:** Estimation happens after task creation — not after implementation.
+> The goal is to size the backlog so the team can plan sprints *before* coding starts.
+> If you are running a demo that includes implementation, run estimation immediately after
+> `@task-agent` completes (before scaffold and implement), then proceed to sprint planning.
+
+### Step 8: Estimate All Work
 
 **Agent:** `@estimate-agent`
 
@@ -261,9 +387,9 @@ Output HTML Report Contains:
 
 ---
 
-## Phase 4: Sprint Planning (Capacity-Driven)
+## Phase 6: Sprint Planning (Capacity-Driven)
 
-### Step 8: Create Sprint Plans
+### Step 9: Create Sprint Plans
 
 **Agent:** `@sprint-planning-agent`
 
@@ -325,7 +451,7 @@ Output HTML Report Contains:
 
 ---
 
-## Phase 5: Azure DevOps Integration *(optional — skip if not using ADO)*
+## Phase 7: Azure DevOps Integration *(optional — skip if not using ADO)*
 
 > **This phase is entirely optional.** The framework is fully functional without Azure DevOps. All work items are stored as local Markdown files (`docs/work-items/`, `issues/`) and can be used directly by any team regardless of tooling.
 >
@@ -335,15 +461,13 @@ Output HTML Report Contains:
 > - ADO MCP server installed and configured in VS Code
 > - `docs/ado-sync-config.json` populated with your org and project details
 >
-> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 6.
+> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 8.
 
-### Step 9 (Optional): Push to Azure DevOps
+### Step 10 (Optional): Push to Azure DevOps
 
 **Agent:** `@ado-sync-agent`
 
 ```
-If ADO integration enabled in workshop-config.json:
-
 PM: @ado-sync-agent push to Azure DevOps
 
 Requirements:
@@ -353,7 +477,7 @@ Requirements:
 - ADO MCP server installed
 
 Process:
-1. Reads workshop-config.json (ADO settings)
+1. Reads docs/ado-sync-config.json (ADO settings)
 2. Creates work item hierarchy in ADO:
    - Epics → ADO Epic work items
    - Features → ADO Feature work items
@@ -385,110 +509,9 @@ Modes:
 
 ---
 
-## Phase 6: Implementation
+## Phase 8: E2E Testing with Playwright
 
-### Step 10: Developers Work on Tasks
-
-**Agent:** `@work-queue-agent` + `@implement-agent`
-
-**Step 10a: Discover Work**
-
-```
-Developer: @work-queue-agent what should I work on?
-
-Agent behavior:
-1. Reads workshop-config.json to determine:
-   - Work item source (local files or ADO)
-   - Team structure (full-stack or specialized)
-   - Current developer role (if specialized)
-
-2. Shows prioritized task list:
-   - Tasks ready to implement (dependencies satisfied)
-   - Filtered by developer role (if specialized team)
-   - Grouped by sprint and user story
-   - Shows effort estimate and dependencies
-
-Example output:
-┌─────────────────────────────────────────────────┐
-│ Sprint 1 Progress                                │
-├─────────────────────────────────────────────────┤
-│ Day 2 of 10 | 13 story points committed         │
-│ Progress: ▓▓░░░░░░░░ 15%                        │
-└─────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────┐
-│ Your Work Queue (Database Engineer)              │
-├─────────────────────────────────────────────────┤
-│ ✅ #001 [DATABASE] Room Model (30min)          │
-│    Story: Browse Rooms                           │
-│    Status: Ready | Priority: must-have          │
-│    📊 Blocks: #002, #003, #004                  │
-└─────────────────────────────────────────────────┘
-
-Recommendation: Start with #001 - unblocks entire team
-```
-
-**Step 10b: Implement Task**
-
-```
-Developer: @implement-agent implement task-01
-   OR
-Developer: @implement-agent implement issues/01-DATABASE-room-model.md
-
-Process:
-1. Fetches task details:
-   - From local markdown file (if mode=local)
-   - From ADO via MCP (if mode=ado)
-   - From both, validate sync (if mode=hybrid)
-
-2. Detects task type from tag:
-   [DATABASE], [BACKEND], [FRONTEND], [TEST]
-
-3. Loads appropriate context:
-   [DATABASE]:
-   - design-doc.md (schema requirements)
-   - existing data model schema file
-   - BRD.md (business rules)
-   
-   [BACKEND]:
-   - design-doc.md (API contracts)
-   - data model schema (read-only, for data access layer)
-   - BRD.md (business rules)
-   
-   [FRONTEND]:
-   - design-doc.md (component specs, data-testids)
-   - API contracts from design doc
-   
-   [TEST]:
-   - user story acceptance criteria
-   - component data-testids from design doc
-
-4. Generates code with scope restrictions:
-   [DATABASE]: Only modifies data model schema, seed data, and migration files
-   [BACKEND]: Only modifies API route handlers, controllers, and service layer files
-   [FRONTEND]: Only modifies page views, UI components, and frontend service files
-   [TEST]: Only modifies e2e/
-
-5. Updates status:
-   - Local: Updates markdown frontmatter (status: ready → done)
-   - ADO: Updates work item state via MCP
-   - Hybrid: Updates both
-
-6. Commits code:
-   git add {modified files}
-   git commit -m "feat: implement Task #123 [DATABASE] Room model"
-   git push
-
-Repeat for all tasks in dependency order
-```
-
-**Duration:** 60-90 minutes (main workshop activity)
-
----
-
-## Phase 6a: E2E Testing with Playwright
-
-### Step 9a: Generate and Run Playwright Tests
+### Step 11: Generate and Run Playwright Tests
 
 **Agent:** `@playwright-agent`
 
@@ -498,12 +521,12 @@ Repeat for all tasks in dependency order
 > files — they will run and fail until the application is built.
 >
 > **Requirements:**
-> - Application running at `baseURL` in `playwright.config.ts` (default: `http://localhost:5173`)
-> - Playwright installed: run `npm install` (included in `package.json`)
+> - Application running at `baseURL` defined in `playwright.config.ts` or `dev_server_url` in `workshop-stack.md`
+> - Playwright installed: run the install command for your stack (`npm install`, `pip install pytest-playwright`, etc.)
 > - For interactive MCP execution: Playwright MCP server configured
 >   (see `docs/playwright-mcp-setup.md`)
 
-**Step 9a-i: Generate test files**
+**Step 11a: Generate test files**
 
 ```
 QA Engineer: @playwright-agent create tests for all TEST tasks
@@ -539,7 +562,7 @@ Output:
 
 ---
 
-**Step 9a-ii: Run tests (requires running application)**
+**Step 11b: Run tests (requires running application)**
 
 ```
 QA Engineer: @playwright-agent run the e2e tests and report results
@@ -585,124 +608,24 @@ Output:
 
 ---
 
-## Phase 7: Testing & Review
-
-### Step 11: Run Tests
-
-```
-QA Engineer: @playwright-agent run the e2e tests and report results
-  - Executes all spec files in e2e/ against the running application
-  - Uses data-testid selectors from the design doc
-  - Generates HTML report to docs/test-reports/
-  
-Then view the report:
-  npx playwright show-report docs/test-reports
-```
-
-**Optional: Code Review**
-
-```
-@review-agent review implementation for story-01
-  - Validates against story acceptance criteria
-  - Checks definition of done is met
-  - Saves review to docs/reviews/story-01-review.md
-```
-
-**Duration:** 20-30 minutes
-
----
-
-## Configuration Modes
-
-### Mode 1: Local Files Only (Default, Non-ADO)
-
-```json
-// workshop-config.json
-{
-  "workItemSource": "local",
-  "teamStructure": {
-    "mode": "full-stack"
-  }
-}
-```
-
-**Characteristics:**
-- All work items as markdown files
-- No external dependencies
-- Fast setup (5 minutes)
-- Perfect for workshop/demo
-- No ADO subscription needed
-
----
-
-### Mode 2: Azure DevOps Integration
-
-```json
-// workshop-config.json
-{
-  "workItemSource": "ado",
-  "adoIntegration": {
-    "enabled": true,
-    "organization": "myorg",
-    "project": "MyProject",
-    "pat": "{PAT_TOKEN}"
-  },
-  "teamStructure": {
-    "mode": "specialized",
-    "roles": {
-      "database": ["Alice"],
-      "backend": ["Bob"],
-      "frontend": ["Carol"]
-    }
-  }
-}
-```
-
-**Characteristics:**
-- All work items in Azure DevOps
-- Uses ADO MCP tools
-- Enterprise tracking and reporting
-- Requires ADO setup (30 minutes)
-- Real-world Agile boards
-
----
-
-### Mode 3: Hybrid (Recommended for Enterprise)
-
-```json
-{
-  "workItemSource": "hybrid",
-  "adoIntegration": {
-    "enabled": true,
-    "syncStrategy": "two-way"
-  }
-}
-```
-
-**Characteristics:**
-- Local markdown files for speed and offline work
-- Synced to ADO for tracking and management
-- Best of both worlds
-- Slight complexity in setup
-
----
-
 ## Key Agents Summary
 
 | Agent | Purpose | Input | Output | Duration |
 |-------|---------|-------|--------|----------|
 | **brd-agent** | Create BRD | Requirement text | BRD.md | 5-10 min |
-| **design-agent** | Technical design | BRD | design-doc.md + schema | 10-15 min |
+| **design-agent** | Technical design | BRD | design-doc.md | 10-15 min |
 | **epic-agent** | Create epics | Design doc | Epic files | 5 min |
 | **feature-agent** | Create features | Design + epics | Feature files | 5 min |
 | **user-story-agent** | Create stories | BRD + features | Story files | 10 min |
 | **task-agent** | Create tasks | Design + stories | Task files | 10 min |
+| **scaffold-agent** | Project scaffold | workshop-stack.md | `src/` structure + entry points | 5 min |
+| **implement-agent** | Generate code | Task files, design doc, workshop-stack.md | `src/` implementation | Per task |
+| **unit-test-agent** *(on-demand)* | Unit tests | BACKEND task files, workshop-stack.md | Unit test files | Per task |
+| **review-agent** *(on-demand)* | Code review | Task file, implemented code | Pass/fail review | Per task |
 | **estimate-agent** | Estimate effort | All tasks | Estimates + HTML report | 5 min |
 | **sprint-planning-agent** | Create sprints | Estimates + capacity | Sprint plan HTML | 5-10 min |
 | **playwright-agent** | E2E test generation + execution | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report | 5-10 min |
 | **ado-sync-agent** | Sync to ADO | Local files | ADO work items | 5 min |
-| **work-queue-agent** | Show work | Sprint plan | Prioritized task list | On-demand |
-| **implement-agent** | Generate code | Task details | Code implementation | Per task |
 
 ---
 
@@ -710,25 +633,27 @@ Then view the report:
 
 ### 2-3 Hour Workshop
 
-**Phase 1-2: Requirements & Work Breakdown** (30 minutes)
+**Phases 1–2: Requirements & Design** (30 minutes)
 - BRD creation (10 min)
 - Design document (15 min)
-- Epic/Feature/Story/Task creation (5 min per level)
 
-**Phase 3-4: Estimation & Planning** (15 minutes)
-- Effort estimation (5 min)
-- Sprint planning (10 min)
+**Phase 3: Work Breakdown** (25 minutes)
+- Epic/Feature/Story/Task creation (~6 min per level)
 
-**Phase 5: Review Reports** (5 minutes)
-- Review effort estimate report
-- Review sprint plan report
-- Stakeholder alignment
-
-**Phase 6-7: Implementation & Testing** (90 minutes)
+**Phase 3b–4: Scaffold & Implementation** (variable)
+- Scaffold (5 min)
 - Database tasks (20 min)
 - Backend tasks (30 min)
 - Frontend tasks (30 min)
-- Test generation and execution (10 min)
+
+**Phases 5–6: Estimation & Sprint Planning** (20 minutes)
+- Effort estimation (5 min)
+- Sprint planning (10 min)
+- Report review (5 min)
+
+**Phase 7 (optional): ADO Sync** (10 minutes)
+
+**Phase 8 (optional): E2E Testing** (10 minutes)
 
 **Demo & Retrospective** (10 minutes)
 
@@ -739,7 +664,7 @@ Then view the report:
 ### Documents Generated
 1. `docs/requirements/BRD.md` - Business requirements
 2. `docs/design/design-doc.md` - Technical design
-3. `docs/requirements/work-items/` - Epic/Feature/Story files
+3. `docs/work-items/` - Epic/Feature/Story files
 4. `issues/` - Task files
 5. `docs/reports/effort-estimate-report.html` - Effort analysis
 6. `docs/reports/sprint-plan-report.html` - Sprint roadmap
@@ -806,7 +731,7 @@ Then view the report:
 
 1. **Run the Workshop**: Follow the phase-by-phase flow above
 2. **Review Reports**: Examine HTML reports with stakeholders
-3. **Customize**: Adjust estimation heuristics and capacity in `workshop-config.json`
+3. **Customize**: Adjust estimation heuristics in `.github/skills/create-estimates/SKILL.md`
 4. **Scale Up**: Add more epics, features, and stories for larger projects
 5. **Integrate ADO**: Enable Azure DevOps integration for enterprise tracking
 

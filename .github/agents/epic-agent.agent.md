@@ -20,7 +20,7 @@ reviewed and saved to docs/design/design-doc.md.
    functional requirements, and priorities.
 3. Follow the `create-epics` skill for detailed instructions on
    producing the Epic files.
-4. Save all Epic files to `docs/requirements/work-items/epics/`.
+4. Save all Epic files to `docs/work-items/epics/`.
 
 ## Principles
 - Epics represent major functional areas — not technical layers.
@@ -32,5 +32,5 @@ reviewed and saved to docs/design/design-doc.md.
 
 ## Handoff
 After saving all epic files tell the PM:
-> "Epics saved to docs/requirements/work-items/epics/. Review the epics,
+> "Epics saved to docs/work-items/epics/. Review the epics,
 > then invoke feature-agent to break each epic down into features."

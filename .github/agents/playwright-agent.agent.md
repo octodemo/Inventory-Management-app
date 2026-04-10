@@ -29,10 +29,12 @@ been implemented and the application is running locally. Typical invocations:
 ### Mode 1 — Generate Tests (always)
 1. Read `docs/playwright-mcp-setup.md` — understand how the Playwright
    MCP server is configured and which tool names are available.
-2. Read `workshop-stack.md` — extract `e2e_tests_folder`, `baseURL`,
+2. Read `workshop-stack.md` — extract `e2e_tests_folder`, `dev_server_url`,
    and any pre-built auth fixture paths.
-3. Read `playwright.config.ts` — confirm test directory, base URL,
-   and reporter configuration.
+3. Read `playwright.config.ts` if it exists — confirm test directory, base URL,
+   and reporter configuration. If `playwright.config.ts` does not exist
+   (non-Node.js backend stacks), derive `baseURL` from `workshop-stack.md`
+   → `dev_server_url` field instead.
 4. Read `docs/design/design-doc.md` — extract all `data-testid` values,
    user flows, and API endpoint paths used by the UI.
 5. Read `docs/requirements/BRD.md` — note entity names, role names,

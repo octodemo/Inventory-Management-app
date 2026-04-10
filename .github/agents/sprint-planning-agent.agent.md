@@ -22,7 +22,7 @@ effort estimate report has been reviewed.
 Before asking any questions, silently read:
 - `docs/reports/effort-estimate-report.html` — total effort and
   breakdown by type
-- All story files in `docs/requirements/work-items/stories/` —
+- All story files in `docs/work-items/stories/` —
   priority (must-have / should-have / could-have) and dependencies
 - All task files in `issues/` — type, effort, and dependencies
 - All epic and feature files — to understand the delivery sequence

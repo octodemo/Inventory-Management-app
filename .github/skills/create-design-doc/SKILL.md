@@ -18,9 +18,10 @@ Read the BRD as the primary source of requirements and produce:
    requirements.
 2. Read `workshop-stack.md` — extract the target tech stack. Use this to:
    - Generate the Domain Model (Section 2) using the correct ORM or schema
-     format for the chosen stack (e.g. Prisma schema syntax, SQLAlchemy models,
-     EF Core entities, JPA annotations). If `workshop-stack.md` is not yet
-     filled in, describe the data model in plain entity-relationship terms.
+     format for the chosen stack (e.g. SQLAlchemy models, EF Core entities,
+     JPA annotations, or the ORM defined in `workshop-stack.md`). If
+     `workshop-stack.md` is not yet filled in, describe the data model
+     in plain entity-relationship terms.
    - Generate the Component Structure (Section 4) using the correct frontend
      framework conventions (e.g. React functional components, Vue SFCs,
      Angular components).
@@ -49,8 +50,9 @@ Include a Mermaid diagram.
 ## 2. Domain Model
 Describe each entity from the BRD, its fields, states, and relationships.
 Include a Mermaid ER diagram.
-If `workshop-stack.md` defines an ORM (e.g. Prisma, SQLAlchemy, EF Core),
-represent schema definitions in that ORM's syntax alongside the ER diagram.
+If `workshop-stack.md` defines an ORM (e.g. SQLAlchemy, EF Core, JPA,
+or any other ORM), represent schema definitions in that ORM's syntax
+alongside the ER diagram.
 If `workshop-stack.md` is not yet filled in, describe the model in
 plain entity-relationship terms only.
 
@@ -103,7 +105,14 @@ defined in the BRD.
 - Protected routes explicitly marked.
 - Response shapes documented for complex endpoints.
 - Query parameters listed for all filterable endpoints.
-- Error responses: `{ error: string }` with correct HTTP status.
+- Error responses: derive the error response shape from `workshop-stack.md`
+  → `api_error_format` if defined; otherwise use the stack's conventional
+  error shape:
+  - Express / Node.js: `{ error: string }`
+  - FastAPI / Python: `{ detail: string }`
+  - Spring Boot / Java: `{ message: string, status: int, timestamp: string }`
+  - ASP.NET Core / C#: `{ title: string, status: int, traceId: string }`
+  Always document the chosen shape explicitly in the API contracts section.
 
 ## Component Design Rules
 - Every interactive element must have a test identifier attribute
@@ -160,7 +169,7 @@ required is left undesigned.
   **unless it is already defined in `workshop-stack.md`**. If the stack is defined,
   use its ORM/framework syntax in the data model and component structure sections.
   If the stack is not yet defined, describe patterns and contracts only
-  (e.g. say "the data layer exposes a repository interface" — not "use Prisma").
+  (e.g. say "the data layer exposes a repository interface" — not the specific ORM name).
 - Do NOT rename domain entities to generic equivalents.
 - Do NOT reduce a complex domain model to a simple CRUD pattern unless
   the BRD actually describes that.

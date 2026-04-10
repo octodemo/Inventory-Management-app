@@ -160,9 +160,13 @@ from `workshop-stack.md`.
 Never hardcode passwords in test files. Reference environment variables
 or the seed data comment:
 ```typescript
-// Seed user: see src/backend/prisma/seed.ts
+// Seed user: see seed data location defined in workshop-stack.md
 await page.getByTestId('email-input').fill(process.env.TEST_USER_EMAIL ?? 'test@example.com')
 ```
+
+> **Note:** E2E test files are always TypeScript (`.spec.ts`) regardless of the
+> backend language. This is intentional — Playwright TypeScript tests work
+> against any backend (Node.js, Java, Python, C#, etc.).
 
 ---
 

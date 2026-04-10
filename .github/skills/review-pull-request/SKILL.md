@@ -82,18 +82,23 @@ Save this as `docs/reviews/review-{issue-name}.md`:
 ACCEPTANCE CRITERIA
 ✅/❌  Every AC from the Issue is satisfied by the diff
 
-SCHEMA  (use schema_file path from workshop-stack.md)
-✅/❌  Every model named in the Issue exists in the data model schema file
+SCHEMA  (use the data model location from workshop-stack.md — e.g. schema_file,
+         entities_folder, models_folder — whichever field defines where data
+         models/entities are stored for this stack)
+✅/❌  Every model named in the Issue exists in the data model file(s)
 ✅/❌  All categorical fields use the stack's enumerated type — not plain strings
        (e.g. status, type fields must be enums or equivalent, not free-form strings)
 ✅/❌  All relations declared on both sides (both model and related model)
 ✅/❌  Pre-built models listed in workshop-stack.md are unchanged
 
-MIGRATION  (use migrations_folder path from workshop-stack.md)
-✅/❌  A new migration or schema change file exists in the migrations folder
+MIGRATION  (relational databases only — check this section only if
+            `migrations_folder` is defined in workshop-stack.md;
+            skip entirely for NoSQL / schema-less databases)
+✅/❌  A new migration or schema change file exists in the migrations location
 
-SEED DATA  (use seed_file path from workshop-stack.md)
-✅/❌  Seed data file is updated with records for every new model
+SEED DATA  (use the seed data location from workshop-stack.md — e.g. seed_file,
+            data.sql, DataSeeder path — whichever field defines the seed entry point)
+✅/❌  Seed data is updated with records for every new model
 ✅/❌  At least 3 records per domain model
 ✅/❌  Seed covers every status variant (e.g. at least one ACTIVE, one DRAFT)
 ✅/❌  Pre-built test user seed is unchanged

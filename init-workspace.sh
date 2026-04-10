@@ -5,17 +5,17 @@
 
 echo "Initialising workshop workspace..."
 
-mkdir -p docs/requirements/work-items/epics
-mkdir -p docs/requirements/work-items/features
-mkdir -p docs/requirements/work-items/stories
+mkdir -p docs/work-items/epics
+mkdir -p docs/work-items/features
+mkdir -p docs/work-items/stories
 mkdir -p docs/design
 mkdir -p docs/reports
 mkdir -p issues
 
 echo "Workspace folders created:"
-echo "  docs/requirements/work-items/epics/"
-echo "  docs/requirements/work-items/features/"
-echo "  docs/requirements/work-items/stories/"
+echo "  docs/work-items/epics/"
+echo "  docs/work-items/features/"
+echo "  docs/work-items/stories/"
 echo "  docs/design/"
 echo "  docs/reports/"
 echo "  issues/"

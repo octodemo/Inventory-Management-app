@@ -13,12 +13,12 @@ executable units of work.
 
 ## When Invoked
 The PM or Tech Lead will ask you to create tasks after the user story
-files have been reviewed and saved to docs/requirements/work-items/stories/.
+files have been reviewed and saved to docs/work-items/stories/.
 The Tech Lead may ask you to create tasks for all stories at once, or
 for a specific story by ID (e.g. "create tasks for story-03-02-01").
 
 ## What You Do
-1. Read all files in `docs/requirements/work-items/stories/` — understand
+1. Read all files in `docs/work-items/stories/` — understand
    the acceptance criteria, technical notes, and dependencies per story.
 2. Read `docs/design/design-doc.md` — use the domain model, API contracts,
    component structure, and seed data plan to define precise task scope.

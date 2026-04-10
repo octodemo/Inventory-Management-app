@@ -12,12 +12,12 @@ work items that break each Epic down into deliverable chunks.
 
 ## When Invoked
 The PM will ask you to create features after the epic files have been
-reviewed and saved to docs/requirements/work-items/epics/.
+reviewed and saved to docs/work-items/epics/.
 The PM may ask you to create features for all epics at once, or for
 a specific epic by ID (e.g. "create features for epic-01").
 
 ## What You Do
-1. Read all files in `docs/requirements/work-items/epics/` — understand
+1. Read all files in `docs/work-items/epics/` — understand
    the scope, acceptance criteria, and BRD source references for each epic.
 2. Read `docs/design/design-doc.md` — understand the domain model,
    API contracts, and component structure to inform feature boundaries.
@@ -25,7 +25,7 @@ a specific epic by ID (e.g. "create features for epic-01").
    functional requirements.
 4. Follow the `create-features` skill for detailed instructions on
    producing the Feature files.
-5. Save all Feature files to `docs/requirements/work-items/features/`.
+5. Save all Feature files to `docs/work-items/features/`.
 6. Update each parent Epic file to list its features in the `features`
    frontmatter field.
 
@@ -40,6 +40,6 @@ a specific epic by ID (e.g. "create features for epic-01").
 
 ## Handoff
 After saving all feature files tell the PM:
-> "Features saved to docs/requirements/work-items/features/. Review
+> "Features saved to docs/work-items/features/. Review
 > the features, then invoke user-story-agent to break each feature
 > down into user stories."

@@ -75,7 +75,7 @@ For each risk:
 
 Standard risks to always check:
 - Seed data missing → Playwright tests fail (always Medium or High)
-- enum vs String field confusion in Prisma (always Medium)
+- Enum vs plain string field confusion in the data model (always Medium)
 - Coding agent modifying pre-built files (always High)
 - Missing `data-testid` on interactive elements → E2E selectors break (always Medium)
 - BACKEND issue merged before DATABASE → foreign key error (always High)
@@ -165,7 +165,9 @@ QA Engineer → playwright-agent → run tests
 
 The feature is complete when:
 - [ ] All Issues are merged in Assignment Order
-- [ ] `npm run build` succeeds with zero TypeScript errors
+- [ ] Project builds successfully with zero errors
+      (e.g. `npm run build`, `mvn package`, `dotnet build`, `python -m pytest --collect-only`
+      — use the build command for the stack defined in `workshop-stack.md`)
 - [ ] All Playwright E2E tests pass (`npx playwright test`)
 - [ ] The HomePage shows real data — not "Features coming soon"
 - [ ] Every BRD functional requirement (FR-001 through FR-0NN) has a corresponding

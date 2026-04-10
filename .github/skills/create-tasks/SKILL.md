@@ -24,7 +24,7 @@ Every task must be exactly one of these four types:
 
 | Type | Prefix | Responsible For |
 |------|--------|-----------------|
-| DATABASE | [DATABASE] | Data model changes, migrations, seed data |
+| DATABASE | [DATABASE] | Data model changes, seed data, and migrations (relational only) |
 | BACKEND | [BACKEND] | API endpoints, business logic, data access |
 | FRONTEND | [FRONTEND] | UI components, pages, client-side logic |
 | TEST | [TEST] | Automated end-to-end or integration tests |
@@ -37,7 +37,7 @@ This order is non-negotiable. BACKEND depends on the data model.
 FRONTEND depends on the API. TEST depends on the full stack.
 
 ## Steps
-1. Read all User Story files in `docs/requirements/work-items/stories/`.
+1. Read all User Story files in `docs/work-items/stories/`.
 2. Read `workshop-stack.md` — extract folder paths, file naming conventions,
    and framework patterns. Use these when writing acceptance criteria and
    descriptions so that file paths, folder references, and naming conventions
@@ -109,6 +109,8 @@ Use domain language from the BRD throughout.
 
 ### [DATABASE] Tasks
 Scope: Changes to the data model and seed data only.
+For relational databases, also includes a migration file.
+For NoSQL/schema-less databases, no migration is required.
 
 Include in description:
 - The entity or entities being added or modified
@@ -116,12 +118,14 @@ Include in description:
 - The enumerated types for categorical fields
 - The relationships to other entities (with cardinality)
 - The seed data records needed (reference the design doc seed plan)
+- Whether a migration file is required (yes for relational, no for NoSQL)
 
 Acceptance criteria should verify:
 - Entity can be persisted and retrieved
 - Relationships resolve correctly
 - Seed data is present and correct
 - All enumerated state values are defined
+- Migration file is present (relational databases only)
 
 Do NOT include API logic, UI, or test automation.
 

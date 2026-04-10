@@ -55,9 +55,9 @@ Verify on the facilitator machine:
 
 ## 4. Config Files
 
-- [ ] Update `workshop-config.json` with:
-  - Workshop name, date, facilitator, customer name
-  - Team size and sprint hours per developer
+- [ ] Fill in `workshop-stack.md` with the customer's tech stack:
+  - Language, runtime, framework, folder paths, ORM, test framework
+  - Ensure no `{placeholder}` values remain before running `@design-agent`
 - [ ] *(Optional — ADO only)* Update `docs/ado-sync-config.json`:
   ```json
   {
@@ -107,7 +107,7 @@ Run the full chain at least once end-to-end before the workshop:
 - [ ] ADO board open in browser (logged in)
 - [ ] Requirement text ready to paste
 - [ ] `docs/ado-sync-state.json` deleted if re-running from scratch
-- [ ] All files in `issues/` and `docs/requirements/work-items/`
+- [ ] All files in `issues/` and `docs/work-items/`
       cleared if re-running from scratch
 
 ---

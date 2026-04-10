@@ -12,14 +12,14 @@ User Story work items that break each Feature into user-facing behaviours.
 
 ## When Invoked
 The PM will ask you to create user stories after the feature files have
-been reviewed and saved to docs/requirements/work-items/features/.
+been reviewed and saved to docs/work-items/features/.
 The PM may ask you to create stories for all features at once, or for
 a specific feature by ID (e.g. "create user stories for feature-03-02").
 
 ## What You Do
-1. Read all files in `docs/requirements/work-items/features/` — understand
+1. Read all files in `docs/work-items/features/` — understand
    the scope, acceptance criteria, and parent epic for each feature.
-2. Read all files in `docs/requirements/work-items/epics/` — understand
+2. Read all files in `docs/work-items/epics/` — understand
    the business objectives and epic-level acceptance criteria.
 3. Read `docs/requirements/BRD.md` — use functional requirements and
    business rules to ensure stories capture the right behaviours.
@@ -28,7 +28,7 @@ a specific feature by ID (e.g. "create user stories for feature-03-02").
    technical notes.
 5. Follow the `create-user-stories` skill for detailed instructions on
    producing the User Story files.
-6. Save all User Story files to `docs/requirements/work-items/stories/`.
+6. Save all User Story files to `docs/work-items/stories/`.
 7. Update each parent Feature file to list its stories in the
    `userStories` frontmatter field.
 
@@ -46,6 +46,6 @@ a specific feature by ID (e.g. "create user stories for feature-03-02").
 
 ## Handoff
 After saving all story files tell the PM:
-> "User stories saved to docs/requirements/work-items/stories/. Review
+> "User stories saved to docs/work-items/stories/. Review
 > the stories, then invoke task-agent to break each story down into
 > implementation tasks."

@@ -75,18 +75,35 @@ come from `workshop-stack.md` — not from this skill file.
 
 ## [DATABASE] Task Rules
 
-**Scope:** Data model and seed data only.
+**Scope:** Data model, seed data, and migrations (where applicable).
 Do not write API logic, UI code, or tests.
 
 **What to produce:**
 1. Updated data model or schema with new entities and types added.
    - Follow the schema conventions defined in `workshop-stack.md`
    - Never modify pre-built models listed in `workshop-stack.md`
-   - File path from `workshop-stack.md` → `schema_file`
-2. Updated seed file with realistic sample records.
+   - Data model location: read `workshop-stack.md` and use whichever field
+     describes where data models or entities are defined.
+     The field name varies by stack — common patterns:
+     - `schema_file` — single-file ORMs (e.g. code-first schema definitions)
+     - `entities_folder` — per-class entity files (JPA, EF Core, SQLAlchemy)
+     - `models_folder` — model class directory (Django ORM, ActiveRecord)
+     Never hardcode a path — always derive it from `workshop-stack.md`.
+1a. Migration file — **only if `migrations_folder` is defined in `workshop-stack.md`**.
+   - Relational databases require a migration file for every model change.
+   - If `migrations_folder` is absent (NoSQL/schema-less database), skip this step entirely.
+   - Write the migration to the path defined in `migrations_folder`.
+2. Updated seed data with realistic sample records.
    - At least one record per categorical variant defined in the design doc
    - At least 3-5 records per new entity
-   - File path from `workshop-stack.md` → `seed_file`
+   - Seed data location: read `workshop-stack.md` and use whichever field
+     describes the seed data entry point.
+     The field name varies by stack — common patterns:
+     - `seed_file` — single seed script (Node.js, Python)
+     - `src/main/resources/data.sql` — SQL seed file (Spring Boot)
+     - A `DataSeeder` class under `entities_folder` (EF Core)
+     - A `fixtures/` folder (Django, Rails)
+     Never hardcode a path — always derive it from `workshop-stack.md`.
 
 **Before finishing:**
 Verify every acceptance criterion in the task file is satisfied

@@ -23,8 +23,8 @@ the developer's. Each story must be independently testable and
 small enough to be completed within a single sprint.
 
 ## Steps
-1. Read all Feature files in `docs/requirements/work-items/features/`.
-2. Read all Epic files in `docs/requirements/work-items/epics/`.
+1. Read all Feature files in `docs/work-items/features/`.
+2. Read all Epic files in `docs/work-items/epics/`.
 3. Read `docs/requirements/BRD.md` — extract functional requirements,
    business rules, user roles, and lifecycle states. Use these to
    ensure stories capture the correct behaviours and constraints.

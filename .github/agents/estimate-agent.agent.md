@@ -24,11 +24,11 @@ have been reviewed and saved to issues/.
 3. Read all task files in `issues/` — this is the primary input for
    estimation. Analyse each task's description, acceptance criteria,
    type, and dependencies.
-4. Read all story files in `docs/requirements/work-items/stories/` —
+4. Read all story files in `docs/work-items/stories/` —
    use acceptance criteria count and technical notes to calibrate
    task estimates.
-5. Read all feature files in `docs/requirements/work-items/features/`.
-6. Read all epic files in `docs/requirements/work-items/epics/`.
+5. Read all feature files in `docs/work-items/features/`.
+6. Read all epic files in `docs/work-items/epics/`.
 7. Follow the `create-estimates` skill for detailed instructions on
    producing estimates and the HTML report.
 8. Update every task file with its estimate.

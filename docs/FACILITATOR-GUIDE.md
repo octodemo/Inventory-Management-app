@@ -22,12 +22,15 @@ agent's reasoning to the audience as it runs.
 Phase 1: Requirements        ~20 min   @brd-agent
 Phase 2: Design              ~20 min   @design-agent
 Phase 3: Work Breakdown      ~25 min   @epic, @feature, @user-story, @task agents
-Phase 4: Estimation          ~15 min   @estimate-agent
-Phase 5: Sprint Planning     ~15 min   @sprint-planning-agent
-Phase 6: ADO Sync            ~10 min   @ado-sync-agent
+Phase 3b: Scaffold           ~ 5 min   @scaffold-agent
+Phase 4: Implementation      variable  @implement-agent (+ optional @unit-test-agent)
+Phase 5: Estimation          ~15 min   @estimate-agent
+Phase 6: Sprint Planning     ~15 min   @sprint-planning-agent
+Phase 7: ADO Sync            ~10 min   @ado-sync-agent (optional)
+Phase 8: E2E Testing         ~10 min   @playwright-agent (optional)
 Buffer + Q&A                 ~15 min
 ─────────────────────────────────────
-Total                        ~2h 00min (buffer brings to 2h 30min)
+Total                        ~2h 30min core (+ implementation time)
 ```
 
 ---
@@ -203,7 +206,88 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-## Phase 4: Estimation — @estimate-agent
+## Phase 3b: Scaffold — @scaffold-agent
+**Duration: 5 minutes**
+
+### What to Say Before Invoking
+> "Before the first line of application code is written, we scaffold
+> the project. The agent reads the tech stack configuration and creates
+> the folder structure, entry points, and dependency manifest. Developers
+> can clone this and immediately start implementing."
+
+### How to Invoke
+```
+@scaffold-agent generate the project scaffold
+```
+
+### While It Runs — Narrate This
+- "It is reading `workshop-stack.md` first — that is where the
+  tech stack, folder conventions, and build tool are defined"
+- "It creates the folder structure first, then the entry point files"
+- "It will not overwrite anything that already exists"
+
+### After It Completes
+Open the `src/` folder in VS Code Explorer.
+- Show the folder structure matching the configured stack
+- Open the dependency manifest (package.json / pom.xml / requirements.txt)
+- Show that entry point files exist but are minimal stubs
+
+### Key Talking Point
+> "Every team member can now clone this and start coding immediately.
+> The structure is decided. The conventions are set. The only work
+> left is filling in the implementation."
+
+---
+
+## Phase 4: Implementation — @implement-agent
+**Duration: Variable (demo one or two tasks)**
+
+### What to Say Before Invoking
+> "Now we implement. This agent reads a task file, loads the relevant
+> design context, and generates production-ready code scoped precisely
+> to that task. DATABASE tasks touch only the data model. BACKEND tasks
+> touch only the API layer. FRONTEND tasks touch only the UI layer."
+
+### How to Invoke
+```
+@implement-agent implement issues/01-DATABASE-{name}.md
+```
+
+### While It Runs — Narrate This
+- "It reads the task acceptance criteria first"
+- "It loads the design document for the relevant contracts"
+- "It respects the scope boundary — DATABASE tasks will not touch
+  API files, BACKEND tasks will not touch UI files"
+
+### After It Completes
+Open the generated file(s) in `src/`.
+- Show that the file matches the task acceptance criteria
+- Point out that it used the entities and field names from the BRD
+- Optionally invoke `@review-agent` to demonstrate the review loop
+
+### Key Talking Point
+> "Every piece of code is traceable. This BACKEND file exists because
+> task-02 exists, which traces to story-03, which traces to FR-005 in
+> the BRD. We can explain every line of code back to a business requirement."
+
+### On-Demand: Unit Tests
+After implementing a BACKEND task, optionally run:
+```
+@unit-test-agent generate unit tests for issues/{task}.md
+```
+This produces mocked unit tests covering happy path, 401, 404, and
+business rule violations — all without a running database.
+
+### On-Demand: Code Review
+```
+@review-agent review issues/{task}.md
+```
+Validates the implementation against acceptance criteria and posts
+a structured pass/fail review.
+
+---
+
+## Phase 5: Estimation — @estimate-agent
 **Duration: 15 minutes**
 
 ### What to Say Before Invoking
@@ -245,7 +329,7 @@ The file is self-contained — no server needed.
 
 ---
 
-## Phase 5: Sprint Planning — @sprint-planning-agent
+## Phase 6: Sprint Planning — @sprint-planning-agent
 **Duration: 15 minutes**
 
 ### What to Say Before Invoking
@@ -292,7 +376,7 @@ medium-sized requirements.
 
 ---
 
-## Phase 6: ADO Sync — @ado-sync-agent
+## Phase 7: ADO Sync — @ado-sync-agent
 **Duration: 10 minutes**
 
 ### What to Say Before Invoking
@@ -372,6 +456,9 @@ If the room is quiet, offer these:
 | Features | @feature-agent | 6 min | 8 min |
 | Stories | @user-story-agent | 7 min | 10 min |
 | Tasks | @task-agent | 6 min | 8 min |
+| Scaffold | @scaffold-agent | 5 min | 8 min |
+| Implementation | @implement-agent | variable | — |
+| Unit Tests | @unit-test-agent | variable | — |
 | Estimation | @estimate-agent | 15 min | 20 min |
 | Sprint Planning | @sprint-planning-agent | 15 min | 20 min |
 | ADO Sync | @ado-sync-agent | 10 min | 15 min |

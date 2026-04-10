@@ -20,7 +20,7 @@ part of its parent Epic's business objective. A feature should be completable
 within a sprint or two and should be demonstrable to a stakeholder when done.
 
 ## Steps
-1. Read all Epic files in `docs/requirements/work-items/epics/`.
+1. Read all Epic files in `docs/work-items/epics/`.
 2. Read `docs/design/design-doc.md` — use the domain model, API contracts,
    and component structure to identify natural feature boundaries.
 3. Read `docs/requirements/BRD.md` — validate every feature against
