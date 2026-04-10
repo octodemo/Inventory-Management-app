@@ -176,6 +176,47 @@ Epic → Feature → User Story → Task
 
 ---
 
+## Implementation Conventions — Applied When Reading workshop-stack.md
+
+These rules apply to implement-agent, scaffold-agent, unit-test-agent, and review-agent
+whenever they read `workshop-stack.md`.
+
+### Backend
+- All API routes are prefixed with `/api/`
+- All protected routes use the authentication middleware defined in `auth_middleware`
+- All error responses use the shape defined by `api_error_format` (if present)
+- Async/concurrency model follows the convention of the chosen language and framework
+  (e.g. async/await for Node.js and Python, CompletableFuture for Java, async/await for C#)
+- Avoid language-specific anti-patterns (e.g. no bare `except` in Python,
+  no raw SQL strings without parameterisation in any language)
+
+### Database
+- `schema_file`: use for single-file ORMs (e.g. Prisma). Omit for per-class ORMs or NoSQL.
+- `entities_folder`: use for per-class ORMs (JPA, EF Core, SQLAlchemy). Omit for single-file ORMs.
+- `migrations_folder`: relational databases only (PostgreSQL, MySQL, SQLite, SQL Server, Oracle).
+  Omit for NoSQL / schema-less databases (MongoDB, Cosmos DB, DynamoDB, Firestore).
+- `seed_file`: required for all database types. Format depends on the database.
+- Never modify pre-existing models marked `// PRE-BUILT`. Mark new models `// NEW`.
+- All categorical fields use the ORM's enumerated type — never plain strings.
+
+### Frontend
+- Follow the component model of the chosen framework
+  (functional components + hooks for React, Composition API for Vue,
+  component classes for Angular, code-behind for Blazor)
+- All interactive elements must have `data-testid` attributes
+- `data-testid` values must match exactly what is defined in the design document
+- API calls go in `services_folder` — never inline in components
+- Use existing auth context or session — do not rebuild authentication
+
+### Testing
+- Unit tests cover API endpoints and business logic
+- E2E tests use `data-testid` selectors from the design document
+- E2E tests cover the happy path and at least one error scenario
+- Never test pre-built auth functionality
+- E2E test files are always TypeScript (`.spec.ts`) regardless of backend language
+
+---
+
 ## Never
 - Rename domain entities defined in the BRD
 - Add effort estimates during work breakdown phases
