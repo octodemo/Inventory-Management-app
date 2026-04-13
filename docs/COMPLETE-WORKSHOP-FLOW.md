@@ -206,128 +206,9 @@ Note: Tasks created but NOT estimated yet
 
 ---
 
-## Phase 3b: Scaffold
+## Phase 4: Effort Estimation (Bottom-Up)
 
-### Step 6b: Generate Project Scaffold
-
-**Agent:** `@scaffold-agent`
-
-> **Run this step after tasks are created and before implementation begins.**
-> Ensure all `{placeholder}` values in `workshop-stack.md` are filled in.
-
-```
-Developer: @scaffold-agent generate the project scaffold
-
-What scaffold-agent will do:
-
-Input:
-  - workshop-stack.md (language, framework, build_tool, folders, etc.)
-
-Process:
-  1. Validates workshop-stack.md — no unfilled {placeholder} values
-  2. Creates dependency manifest:
-     - Node.js: package.json
-     - Python: requirements.txt
-     - Java: pom.xml or build.gradle
-     - .NET: {project}.csproj
-  3. Creates backend entry point stub
-  4. Creates empty folder structure:
-     routes/, controllers/, middleware/, services/, pages/, components/
-  5. Creates frontend entry point stubs
-  6. Creates seed file stub (if seed_file is set in workshop-stack.md)
-  7. Creates playwright.config.ts with baseURL from dev_server_url
-  8. Creates README.md stub
-  9. Updates Pre-Built section of workshop-stack.md
-
-Output:
-  src/{entry-point}         Backend entry point
-  src/{routes_folder}/      Empty routes folder
-  src/{components_folder}/  Empty components folder
-  src/{services_folder}/    Empty services folder
-  package.json / pom.xml / requirements.txt  Dependency manifest
-  playwright.config.ts      E2E test config (if dev_server_url set)
-  README.md                 Project README stub
-
-Note: Additive only — never overwrites existing files
-```
-
-**Duration:** 5 minutes
-
-**Result:** Project folder structure and entry points ready for implementation
-
----
-
-## Phase 4: Implementation
-
-### Step 7: Implement Tasks
-
-**Agent:** `@implement-agent`
-
-Implement each task file in dependency order: DATABASE → BACKEND → FRONTEND → TEST
-
-```
-Developer: @implement-agent implement issues/01-DATABASE-{name}.md
-
-What implement-agent will do:
-
-Input:
-  - issues/{task}.md (acceptance criteria, task type)
-  - docs/design/design-doc.md (schema, API contracts, component specs)
-  - docs/requirements/BRD.md (business rules, entity names)
-  - workshop-stack.md (language, framework, folder paths, ORM, etc.)
-
-Process:
-  1. Reads task type: [DATABASE], [BACKEND], [FRONTEND], or [TEST]
-  2. Loads relevant design context:
-     [DATABASE]: data model section, business rules
-     [BACKEND]: API contracts, data model (read-only)
-     [FRONTEND]: component structure, data-testid values, API contracts
-     [TEST]: acceptance criteria, data-testid selectors
-  3. Generates code scoped strictly to the task type:
-     [DATABASE]: data model schema, seed data, migrations (relational only)
-     [BACKEND]: route handlers, controllers, service layer
-     [FRONTEND]: page views, UI components, frontend services
-     [TEST]: e2e/ test files
-  4. Uses entity and field names verbatim from the BRD
-  5. Uses tech stack, folder paths, and conventions from workshop-stack.md
-
-Output:
-  src/{appropriate-folder}/{filename}  (location from workshop-stack.md)
-```
-
-Repeat for each task in dependency order. 
-
-**On-demand — after each BACKEND task, optionally run:**
-
-```
-Developer: @unit-test-agent generate unit tests for issues/{task}.md
-
-Output:
-  {unit_tests_folder}/{test-filename}  (from workshop-stack.md)
-```
-
-**On-demand — review any implemented task:**
-
-```
-Developer or Lead: @review-agent review issues/{task}.md
-
-Output: Structured pass/fail review against task acceptance criteria
-```
-
-**Duration:** Variable (20-30 min per task depending on complexity)
-
-**Result:** Working application code in `src/`, unit tests in `{unit_tests_folder}`
-
----
-
-## Phase 5: Effort Estimation (Bottom-Up)
-
-> **Note on ordering:** Estimation happens after task creation — not after implementation.
-> The goal is to size the backlog so the team can plan sprints *before* coding starts.
-> If you are running a demo that includes implementation, run estimation immediately after
-> `@task-agent` completes (before scaffold and implement), then proceed to sprint planning.
-
-### Step 8: Estimate All Work
+### Step 7: Estimate All Work
 
 **Agent:** `@estimate-agent`
 
@@ -387,9 +268,9 @@ Output HTML Report Contains:
 
 ---
 
-## Phase 6: Sprint Planning (Capacity-Driven)
+## Phase 5: Sprint Planning (Capacity-Driven)
 
-### Step 9: Create Sprint Plans
+### Step 8: Create Sprint Plans
 
 **Agent:** `@sprint-planning-agent`
 
@@ -451,7 +332,121 @@ Output HTML Report Contains:
 
 ---
 
-## Phase 7: Azure DevOps Integration *(optional — skip if not using ADO)*
+## Phase 6: Scaffold
+
+### Step 9: Generate Project Scaffold
+
+**Agent:** `@scaffold-agent`
+
+> **Run this step after sprint planning is complete and before implementation begins.**
+> Ensure all `{placeholder}` values in `workshop-stack.md` are filled in.
+
+```
+Developer: @scaffold-agent generate the project scaffold
+
+What scaffold-agent will do:
+
+Input:
+  - workshop-stack.md (language, framework, build_tool, folders, etc.)
+
+Process:
+  1. Validates workshop-stack.md — no unfilled {placeholder} values
+  2. Creates dependency manifest:
+     - Node.js: package.json
+     - Python: requirements.txt
+     - Java: pom.xml or build.gradle
+     - .NET: {project}.csproj
+  3. Creates backend entry point stub
+  4. Creates empty folder structure:
+     routes/, controllers/, middleware/, services/, pages/, components/
+  5. Creates frontend entry point stubs
+  6. Creates seed file stub (if seed_file is set in workshop-stack.md)
+  7. Creates playwright.config.ts with baseURL from dev_server_url
+  8. Creates README.md stub
+  9. Updates Pre-Built section of workshop-stack.md
+
+Output:
+  src/{entry-point}         Backend entry point
+  src/{routes_folder}/      Empty routes folder
+  src/{components_folder}/  Empty components folder
+  src/{services_folder}/    Empty services folder
+  package.json / pom.xml / requirements.txt  Dependency manifest
+  playwright.config.ts      E2E test config (if dev_server_url set)
+  README.md                 Project README stub
+
+Note: Additive only — never overwrites existing files
+```
+
+**Duration:** 5 minutes
+
+**Result:** Project folder structure and entry points ready for implementation
+
+---
+
+## Phase 7: Implementation
+
+### Step 10: Implement Tasks
+
+**Agent:** `@implement-agent`
+
+Implement each task file in dependency order: DATABASE → BACKEND → FRONTEND → TEST
+
+```
+Developer: @implement-agent implement issues/01-DATABASE-{name}.md
+
+What implement-agent will do:
+
+Input:
+  - issues/{task}.md (acceptance criteria, task type)
+  - docs/design/design-doc.md (schema, API contracts, component specs)
+  - docs/requirements/BRD.md (business rules, entity names)
+  - workshop-stack.md (language, framework, folder paths, ORM, etc.)
+
+Process:
+  1. Reads task type: [DATABASE], [BACKEND], [FRONTEND], or [TEST]
+  2. Loads relevant design context:
+     [DATABASE]: data model section, business rules
+     [BACKEND]: API contracts, data model (read-only)
+     [FRONTEND]: component structure, data-testid values, API contracts
+     [TEST]: acceptance criteria, data-testid selectors
+  3. Generates code scoped strictly to the task type:
+     [DATABASE]: data model schema, seed data, migrations (relational only)
+     [BACKEND]: route handlers, controllers, service layer
+     [FRONTEND]: page views, UI components, frontend services
+     [TEST]: e2e/ test files
+  4. Uses entity and field names verbatim from the BRD
+  5. Uses tech stack, folder paths, and conventions from workshop-stack.md
+
+Output:
+  src/{appropriate-folder}/{filename}  (location from workshop-stack.md)
+```
+
+Repeat for each task in dependency order. 
+
+**On-demand — after each BACKEND task, optionally run:**
+
+```
+Developer: @unit-test-agent generate unit tests for issues/{task}.md
+
+Output:
+  {unit_tests_folder}/{test-filename}  (from workshop-stack.md)
+```
+
+**On-demand — review any implemented task:**
+
+```
+Developer or Lead: @review-agent review issues/{task}.md
+
+Output: Structured pass/fail review against task acceptance criteria
+```
+
+**Duration:** Variable (20-30 min per task depending on complexity)
+
+**Result:** Working application code in `src/`, unit tests in `{unit_tests_folder}`
+
+---
+
+## Phase 8: Azure DevOps Integration *(optional — skip if not using ADO)*
 
 > **This phase is entirely optional.** The framework is fully functional without Azure DevOps. All work items are stored as local Markdown files (`docs/work-items/`, `issues/`) and can be used directly by any team regardless of tooling.
 >
@@ -461,9 +456,9 @@ Output HTML Report Contains:
 > - ADO MCP server installed and configured in VS Code
 > - `docs/ado-sync-config.json` populated with your org and project details
 >
-> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 8.
+> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 9.
 
-### Step 10 (Optional): Push to Azure DevOps
+### Step 11 (Optional): Push to Azure DevOps
 
 **Agent:** `@ado-sync-agent`
 
@@ -509,9 +504,9 @@ Modes:
 
 ---
 
-## Phase 8: E2E Testing with Playwright
+## Phase 9: E2E Testing with Playwright
 
-### Step 11: Generate and Run Playwright Tests
+### Step 12: Generate and Run Playwright Tests
 
 **Agent:** `@playwright-agent`
 
@@ -526,7 +521,7 @@ Modes:
 > - For interactive MCP execution: Playwright MCP server configured
 >   (see `docs/playwright-mcp-setup.md`)
 
-**Step 11a: Generate test files**
+**Step 12a: Generate test files**
 
 ```
 QA Engineer: @playwright-agent create tests for all TEST tasks
@@ -562,7 +557,7 @@ Output:
 
 ---
 
-**Step 11b: Run tests (requires running application)**
+**Step 12b: Run tests (requires running application)**
 
 ```
 QA Engineer: @playwright-agent run the e2e tests and report results

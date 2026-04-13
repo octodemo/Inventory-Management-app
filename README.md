@@ -202,7 +202,36 @@ Output: `issues/`
 
 ---
 
-### Phase 3b — Scaffold
+### Phase 4 — Estimation
+
+```
+@estimate-agent analyse all work and produce the estimate report
+```
+
+Output:
+- Effort estimates written to all task, story, feature, and epic files
+- `docs/reports/effort-estimate-report.html`
+
+Open the HTML report in a browser to review.
+
+---
+
+### Phase 5 — Sprint Planning
+
+```
+@sprint-planning-agent create the sprint plan
+```
+
+The agent will ask three questions about team capacity.
+Answer them and it will generate the sprint plan.
+
+Output: `docs/reports/sprint-plan-report.html`
+
+Open the HTML report in a browser to review.
+
+---
+
+### Phase 6 — Scaffold
 
 > **Run this before implementation.** Ensure `workshop-stack.md` has no unfilled `{placeholder}` values first.
 
@@ -214,7 +243,7 @@ Output: `src/` folder structure with entry points and dependency manifest
 
 ---
 
-### Phase 4 — Implementation
+### Phase 7 — Implementation
 
 Run `@implement-agent` for each task file in `issues/`, in dependency order (DATABASE → BACKEND → FRONTEND → TEST).
 
@@ -234,36 +263,7 @@ Output: `src/` (implementation code), unit test files in `unit_tests_folder` def
 
 ---
 
-### Phase 5 — Estimation
-
-```
-@estimate-agent analyse all work and produce the estimate report
-```
-
-Output:
-- Effort estimates written to all task, story, feature, and epic files
-- `docs/reports/effort-estimate-report.html`
-
-Open the HTML report in a browser to review.
-
----
-
-### Phase 6 — Sprint Planning
-
-```
-@sprint-planning-agent create the sprint plan
-```
-
-The agent will ask three questions about team capacity.
-Answer them and it will generate the sprint plan.
-
-Output: `docs/reports/sprint-plan-report.html`
-
-Open the HTML report in a browser to review.
-
----
-
-### Phase 7 — ADO Sync *(optional — Azure DevOps only)*
+### Phase 8 — ADO Sync *(optional — Azure DevOps only)*
 
 > **Skip this phase** if you are not using Azure DevOps. All work items are already stored as local Markdown files in `docs/work-items/` and `issues/` and can be used directly.
 
@@ -281,7 +281,7 @@ Output:
 
 ---
 
-### Phase 8 — E2E Testing *(optional — requires app to be running)*
+### Phase 9 — E2E Testing *(optional — requires app to be running)*
 
 > **Skip this phase** if the application has not been implemented yet.
 > The playwright-agent generates test files from TEST task acceptance
