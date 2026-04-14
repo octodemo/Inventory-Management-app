@@ -171,6 +171,8 @@ Acceptance criteria should verify:
 - Test file saved to `unit_tests_folder` defined in `workshop-stack.md`
 
 Do NOT include UI logic, E2E test scenarios, or implementation code.
+
+### [FRONTEND] Tasks
 Scope: UI components and pages only.
 
 Include in description:
