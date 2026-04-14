@@ -2,8 +2,9 @@
 name: implement-agent
 description: Implements a Task file by generating production-ready code targeted
   to the workshop stack defined in workshop-stack.md. Handles DATABASE, BACKEND,
-  FRONTEND, and TEST task types. Use when asked to implement a task, code a feature,
-  or generate implementation code for any task file in issues/.
+  and FRONTEND task types. Use when asked to implement a task, code a feature,
+  or generate implementation code for any DATABASE, BACKEND, or FRONTEND task file
+  in issues/. For UNIT-TEST tasks use @unit-test-agent. For E2E-TEST tasks use @playwright-agent.
 tools: ["read", "edit", "create"]
 ---
 
@@ -29,8 +30,10 @@ Typical invocations:
    modify, and test user credentials. Never assume a stack — always
    derive it from this file.
 2. Read the specified task file(s) from `issues/` — identify task type
-   (DATABASE, BACKEND, FRONTEND, or TEST), description, acceptance
+   (DATABASE, BACKEND, or FRONTEND), description, acceptance
    criteria, parent story, and dependencies.
+   If the task type is UNIT-TEST, stop and direct the user to `@unit-test-agent`.
+   If the task type is E2E-TEST, stop and direct the user to `@playwright-agent`.
 3. Read `docs/design/design-doc.md` — extract entity definitions, API
    contracts, component structure, data-testid values, and business rules
    relevant to the task.
@@ -45,10 +48,13 @@ Typical invocations:
 
 ## Implementation Order
 When implementing multiple tasks, always follow this order:
-DATABASE → BACKEND → FRONTEND → TEST
+DATABASE → BACKEND → FRONTEND
+
+> UNIT-TEST tasks are handled by `@unit-test-agent` after each BACKEND task.
+> E2E-TEST tasks are handled by `@playwright-agent` after all FRONTEND tasks.
 
 Never implement a BACKEND task before its DATABASE dependency is done.
-Never implement a FRONTEND task before its BACKEND dependency is done.
+Never implement a FRONTEND task before its corresponding UNIT-TEST task is done.
 If a dependency task has status other than `done`, stop and report it
 before implementing the dependent task.
 

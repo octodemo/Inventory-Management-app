@@ -20,21 +20,23 @@ task has a type that determines both the implementation order and the
 developer responsible for it.
 
 ## Task Types
-Every task must be exactly one of these four types:
+Every task must be exactly one of these five types:
 
-| Type | Prefix | Responsible For |
-|------|--------|-----------------|
-| DATABASE | [DATABASE] | Data model changes, seed data, and migrations (relational only) |
-| BACKEND | [BACKEND] | API endpoints, business logic, data access |
-| FRONTEND | [FRONTEND] | UI components, pages, client-side logic |
-| TEST | [TEST] | Automated end-to-end or integration tests |
+| Type | Prefix | Responsible For | Implemented By |
+|------|--------|-----------------|----------------|
+| DATABASE | [DATABASE] | Data model changes, seed data, and migrations (relational only) | implement-agent |
+| BACKEND | [BACKEND] | API endpoints, business logic, data access | implement-agent |
+| UNIT-TEST | [UNIT-TEST] | Unit tests for the BACKEND layer — isolated, no real database | unit-test-agent |
+| FRONTEND | [FRONTEND] | UI components, pages, client-side logic | implement-agent |
+| E2E-TEST | [E2E-TEST] | Playwright end-to-end tests — browser-level user journey tests only | playwright-agent |
 
 **Implementation order is always:**
 ```
-[DATABASE] → [BACKEND] → [FRONTEND] → [TEST]
+[DATABASE] → [BACKEND] → [UNIT-TEST] → [FRONTEND] → [E2E-TEST]
 ```
 This order is non-negotiable. BACKEND depends on the data model.
-FRONTEND depends on the API. TEST depends on the full stack.
+UNIT-TEST validates the BACKEND in isolation before the UI is built.
+FRONTEND depends on the verified API. E2E-TEST validates the full stack.
 
 ## Steps
 1. Read all User Story files in `docs/work-items/stories/`.
@@ -47,20 +49,21 @@ FRONTEND depends on the API. TEST depends on the full stack.
 3. Read `docs/design/design-doc.md` — for each story, identify:
    - Which domain entities and fields are involved (→ DATABASE tasks)
    - Which API endpoints are needed (→ BACKEND tasks)
+   - Which API endpoints need unit test coverage (→ UNIT-TEST tasks, 1:1 with BACKEND)
    - Which UI components and pages are needed (→ FRONTEND tasks)
-   - Which acceptance criteria need automated test coverage (→ TEST tasks)
+   - Which acceptance criteria need automated test coverage (→ E2E-TEST tasks)
 3. For each story, produce one task per type needed. Most stories
-   produce exactly 4 tasks (one per type). Simple stories may produce
-   3 (no DATABASE task if no model changes needed).
+   produce exactly 5 tasks (one per type). Simple stories may produce
+   4 (no DATABASE task if no model changes needed).
 4. Number tasks globally across all stories in implementation order:
-   all DATABASE tasks first, then BACKEND, then FRONTEND, then TEST.
+   all DATABASE tasks first, then BACKEND, then UNIT-TEST, then FRONTEND, then E2E-TEST.
 5. For each task, produce one markdown file in the format below.
 6. **Save files to `issues/`:**
    - Name each file:
      `{NN}-{TYPE}-{kebab-case-title}.md`
      (e.g. `01-DATABASE-appointment-model.md`)
    - Global sequence number NN is zero-padded to two digits.
-   - TYPE is uppercase: DATABASE, BACKEND, FRONTEND, TEST.
+   - TYPE is uppercase: DATABASE, BACKEND, UNIT-TEST, FRONTEND, E2E-TEST.
    - If the folder does not exist, create it.
    - If files already exist from a previous run, overwrite them.
 7. **Update each parent User Story file:**
@@ -68,8 +71,9 @@ FRONTEND depends on the API. TEST depends on the full stack.
      field with the IDs of the tasks created for that story.
      (e.g. `tasks: [01-DATABASE-appointment-model,
                      05-BACKEND-appointment-api,
-                     09-FRONTEND-appointment-booking-form,
-                     13-TEST-book-appointment]`)
+                     10-UNIT-TEST-appointment-api,
+                     15-FRONTEND-appointment-booking-form,
+                     20-E2E-TEST-book-appointment]`)
 
 ## Task File Format
 
@@ -78,7 +82,7 @@ FRONTEND depends on the API. TEST depends on the full stack.
 id: {NN}-{TYPE}-{kebab-title}
 title: [{TYPE}] {Task Title}
 type: task
-taskType: {DATABASE | BACKEND | FRONTEND | TEST}
+taskType: {DATABASE | BACKEND | UNIT-TEST | FRONTEND | E2E-TEST}
 userStory: story-{id}
 feature: feature-{id}
 epic: epic-{NN}
@@ -147,7 +151,26 @@ Acceptance criteria should verify:
 
 Do NOT include UI or test automation.
 
-### [FRONTEND] Tasks
+### [UNIT-TEST] Tasks
+Scope: **Unit tests for the BACKEND layer only** — isolated from the database and UI.
+These tasks are implemented by `@unit-test-agent`, NOT `@implement-agent`.
+There is exactly one UNIT-TEST task per BACKEND task.
+
+Include in description:
+- The BACKEND task this covers (reference by task ID)
+- The API endpoints whose logic will be unit tested
+- The business rules and error scenarios to cover
+- The mocking strategy (data access layer is mocked — no real database)
+
+Acceptance criteria should verify:
+- Happy path: each endpoint returns the correct status and response shape
+- Invalid input: each endpoint returns the correct 4xx error
+- Unauthenticated request: each protected endpoint returns 401
+- Business rule violations: correct error returned when a rule is broken
+- All data access calls are mocked — no real database is hit
+- Test file saved to `unit_tests_folder` defined in `workshop-stack.md`
+
+Do NOT include UI logic, E2E test scenarios, or implementation code.
 Scope: UI components and pages only.
 
 Include in description:
@@ -165,26 +188,33 @@ Acceptance criteria should verify:
 
 Do NOT include API logic or test automation.
 
-### [TEST] Tasks
-Scope: Automated end-to-end or integration test coverage only.
+### [E2E-TEST] Tasks
+Scope: **Playwright end-to-end tests only** — browser-level user journey tests.
+These tasks are implemented by `@playwright-agent`, NOT `@implement-agent`.
+
+> **Do not confuse with UNIT-TEST tasks.** UNIT-TEST tasks cover the BACKEND API in
+> isolation. E2E-TEST tasks cover the full stack through the browser.
 
 Include in description:
 - The user story acceptance criteria being covered
-- The user journey being tested end to end
-- The test identifiers used to locate elements
+- The user journey being tested end to end in the browser
+- The `data-testid` selectors used to locate elements (from the design doc)
 - The expected outcomes being asserted
 
 Acceptance criteria should verify:
-- Happy path scenario passes
+- Happy path scenario passes end to end in the browser
 - Key error scenarios are covered
-- Tests use only the test identifiers defined in the design doc
+- Tests use only the `data-testid` values defined in the design doc
+- Test file is saved to `e2e_tests_folder` defined in `workshop-stack.md`
 
 Do NOT include implementation logic.
+Do NOT describe unit test coverage — that is a separate UNIT-TEST task.
 
 ## Dependency Rules
 - Every BACKEND task depends on its corresponding DATABASE task.
-- Every FRONTEND task depends on its corresponding BACKEND task.
-- Every TEST task depends on its corresponding FRONTEND task.
+- Every UNIT-TEST task depends on its corresponding BACKEND task (1:1 relationship).
+- Every FRONTEND task depends on its corresponding UNIT-TEST task.
+- Every E2E-TEST task depends on its corresponding FRONTEND task.
 - Cross-story dependencies: if story B requires data created by
   story A, the DATABASE task of B depends on the DATABASE task of A.
 - Record dependencies in the `dependencies` frontmatter field using
@@ -194,8 +224,9 @@ Do NOT include implementation logic.
 Tasks are numbered globally in implementation order:
 1. All DATABASE tasks across all stories (01, 02, 03...)
 2. All BACKEND tasks across all stories (continuing the sequence)
-3. All FRONTEND tasks across all stories (continuing)
-4. All TEST tasks across all stories (continuing)
+3. All UNIT-TEST tasks across all stories (continuing the sequence)
+4. All FRONTEND tasks across all stories (continuing)
+5. All E2E-TEST tasks across all stories (continuing)
 
 This ensures the natural implementation order is visible in the
 file system sort order.
@@ -211,13 +242,14 @@ file system sort order.
 - Do NOT prescribe specific technologies, ORMs, frameworks, or libraries.
 - Do NOT describe how to implement — describe what to implement.
 - Do NOT create tasks for work not traceable to a user story.
-- Do NOT omit the TEST task — every story needs automated test coverage.
+- Do NOT omit the UNIT-TEST task — every BACKEND task must have a corresponding UNIT-TEST task.
+- Do NOT omit the E2E-TEST task — every story needs automated Playwright test coverage.
 
 ## Validation Checklist
 Before saving, verify:
-- [ ] Every story has at least 3 tasks (DATABASE + BACKEND + FRONTEND
-      or BACKEND + FRONTEND + TEST minimum)
-- [ ] Every story has exactly one TEST task
+- [ ] Every story has at least 4 tasks (BACKEND + UNIT-TEST + FRONTEND + E2E-TEST minimum)
+- [ ] Every BACKEND task has exactly one corresponding UNIT-TEST task
+- [ ] Every story has exactly one E2E-TEST task
 - [ ] Task types are correct and match their content
 - [ ] Global numbering is sequential and follows type order
 - [ ] Dependencies are correctly recorded in frontmatter
@@ -234,8 +266,9 @@ For `story-03-02-01-book-appointment-slot.md`:
 ```
 01-DATABASE-appointment-model.md
 05-BACKEND-appointment-api.md
-09-FRONTEND-appointment-booking-form.md
-13-TEST-book-appointment.md
+10-UNIT-TEST-appointment-api.md
+15-FRONTEND-appointment-booking-form.md
+20-E2E-TEST-book-appointment.md
 ```
 
 **Example file — `05-BACKEND-appointment-api.md`:**

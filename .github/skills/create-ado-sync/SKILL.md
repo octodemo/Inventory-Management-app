@@ -197,7 +197,7 @@ For each Task file not already in sync state:
 | Description section | Description |
 | Acceptance Criteria section | Acceptance Criteria |
 | estimatedEffort | Remaining Work |
-| taskType | Tags (e.g. DATABASE, BACKEND, FRONTEND, TEST) |
+| taskType | Tags (e.g. DATABASE, BACKEND, UNIT-TEST, FRONTEND, E2E-TEST) |
 
 **Steps:**
 1. Look up the parent Story's ADO ID from sync state

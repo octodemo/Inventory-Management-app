@@ -33,12 +33,14 @@ Apply these type-specific adjustments after sizing:
 |------|----|----|----|----|-----|
 | DATABASE | 1h | 2h | 3h | 6h | 12h |
 | BACKEND | 1h | 2h | 4h | 8h | 16h |
+| UNIT-TEST | 1h | 2h | 3h | 5h | 10h |
 | FRONTEND | 1h | 3h | 5h | 10h | 20h |
-| TEST | 1h | 2h | 3h | 6h | 12h |
+| E2E-TEST | 1h | 2h | 3h | 6h | 12h |
 
-DATABASE and TEST tasks are generally faster than BACKEND and FRONTEND
+DATABASE and UNIT-TEST tasks are generally faster than BACKEND and FRONTEND
 at the same complexity level. FRONTEND is slowest due to UI state,
-validation feedback, and accessibility concerns.
+validation feedback, and accessibility concerns. UNIT-TEST is typically
+slightly faster than E2E-TEST as there is no browser or full-stack setup.
 
 ## Complexity Signals — What to Look For
 

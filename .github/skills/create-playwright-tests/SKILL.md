@@ -8,11 +8,11 @@ description: Generates Playwright end-to-end test files from Task files, User St
 # Skill — Create Playwright Tests
 
 ## What You Do
-Read the TEST task files, User Story acceptance criteria, and the design
+Read the E2E-TEST task files, User Story acceptance criteria, and the design
 document to produce a complete set of Playwright end-to-end test files that
 verify the application behaves correctly from the user's perspective.
 
-Each test file maps to one TEST task from `issues/`. Tests use `data-testid`
+Each test file maps to one E2E-TEST task from `issues/`. Tests use `data-testid`
 selectors defined in the design document, cover the happy path and key error
 scenarios, and are structured so they can be executed against a running
 application using the Playwright MCP server.
@@ -43,7 +43,7 @@ application using the Playwright MCP server.
    - User role names (use verbatim in `test.describe` blocks)
    - Business rules that must be verified by tests
 
-5. **The TEST task file in `issues/`** for each test being written — extract:
+5. **The E2E-TEST task file in `issues/`** for each test being written — extract:
    - Acceptance criteria to cover
    - Parent User Story for context
    - Dependencies (which FRONTEND/BACKEND tasks must be complete first)
@@ -172,7 +172,7 @@ await page.getByTestId('email-input').fill(process.env.TEST_USER_EMAIL ?? 'test@
 
 ## Coverage Requirements
 
-For each TEST task, write tests that cover:
+For each E2E-TEST task, write tests that cover:
 
 ### Mandatory Coverage
 | Scenario | Required |
@@ -257,8 +257,8 @@ The agent reads `docs/playwright-mcp-setup.md` to understand:
 ## Steps
 
 1. Read all files listed in [Prerequisites](#prerequisites--read-before-writing-any-test).
-2. List all TEST task files in `issues/` — identify which user stories they cover.
-3. Group TEST tasks by feature area to determine which spec files to create.
+2. List all E2E-TEST task files in `issues/` — identify which user stories they cover.
+3. Group E2E-TEST tasks by feature area to determine which spec files to create.
 4. For each spec file:
    a. Extract `data-testid` values from the design document for the feature.
    b. Map each acceptance criterion from the story to one or more test cases.
@@ -270,7 +270,7 @@ The agent reads `docs/playwright-mcp-setup.md` to understand:
    ```json
    "test:e2e": "playwright test"
    ```
-7. Report which spec files were created and which TEST tasks they cover.
+7. Report which spec files were created and which E2E-TEST tasks they cover.
 
 ---
 
@@ -296,7 +296,7 @@ View HTML report: npx playwright show-report docs/test-reports
 
 ## What Not To Do
 
-- Do not test pre-built authentication flows unless the TEST task explicitly requires it
+- Do not test pre-built authentication flows unless the E2E-TEST task explicitly requires it
 - Do not write unit tests — this skill produces E2E tests only
 - Do not use CSS class selectors, tag selectors, or positional selectors
 - Do not hardcode `data-testid` values — always read them from the design document
