@@ -46,6 +46,10 @@ FRONTEND depends on the verified API. E2E-TEST validates the full stack.
    in each task match the actual project structure exactly.
    (e.g. use `schema_file`, `routes_folder`, `pages_folder`, `e2e_tests_folder`
    from `workshop-stack.md` rather than inventing paths.)
+   Also check for `max_ac_per_task` — if set, you must cap the Acceptance
+   Criteria list of every generated task file at that number. When trimming,
+   prioritise in this order: (1) happy path, (2) authentication/authorisation,
+   (3) the single most critical business rule. Drop remaining error scenarios.
 3. Read `docs/design/design-doc.md` — for each story, identify:
    - Which domain entities and fields are involved (→ DATABASE tasks)
    - Which API endpoints are needed (→ BACKEND tasks)

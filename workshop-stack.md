@@ -57,4 +57,10 @@ dev_server_url:       {URL your app runs on — e.g. http://localhost:3000}
 # Used by Playwright E2E tests — must match a user in your seed file
 # test_user_email:    {test-user@example.com}
 # test_user_password: {testpassword}
+
+# ── WORKSHOP DEMO CONSTRAINTS ────────────────────────────────────────────────────
+# Uncomment for live workshop demos to keep task output tight and implementable
+# within a time-bounded session. Leave commented out for full project use.
+# max_ac_per_task: 2   # Cap acceptance criteria per task at this number.
+                       # Priority order when trimming: happy path → auth → top business rule.
 ```
