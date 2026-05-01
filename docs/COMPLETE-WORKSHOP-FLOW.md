@@ -516,7 +516,7 @@ Modes:
 > files — they will run and fail until the application is built.
 >
 > **Requirements:**
-> - Application running at `baseURL` defined in `playwright.config.ts` or `dev_server_url` in `workshop-stack.md`
+> - Application running at `baseURL` from `playwright.config.ts` if present; otherwise the fallback URL is `dev_server_url` in `workshop-stack.md`
 > - Playwright installed: run the install command for your stack (`npm install`, `pip install pytest-playwright`, etc.)
 > - For interactive MCP execution: Playwright MCP server configured
 >   (see `docs/playwright-mcp-setup.md`)

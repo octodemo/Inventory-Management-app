@@ -347,8 +347,9 @@ push all work items to Azure DevOps
 > running application using the Playwright MCP server.
 >
 > **Requirements:**
-> - Application running locally at the `baseURL` configured in
->   `playwright.config.ts` or `dev_server_url` in `workshop-stack.md`
+> - Application running locally at the `baseURL` from
+>   `playwright.config.ts` (if present — created by `scaffold-agent`); otherwise
+>   the fallback URL is `dev_server_url` from `workshop-stack.md`
 > - Playwright installed (`npm install`, `pip install pytest-playwright`, etc.)
 > - Playwright MCP server configured (see `docs/playwright-mcp-setup.md`)
 
