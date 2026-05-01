@@ -11,11 +11,13 @@ description: Implements a task file by generating code targeted to the workshop
 Read the task file and the workshop stack configuration, then generate
 code that implements the task correctly for the defined tech stack.
 
-This skill handles all four task types:
+This skill handles the three implementation task types:
 - `[DATABASE]` — data model and seed data
 - `[BACKEND]` — API endpoints and business logic
 - `[FRONTEND]` — UI components and pages
-- `[TEST]` — automated test coverage
+
+> `[UNIT-TEST]` tasks are handled by `unit-test-agent` (skill: `create-unit-tests`).
+> `[E2E-TEST]` tasks are handled by `playwright-agent` (skill: `create-playwright-tests`).
 
 ---
 
@@ -60,10 +62,10 @@ Based on task type, read these additional files:
 - Parent story file in `docs/work-items/stories/` — acceptance criteria
   and user-facing behaviour
 
-**For TEST tasks:**
-- Parent story file — acceptance criteria to cover
-- `docs/design/design-doc.md` — test identifiers for element selection
-- Test credentials from `workshop-stack.md`
+> **Note:** `[UNIT-TEST]` tasks are handled by `unit-test-agent` and
+> `[E2E-TEST]` tasks by `playwright-agent`. This skill never produces
+> test files — if you receive a UNIT-TEST or E2E-TEST task, stop and
+> point the user at the correct agent.
 
 ### Step 4 — Generate Code
 
@@ -160,36 +162,6 @@ Do not write API logic, schema changes, or tests.
 **Before finishing:**
 Every user-visible behaviour in the task acceptance criteria must be
 implemented and visible in the UI.
-
----
-
-## [TEST] Task Rules
-
-**Scope:** Automated tests only.
-Do not write implementation code.
-
-**Determine test type from task content:**
-- References a user journey end to end → E2E test
-- References API endpoints or business logic → Unit test
-
-**For E2E tests:**
-- Folder from `workshop-stack.md` → `e2e_tests_folder`
-- Framework from `workshop-stack.md` → `e2e_test_framework`
-- Use only test identifier selectors — never CSS classes or element tags
-- Use test credentials from `workshop-stack.md`
-- Cover the happy path from the story acceptance criteria
-- Cover at least one error or validation scenario
-
-**For unit tests:**
-- Folder from `workshop-stack.md` → `unit_tests_folder`
-- Framework from `workshop-stack.md` → `unit_test_framework`
-- Test each endpoint or function defined in the task
-- Mock external dependencies — do not use real databases or services
-- Cover success and error responses
-
-**Before finishing:**
-Every acceptance criterion from the parent story that this test
-covers must have at least one test case.
 
 ---
 

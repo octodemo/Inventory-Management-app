@@ -176,11 +176,13 @@ PM: task-agent create tasks for story-01
 Input: design-doc.md, user story files
 Output: issues/{order}-{type}-{name}.md
 
-Example files:
-  - issues/01-DATABASE-room-model.md
-  - issues/02-BACKEND-room-api.md
-  - issues/03-FRONTEND-room-list.md
-  - issues/04-TEST-room-e2e.md
+Example files (using `{entity}` as a placeholder for one of your domain
+entities — the real names are derived from your BRD):
+  - issues/01-DATABASE-{entity}-model.md
+  - issues/02-BACKEND-{entity}-api.md
+  - issues/03-UNIT-TEST-{entity}-api.md
+  - issues/04-FRONTEND-{entity}-list.md
+  - issues/05-E2E-TEST-{entity}.md
 
 The agent automatically adds the following metadata at the top of each task file. You do not need to create or edit this — it is shown here so you know what to expect:
 ---
@@ -221,7 +223,7 @@ Process:
    - Acceptance criteria count
    - File scope (single file vs multiple)
    - Technical complexity
-   - Task type ([DATABASE], [BACKEND], [FRONTEND], [TEST])
+   - Task type ([DATABASE], [BACKEND], [UNIT-TEST], [FRONTEND], [E2E-TEST])
 
 3. Assigns effort estimate using heuristics:
    
@@ -240,7 +242,11 @@ Process:
    - Page with list → 45min
    - Complex form/interaction → 1h-2h
    
-   [TEST] tasks:
+   [UNIT-TEST] tasks:
+   - Basic happy-path + 1 error case → 15min
+   - Full coverage incl. auth + validation → 30min
+
+   [E2E-TEST] tasks:
    - Basic E2E test → 15min
    - Complex user journey → 30min
 
@@ -257,7 +263,7 @@ Process:
 
 Output HTML Report Contains:
 - Executive summary (total epics, features, stories, tasks, effort)
-- Effort breakdown by type ([DATABASE], [BACKEND], [FRONTEND], [TEST])
+- Effort breakdown by type ([DATABASE], [BACKEND], [UNIT-TEST], [FRONTEND], [E2E-TEST])
 - Detailed hierarchy showing all work items with efforts
 - Visual presentation for stakeholder review
 ```
@@ -403,17 +409,17 @@ Input:
   - workshop-stack.md (language, framework, folder paths, ORM, etc.)
 
 Process:
-  1. Reads task type: [DATABASE], [BACKEND], [FRONTEND], or [TEST]
+  1. Reads task type: [DATABASE], [BACKEND], or [FRONTEND]
+     (UNIT-TEST tasks are handled by `unit-test-agent`;
+      E2E-TEST tasks are handled by `playwright-agent`)
   2. Loads relevant design context:
      [DATABASE]: data model section, business rules
      [BACKEND]: API contracts, data model (read-only)
      [FRONTEND]: component structure, data-testid values, API contracts
-     [TEST]: acceptance criteria, data-testid selectors
   3. Generates code scoped strictly to the task type:
      [DATABASE]: data model schema, seed data, migrations (relational only)
      [BACKEND]: route handlers, controllers, service layer
      [FRONTEND]: page views, UI components, frontend services
-     [TEST]: e2e/ test files
   4. Uses entity and field names verbatim from the BRD
   5. Uses tech stack, folder paths, and conventions from workshop-stack.md
 
@@ -524,7 +530,7 @@ Modes:
 **Step 12a: Generate test files**
 
 ```
-QA Engineer: playwright-agent create tests for all TEST tasks
+QA Engineer: playwright-agent create tests for all E2E-TEST tasks
 ```
 
 What the playwright-agent will do:
@@ -545,12 +551,8 @@ Process:
   6. Covers: happy path + form validation + empty state + error scenarios
 
 Output:
-  - e2e/{feature-name}.spec.ts  (one file per feature area)
-    Example files:
-      e2e/member-login.spec.ts
-      e2e/book-catalogue.spec.ts
-      e2e/loan-management.spec.ts
-      e2e/reservation.spec.ts
+  - e2e/{feature-name}.spec.ts  (one file per feature area — names
+    derived from the features the design document defines for your BRD)
 ```
 
 **Duration:** 5-10 minutes (automated)
@@ -570,7 +572,7 @@ OR run directly in the terminal:
 npx playwright test
 
 # Run a specific spec file
-npx playwright test e2e/book-catalogue.spec.ts
+npx playwright test e2e/{feature-name}.spec.ts
 
 # Run in headed mode (see the browser)
 npx playwright test --headed
@@ -619,7 +621,7 @@ Output:
 | **review-agent** *(on-demand)* | Code review | Task file, implemented code | Pass/fail review | Per task |
 | **estimate-agent** | Estimate effort | All tasks | Estimates + HTML report | 5 min |
 | **sprint-planning-agent** | Create sprints | Estimates + capacity | Sprint plan HTML | 5-10 min |
-| **playwright-agent** | E2E test generation + execution | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report | 5-10 min |
+| **playwright-agent** | E2E test generation + execution | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + HTML report | 5-10 min |
 | **ado-sync-agent** | Sync to ADO | Local files | ADO work items | 5 min |
 
 ---

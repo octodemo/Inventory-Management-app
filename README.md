@@ -387,7 +387,7 @@ npx playwright show-report docs/test-reports
 | `unit-test-agent` *(on-demand)* | Unit tests for BACKEND tasks | BACKEND task files, `workshop-stack.md` | Unit test files in `unit_tests_folder` |
 | `estimate-agent` | Effort estimates + report | All work items | Work item files + HTML report |
 | `sprint-planning-agent` | Sprint plan + report | Estimates, stories | HTML report |
-| `playwright-agent` | E2E tests + test report | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
+| `playwright-agent` | E2E tests + test report | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
 | `ado-sync-agent` | ADO Boards sync | All work items, sprint plan | ADO work items |
 | `review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code, design doc | Structured review reply in chat (no files written) |
 
