@@ -38,7 +38,7 @@ Verify on the facilitator machine:
 
 ## 3. ADO Boards Setup *(optional — skip if not using Azure DevOps)*
 
-> **GitHub-only or local-only users:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `ado-sync-agent` to push work items to Azure DevOps Boards.
+> **Local-only users or teams using other issue trackers:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `ado-sync-agent` to push work items to Azure DevOps Boards.
 
 - [ ] ADO project created and accessible
 - [ ] Sprints (Iterations) created in ADO:

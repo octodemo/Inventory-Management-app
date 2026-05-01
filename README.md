@@ -4,9 +4,10 @@ A hands-on workshop run with **multiple parallel teams of 5 or more** —
 each team made up of a **PM, Architect, Database Dev, Backend Dev, UI Dev,
 and QA Engineer** — that uses a sequence of specialised GitHub Copilot
 agents to take a single business requirement all the way to tested,
-working code: BRD, design, GitHub Issues, scaffold, implementation,
-and Playwright E2E tests. Every team works the same requirement
-independently, then compares approaches and outcomes at the end.
+working code: BRD, design, work items (Epics → Features → Stories → Tasks),
+scaffold, implementation, and Playwright E2E tests — all generated as local
+files in the repo. Every team works the same requirement independently,
+then compares approaches and outcomes at the end.
 
 ## Start Here — Reading Order
 
@@ -31,10 +32,12 @@ Takes a single business requirement as input and produces:
 
 - A complete Business Requirements Document
 - A technical design document with architecture, data model, API contracts, and component structure
-- A full Agile work breakdown: Epics → Features → User Stories → Tasks
+- A full Agile work breakdown: Epics → Features → User Stories → Tasks (as local Markdown files)
 - Effort estimates for every work item with reasoning
 - A capacity-driven sprint plan
-- All work items created in Azure DevOps Boards with estimates and sprint assignments
+- A working application scaffolded and implemented for your chosen tech stack
+- Playwright end-to-end tests covering the implemented features
+- *Optional:* the full work-item hierarchy synced to Azure DevOps Boards
 
 ---
 
@@ -148,7 +151,7 @@ If you are not using Azure DevOps, skip this step. The framework produces all wo
 Ensure the ADO MCP server is connected in VS Code and can list
 your ADO projects before running the workshop.
 
-> **GitHub-only or local-only users:** Skip this step. The ADO MCP server is not required for any phase except `ado-sync-agent`.
+> **Local-only or non-ADO users:** Skip this step. The ADO MCP server is not required for any phase except `ado-sync-agent`.
 
 ---
 

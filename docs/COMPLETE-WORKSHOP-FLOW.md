@@ -456,7 +456,7 @@ Output: Structured pass/fail review against task acceptance criteria
 > - ADO MCP server installed and configured in VS Code
 > - `docs/ado-sync-config.json` populated with your org and project details
 >
-> **GitHub-only users, local-only users, or teams using other issue trackers:** Skip to Phase 9.
+> **Local-only users, or teams using other issue trackers:** Skip to Phase 9.
 
 ### Step 11 (Optional): Push to Azure DevOps
 
