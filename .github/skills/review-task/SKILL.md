@@ -1,46 +1,52 @@
 ---
-name: review-pull-request
-description: Reviews a coding-agent Pull Request against the originating GitHub Issue's
-  acceptance criteria. Posts a structured review comment listing passed checks,
-  failures, and a merge recommendation. Use when asked to review a PR, check a
-  PR against acceptance criteria, or validate agent output before merging.
+name: review-task
+description: Reviews an implemented task's source files against the task file's
+  acceptance criteria and stack standards. Produces a structured review document
+  with pass/fail results and a recommendation. Use when asked to review an
+  implemented task or validate code before moving to the next task.
 ---
 
-# Skill — Review Agent PR
+# Skill — Review Implemented Task
 
 ## What You Do
-Read the originating Issue and the PR diff, then post a structured review
-comment that tells the human reviewer exactly what passed, what failed, and
-whether the PR is safe to merge.
+Read the task file and the implementation source files it produced, then write
+a structured review document that tells the developer exactly what passed, what
+failed, and whether the implementation is ready to move on.
 
-You never modify code. You read and report only.
+You never modify production code. You read source files and write only the
+review document.
 
 ---
 
 ## Steps
 
-1. Read `.github/copilot-instructions.md` — coding standards and pre-built files
-2. Read `workshop-stack.md` — extract the tech stack, folder paths, schema file locations,
-   ORM type, test framework, and pre-built file list. All path and technology references
-   in the checklist below must use values from this file, not hardcoded assumptions.
-3. Read the originating issue file from `issues/` folder — extract acceptance criteria and issue type
-4. Read the git diff or PR changes — check every changed file against the Issue requirements
-5. Determine the issue type from the title: [DATABASE], [BACKEND], [FRONTEND], or unit-test
-6. Run the checklist for that issue type (see below), substituting paths and conventions
-   from `workshop-stack.md` wherever placeholders appear
-7. Save the review to `docs/reviews/review-{issue-name}.md` in the format below
+1. Read `.github/copilot-instructions.md` — global principles, implementation
+   conventions, and pre-built file rules
+2. Read `workshop-stack.md` — extract language, framework, folder paths, schema
+   file locations, ORM type, test framework, and pre-built file list. All path
+   and technology references in the checklist below must use values from this
+   file, not hardcoded assumptions.
+3. Read the task file from `issues/` — extract acceptance criteria and task type
+4. Determine the task type from the title prefix:
+   `[DATABASE]` / `[BACKEND]` / `[UNIT-TEST]` / `[FRONTEND]` / `[E2E-TEST]`
+5. Identify the source files produced by the task using the folders defined in
+   `workshop-stack.md` for that task type, and read each one in full
+6. Run the checklist for that task type (see below), substituting paths and
+   conventions from `workshop-stack.md` wherever placeholders appear
+7. Save the review to `docs/reviews/review-{task-id}.md` in the format below
 8. Set review outcome: **APPROVE** (all pass) or **REQUEST CHANGES** (any fail)
 
 ---
 
 ## Review Document Format
 
-Save this as `docs/reviews/review-{issue-name}.md`:
+Save this as `docs/reviews/review-{task-id}.md`:
 
 ```
-## Copilot Review — [ISSUE TYPE] {Issue Title}
+## Review — [TASK TYPE] {Task Title}
 
-**Outcome: ✅ APPROVE** — all checks passed, safe to merge.
+**Task:** `issues/{task-file-name}`
+**Outcome: ✅ APPROVE** — all checks passed, ready to move on.
 <!-- OR -->
 **Outcome: ❌ REQUEST CHANGES** — {N} check(s) failed (listed below).
 
@@ -48,10 +54,10 @@ Save this as `docs/reviews/review-{issue-name}.md`:
 
 ### Acceptance Criteria
 
-| # | Criterion (from Issue) | Result |
+| # | Criterion (from Task) | Result |
 |---|------------------------|--------|
-| 1 | {AC text from Issue}   | ✅ Pass / ❌ Fail — {reason} |
-| 2 | {AC text from Issue}   | ✅ Pass / ❌ Fail — {reason} |
+| 1 | {AC text from Task}    | ✅ Pass / ❌ Fail — {reason} |
+| 2 | {AC text from Task}    | ✅ Pass / ❌ Fail — {reason} |
 
 ---
 
@@ -63,8 +69,8 @@ Save this as `docs/reviews/review-{issue-name}.md`:
 
 ---
 
-### Files Changed
-- `{file path}` — {one-line description of what changed}
+### Files Reviewed
+- `{file path}` — {one-line description of what the file implements}
 
 {If REQUEST CHANGES}
 ### Required Fixes
@@ -74,18 +80,18 @@ Save this as `docs/reviews/review-{issue-name}.md`:
 
 ---
 
-## Checklists by Issue Type
+## Checklists by Task Type
 
-### [DATABASE] Issues
+### [DATABASE] Tasks
 
 ```
 ACCEPTANCE CRITERIA
-✅/❌  Every AC from the Issue is satisfied by the diff
+✅/❌  Every AC from the Task is satisfied by the implemented files
 
 SCHEMA  (use the data model location from workshop-stack.md — e.g. schema_file,
          entities_folder, models_folder — whichever field defines where data
          models/entities are stored for this stack)
-✅/❌  Every model named in the Issue exists in the data model file(s)
+✅/❌  Every model named in the Task exists in the data model file(s)
 ✅/❌  All categorical fields use the stack's enumerated type — not plain strings
        (e.g. status, type fields must be enums or equivalent, not free-form strings)
 ✅/❌  All relations declared on both sides (both model and related model)
@@ -110,21 +116,21 @@ SCOPE
 
 ---
 
-### [BACKEND] Issues
+### [BACKEND] Tasks
 
 ```
 ACCEPTANCE CRITERIA
-✅/❌  Every AC from the Issue is satisfied by the diff
+✅/❌  Every AC from the Task is satisfied by the implemented files
 
 ENDPOINTS
-✅/❌  Every endpoint listed in the Issue is implemented
-✅/❌  HTTP methods and paths match the Issue exactly
-✅/❌  Request body shapes match the Issue
-✅/❌  Response shapes match the Issue
+✅/❌  Every endpoint listed in the Task is implemented
+✅/❌  HTTP methods and paths match the Task exactly
+✅/❌  Request body shapes match the Task
+✅/❌  Response shapes match the Task
 
 AUTH  (use auth_middleware path from workshop-stack.md)
 ✅/❌  Every protected endpoint uses the authentication middleware defined in workshop-stack.md
-✅/❌  Unprotected endpoints (if any) are explicitly noted in the Issue
+✅/❌  Unprotected endpoints (if any) are explicitly noted in the Task
 
 ERROR HANDLING
 ✅/❌  All errors return the error response shape defined in the design doc
@@ -143,22 +149,24 @@ SCOPE  (use routes_folder, controllers_folder paths from workshop-stack.md)
 
 ---
 
-### [FRONTEND] Issues
+### [FRONTEND] Tasks
 
 ```
 ACCEPTANCE CRITERIA
-✅/❌  Every AC from the Issue is satisfied by the diff
+✅/❌  Every AC from the Task is satisfied by the implemented files
 
 COMPONENTS  (use pages_folder, components_folder paths from workshop-stack.md)
-✅/❌  Every component named in "What to Build" section exists in the diff
+✅/❌  Every component named in the Task's "What to Build" section exists
 
 TEST IDENTIFIERS
-✅/❌  Every test identifier (e.g. data-testid) listed in the Issue exists
+✅/❌  Every test identifier (e.g. data-testid) listed in the Task exists
        on the correct element in the component source
-✅/❌  No test identifiers from the Issue are missing
+✅/❌  No test identifiers from the Task are missing
+✅/❌  Every data-testid value matches the design document exactly
 
 API CALLS
-✅/❌  Frontend calls the endpoints listed in the Issue's Context section
+✅/❌  Frontend calls the endpoints listed in the Task's Context section
+✅/❌  API calls go through services_folder — never inline in components
 ✅/❌  Authentication token is passed correctly for protected endpoints
 
 LANGUAGE CONVENTIONS  (derived from workshop-stack.md frontend framework)
@@ -170,16 +178,16 @@ SCOPE  (use pages_folder, components_folder, services_folder from workshop-stack
 ✅/❌  Only files in the frontend UI folders modified
 ✅/❌  No backend route, controller, or schema files modified
 ✅/❌  Pre-built files listed in workshop-stack.md are unchanged
-       unless the Issue explicitly requires changes
+       unless the Task explicitly requires changes
 ```
 
 ---
 
-### Unit Test PRs (from unit-test-agent)
+### [UNIT-TEST] Tasks
 
 ```
 ACCEPTANCE CRITERIA
-✅/❌  Every AC from the [BACKEND] Issue has at least one test
+✅/❌  Every AC from the parent [BACKEND] Task has at least one test
 
 COVERAGE
 ✅/❌  Every endpoint has a happy-path test (200/201 response)
@@ -198,23 +206,46 @@ SCOPE  (use unit_tests_folder from workshop-stack.md)
 
 ---
 
-## How to Handle Ambiguous Diffs
+### [E2E-TEST] Tasks
 
-- **File not in diff but required by Issue** → mark as ❌ Fail — "{file} not found in PR"
-- **AC cannot be verified from diff alone** (e.g. runtime behaviour) → mark as
-  ⚠️ Unverifiable — "requires runtime check — verify manually"
-- **Extra files changed beyond Issue scope** → flag under Standards Checklist as
-  ❌ Fail — "out-of-scope file modified: {file}"
+```
+ACCEPTANCE CRITERIA
+✅/❌  Every AC from the Task is covered by at least one Playwright test
+
+COVERAGE
+✅/❌  Happy path is tested
+✅/❌  At least one error scenario is tested
+✅/❌  Pre-built auth functionality is not tested
+
+SELECTORS  (use design doc data-testid values)
+✅/❌  Tests use only data-testid selectors — no CSS classes, tags, or positional selectors
+✅/❌  Every data-testid used in tests exists in the design document
+
+SCOPE  (use e2e_tests_folder from workshop-stack.md)
+✅/❌  Test files saved as .spec.ts in the e2e tests folder
+✅/❌  No production source files modified
+```
 
 ---
 
-## Quality Checklist Before Posting Review
+## How to Handle Ambiguous Cases
+
+- **File required by the Task but not present in source** → mark as
+  ❌ Fail — "{file} not found"
+- **AC cannot be verified from source alone** (e.g. runtime behaviour) → mark as
+  ⚠️ Unverifiable — "requires runtime check — verify manually"
+- **Files modified outside the Task's declared scope** → flag under Standards
+  Checklist as ❌ Fail — "out-of-scope file modified: {file}"
+
+---
+
+## Quality Checklist Before Saving Review
 
 ```
-✅ Review comment uses the exact format above
-✅ Every AC from the Issue has a row in the table — none skipped
+✅ Review document uses the exact format above
+✅ Every AC from the Task has a row in the table — none skipped
 ✅ Outcome is APPROVE only if zero failures
 ✅ Required Fixes section present if outcome is REQUEST CHANGES
 ✅ No code changes suggested — review is read-only
-✅ Review posted as a PR review (not just a comment) so GitHub tracks it
+✅ Review saved to docs/reviews/review-{task-id}.md
 ```
