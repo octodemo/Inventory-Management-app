@@ -1,20 +1,20 @@
 ---
 name: review-task
 description: Reviews an implemented task's source files against the task file's
-  acceptance criteria and stack standards. Produces a structured review document
-  with pass/fail results and a recommendation. Use when asked to review an
-  implemented task or validate code before moving to the next task.
+  acceptance criteria and stack standards. Produces a structured review reply
+  in chat with pass/fail results and a recommendation. Use when asked to review
+  an implemented task or validate code before moving to the next task.
 ---
 
 # Skill — Review Implemented Task
 
 ## What You Do
-Read the task file and the implementation source files it produced, then write
-a structured review document that tells the developer exactly what passed, what
-failed, and whether the implementation is ready to move on.
+Read the task file and the implementation source files it produced, then post a
+structured review **as a chat reply** that tells the developer exactly what
+passed, what failed, and whether the implementation is ready to move on.
 
-You never modify production code. You read source files and write only the
-review document.
+The review is conversational — it lives in the chat thread, not on disk. You
+never modify production code and you never write a review file.
 
 ---
 
@@ -33,14 +33,14 @@ review document.
    `workshop-stack.md` for that task type, and read each one in full
 6. Run the checklist for that task type (see below), substituting paths and
    conventions from `workshop-stack.md` wherever placeholders appear
-7. Save the review to `docs/reviews/review-{task-id}.md` in the format below
+7. Post the review **as a chat reply** in the format below — do not create a file
 8. Set review outcome: **APPROVE** (all pass) or **REQUEST CHANGES** (any fail)
 
 ---
 
-## Review Document Format
+## Review Reply Format
 
-Save this as `docs/reviews/review-{task-id}.md`:
+Post the review as a chat message using exactly this Markdown structure:
 
 ```
 ## Review — [TASK TYPE] {Task Title}
@@ -239,13 +239,13 @@ SCOPE  (use e2e_tests_folder from workshop-stack.md)
 
 ---
 
-## Quality Checklist Before Saving Review
+## Quality Checklist Before Posting the Review
 
 ```
-✅ Review document uses the exact format above
+✅ Review reply uses the exact Markdown format above
 ✅ Every AC from the Task has a row in the table — none skipped
 ✅ Outcome is APPROVE only if zero failures
 ✅ Required Fixes section present if outcome is REQUEST CHANGES
 ✅ No code changes suggested — review is read-only
-✅ Review saved to docs/reviews/review-{task-id}.md
+✅ Review posted in chat — no file written to disk
 ```

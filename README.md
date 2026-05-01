@@ -1,11 +1,12 @@
-# Agentic SDLC Workshop Framework
+# Agentic SDLC Workshop
 
-An AI-assisted software development lifecycle framework built on
-GitHub Copilot agents. Demonstrates the full SDLC — from business
-requirement to sprint-ready work items in Azure DevOps — using a
-sequence of specialised Copilot agents.
-
----
+A hands-on workshop run with **multiple parallel teams of 5 or more** —
+each team made up of a **PM, Architect, Database Dev, Backend Dev, UI Dev,
+and QA Engineer** — that uses a sequence of specialised GitHub Copilot
+agents to take a single business requirement all the way to tested,
+working code: BRD, design, GitHub Issues, scaffold, implementation,
+and Playwright E2E tests. Every team works the same requirement
+independently, then compares approaches and outcomes at the end.
 
 ## Start Here — Reading Order
 
@@ -153,154 +154,211 @@ your ADO projects before running the workshop.
 
 ## Running the Framework
 
-Open VS Code with this repository loaded.
-Open the GitHub Copilot Chat panel.
-Follow the agent sequence below in order.
+Open VS Code with this repository loaded and open the GitHub Copilot Chat
+panel. For each phase below: select the named agent from the **Agent
+dropdown** in the chat panel, type the prompt shown, and press Enter.
+Phases must run in order — every agent reads the output of the previous one.
+
+---
 
 ### Phase 1 — Requirements
 
+**Who:** PM
+**Agent:** `brd-agent`
+**Prompt:** paste the customer requirement text directly into the chat,
+or reference a file in the repo, e.g.:
 ```
-PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and  press enter
+create the BRD from requirement.txt
 ```
-
-Output: `docs/requirements/BRD.md`
+**Output:** `docs/requirements/BRD.md` — a structured Business Requirements
+Document listing actors, functional requirements (FR-XXX), non-functional
+requirements, business rules, and out-of-scope items. Review it with the
+team before Phase 2 — every later artifact traces back to it.
 
 ---
 
 ### Phase 2 — Design
 
+**Who:** Architect
+**Prerequisite:** `workshop-stack.md` is filled in (no `{placeholder}` values left).
+**Agent:** `design-agent`
+**Prompt:**
 ```
-design-agent create the design document from the BRD
+create the design document from the BRD
 ```
-
-Output: `docs/design/design-doc.md`
+**Output:** `docs/design/design-doc.md` — the technical design: architecture
+overview, data model, API contracts, component structure, and `data-testid`
+values. This is the single source of truth that every work-breakdown and
+implementation agent reads from.
 
 ---
 
 ### Phase 3 — Work Breakdown
 
-Run each agent in sequence. Each agent reads the output of the previous.
+**Who:** PM (with input from Architect)
+Run the four agents below in order. Each one reads the output of the previous.
 
+**3a — `epic-agent`**
 ```
-epic-agent create epics from the design document
+create epics from the design document
 ```
-Output: `docs/work-items/epics/`
+**Output:** `docs/work-items/epics/` — one Markdown file per Epic, each
+covering a major business capability traced to BRD requirements.
 
+**3b — `feature-agent`**
 ```
-feature-agent create features for all epics
+create features for all epics
 ```
-Output: `docs/work-items/features/`
+**Output:** `docs/work-items/features/` — one file per Feature, each an
+independently demonstrable slice of an Epic.
 
+**3c — `user-story-agent`**
 ```
-user-story-agent create user stories for all features
+create user stories for all features
 ```
-Output: `docs/work-items/stories/`
+**Output:** `docs/work-items/stories/` — user stories written from the
+role's perspective with acceptance criteria.
 
+**3d — `task-agent`**
 ```
-task-agent create tasks for all user stories
+create tasks for all user stories
 ```
-Output: `issues/`
+**Output:** `issues/` — typed implementation tasks (DATABASE, BACKEND,
+UNIT-TEST, FRONTEND, E2E-TEST) ready for the team to pick up.
 
 ---
 
 ### Phase 4 — Estimation
 
+**Who:** PM or Architect
+**Agent:** `estimate-agent`
+**Prompt:**
 ```
-estimate-agent analyse all work and produce the estimate report
+analyse all work and produce the estimate report
 ```
-
-Output:
-- Effort estimates written to all task, story, feature, and epic files
-- `docs/reports/effort-estimate-report.html`
-
-Open the HTML report in a browser to review.
+**Output:**
+- Effort estimates written into every Task, Story, Feature, and Epic file
+- `docs/reports/effort-estimate-report.html` — a self-contained HTML
+  summary you can open in any browser to review totals, breakdowns by
+  task type, and the reasoning behind each estimate.
 
 ---
 
 ### Phase 5 — Sprint Planning
 
+**Who:** PM
+**Agent:** `sprint-planning-agent`
+**Prompt:**
 ```
-sprint-planning-agent create the sprint plan
+create the sprint plan
 ```
+The agent will ask three questions about team capacity (developers per
+role, sprint length, hours per developer per sprint). Answer them in chat.
 
-The agent will ask three questions about team capacity.
-Answer them and it will generate the sprint plan.
-
-Output: `docs/reports/sprint-plan-report.html`
-
-Open the HTML report in a browser to review.
+**Output:** `docs/reports/sprint-plan-report.html` — a capacity-driven
+sprint plan showing which stories land in which sprint, utilisation per
+role, dependencies, and sprint goals. Open in a browser to review.
 
 ---
 
 ### Phase 6 — Scaffold
 
-> **Run this before implementation.** Ensure `workshop-stack.md` has no unfilled `{placeholder}` values first.
-
+**Who:** Architect or any developer
+**Prerequisite:** `workshop-stack.md` has no unfilled `{placeholder}` values.
+**Agent:** `scaffold-agent`
+**Prompt:**
 ```
-scaffold-agent generate the project scaffold
+generate the project scaffold
 ```
-
-Output: `src/` folder structure with entry points and dependency manifest
+**Output:** `src/` populated with the folder structure, entry-point stubs,
+dependency manifest (e.g. `package.json` / `requirements.txt` / `pom.xml`),
+and `playwright.config.ts` for the chosen stack. Additive only — no
+existing files are overwritten.
 
 ---
 
 ### Phase 7 — Implementation
 
-Run `implement-agent` for each task file in `issues/`, in dependency order (DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST). `implement-agent` handles DATABASE, BACKEND, and FRONTEND tasks; UNIT-TEST tasks are run with `unit-test-agent` after each BACKEND task, and E2E-TEST tasks are run with `playwright-agent` after all FRONTEND tasks.
+**Who:** Database Dev → Backend Dev → UI Dev (in dependency order)
+Implement each task file in `issues/` in this order:
+**DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST**.
+- `implement-agent` handles DATABASE, BACKEND, and FRONTEND tasks
+- `unit-test-agent` handles UNIT-TEST tasks (run after each BACKEND task)
+- `playwright-agent` handles E2E-TEST tasks (Phase 9, after all FRONTEND tasks)
 
+**Agent:** `implement-agent`
+**Prompt** (one task at a time):
 ```
-implement-agent implement issues/01-DATABASE-{name}.md
+implement issues/01-DATABASE-{name}.md
 ```
+**Output:** production code written to the folders defined in
+`workshop-stack.md` (e.g. `routes_folder`, `controllers_folder`,
+`components_folder`). The agent updates the task file's status to `done`.
 
-> **On-demand review:** After implementing any task, use `review-agent` to validate the implementation against acceptance criteria before moving on.
-
-**Optional — unit tests for BACKEND tasks:**
-
+**Optional — unit tests after each BACKEND task:**
+**Agent:** `unit-test-agent`
+**Prompt:**
 ```
-unit-test-agent generate unit tests for issues/{task}.md
+implement issues/{UNIT-TEST-task-file}.md
 ```
+**Output:** unit test files written to `unit_tests_folder` from
+`workshop-stack.md`, with one test case per acceptance criterion.
 
-Output: `src/` (implementation code), unit test files in `unit_tests_folder` defined in `workshop-stack.md`
+> **On-demand review:** After implementing any task, invoke `review-agent`
+> with the task file path. It posts a structured review **directly in chat**
+> — pass/fail per acceptance criterion plus a recommendation to APPROVE or
+> REQUEST CHANGES. Nothing is written to disk; fix any issues and re-invoke
+> on the same task to re-review.
 
 ---
 
 ### Phase 8 — ADO Sync *(optional — Azure DevOps only)*
 
-> **Skip this phase** if you are not using Azure DevOps. All work items are already stored as local Markdown files in `docs/work-items/` and `issues/` and can be used directly.
+> **Skip this phase** if you are not using Azure DevOps. All work items
+> already exist as local Markdown files in `docs/work-items/` and
+> `issues/` and can be used directly.
 
-Run this phase after estimation and sprint planning are reviewed.
-
+**Who:** PM
+**Prerequisites:** estimation and sprint planning reviewed; ADO MCP server
+connected; `docs/ado-sync-config.json` filled in.
+**Agent:** `ado-sync-agent`
+**Prompt:**
 ```
-ado-sync-agent push all work items to Azure DevOps
+push all work items to Azure DevOps
 ```
-
-Output:
-- Full Epic → Feature → Story → Task hierarchy in ADO Boards
-- Remaining Work fields set from estimates
-- Sprint assignments set from sprint plan
-- `docs/ado-sync-state.json` (idempotency record)
+**Output:**
+- Full Epic → Feature → Story → Task hierarchy created in ADO Boards
+  with parent-child links
+- Remaining Work field set from estimates
+- Iteration (Sprint) assignments set from the sprint plan
+- `docs/ado-sync-state.json` — idempotency record so re-runs skip
+  already-synced items
 
 ---
 
 ### Phase 9 — E2E Testing *(optional — requires app to be running)*
 
 > **Skip this phase** if the application has not been implemented yet.
-> The playwright-agent generates test files from TEST task acceptance
+> `playwright-agent` generates test files from E2E-TEST task acceptance
 > criteria and the design document, then optionally runs them against the
 > running application using the Playwright MCP server.
 >
 > **Requirements:**
-> - Application running locally at the `baseURL` configured in `playwright.config.ts` or `dev_server_url` in `workshop-stack.md`
-> - Playwright installed: install command for your stack (`npm install`, `pip install pytest-playwright`, etc.)
+> - Application running locally at the `baseURL` configured in
+>   `playwright.config.ts` or `dev_server_url` in `workshop-stack.md`
+> - Playwright installed (`npm install`, `pip install pytest-playwright`, etc.)
 > - Playwright MCP server configured (see `docs/playwright-mcp-setup.md`)
 
+**Who:** QA Engineer
+**Agent:** `playwright-agent`
+**Prompt:**
 ```
-playwright-agent create tests for all TEST tasks
+create tests for all E2E-TEST tasks
 ```
-
-Output:
-- `e2e/*.spec.ts` files (one per feature area)
-- `docs/test-reports/` HTML report (when tests are run)
+**Output:**
+- `e2e/*.spec.ts` — one TypeScript spec file per feature area, using
+  only `data-testid` selectors from the design document
+- `docs/test-reports/` — HTML test report (when tests are executed)
 
 To run the tests and view the report:
 ```bash
@@ -327,7 +385,7 @@ npx playwright show-report docs/test-reports
 | `sprint-planning-agent` | Sprint plan + report | Estimates, stories | HTML report |
 | `playwright-agent` | E2E tests + test report | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
 | `ado-sync-agent` | ADO Boards sync | All work items, sprint plan | ADO work items |
-| `review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code | Review output in chat |
+| `review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code, design doc | Structured review reply in chat (no files written) |
 
 ---
 

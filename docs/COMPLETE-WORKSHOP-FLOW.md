@@ -663,7 +663,8 @@ Output:
 4. `issues/` - Task files
 5. `docs/reports/effort-estimate-report.html` - Effort analysis
 6. `docs/reports/sprint-plan-report.html` - Sprint roadmap
-7. `docs/reviews/` - Code reviews (optional)
+
+> Code reviews from `review-agent` are posted directly in the chat thread \u2014 no files are generated.
 
 ### Code Generated
 - Data model schema file (location depends on chosen tech stack) - Domain entities and relationships
