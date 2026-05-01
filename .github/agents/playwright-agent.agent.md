@@ -18,10 +18,10 @@ The QA Engineer or Tech Lead will invoke you after FRONTEND tasks have
 been implemented and the application is running locally. Typical invocations:
 
 ```
-@playwright-agent create tests for all TEST tasks
-@playwright-agent create tests for story-03-02-01
-@playwright-agent run the e2e tests and report results
-@playwright-agent create and run tests for the loan management feature
+playwright-agent create tests for all TEST tasks
+playwright-agent create tests for story-03-02-01
+playwright-agent run the e2e tests and report results
+playwright-agent create and run tests for the loan management feature
 ```
 
 ## What You Do

@@ -18,13 +18,13 @@ You never modify production code. You read source files and write only the
 review document.
 
 ## When Invoked
-A developer will invoke you in the IDE after running `@implement-agent` or
-`@unit-test-agent` on a task. Typical invocations:
+A developer will invoke you in the IDE after running `implement-agent` or
+`unit-test-agent` on a task. Typical invocations:
 
 ```
-@review-agent review issues/task-03-01-01-create-loan-schema.md
-@review-agent review the last implemented task
-@review-agent review issues/10-UNIT-TEST-appointment-api.md
+review-agent review issues/task-03-01-01-create-loan-schema.md
+review-agent review the last implemented task
+review-agent review issues/10-UNIT-TEST-appointment-api.md
 ```
 
 ## What You Do

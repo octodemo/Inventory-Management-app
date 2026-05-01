@@ -19,15 +19,15 @@ agent's reasoning to the audience as it runs.
 ## Workshop Flow Overview
 
 ```
-Phase 1: Requirements        ~20 min   @brd-agent
-Phase 2: Design              ~20 min   @design-agent
+Phase 1: Requirements        ~20 min   brd-agent
+Phase 2: Design              ~20 min   design-agent
 Phase 3: Work Breakdown      ~25 min   @epic, @feature, @user-story, @task agents
-Phase 3b: Scaffold           ~ 5 min   @scaffold-agent
-Phase 4: Implementation      variable  @implement-agent (+ optional @unit-test-agent)
-Phase 5: Estimation          ~15 min   @estimate-agent
-Phase 6: Sprint Planning     ~15 min   @sprint-planning-agent
-Phase 7: ADO Sync            ~10 min   @ado-sync-agent (optional)
-Phase 8: E2E Testing         ~10 min   @playwright-agent (optional)
+Phase 3b: Scaffold           ~ 5 min   scaffold-agent
+Phase 4: Implementation      variable  implement-agent (+ optional unit-test-agent)
+Phase 5: Estimation          ~15 min   estimate-agent
+Phase 6: Sprint Planning     ~15 min   sprint-planning-agent
+Phase 7: ADO Sync            ~10 min   ado-sync-agent (optional)
+Phase 8: E2E Testing         ~10 min   playwright-agent (optional)
 Buffer + Q&A                 ~15 min
 ─────────────────────────────────────
 Total                        ~2h 30min core (+ implementation time)
@@ -35,7 +35,7 @@ Total                        ~2h 30min core (+ implementation time)
 
 ---
 
-## Phase 1: Requirements — @brd-agent
+## Phase 1: Requirements — brd-agent
 **Duration: 20 minutes**
 
 ### What to Say Before Invoking
@@ -47,7 +47,7 @@ Total                        ~2h 30min core (+ implementation time)
 ### How to Invoke
 Open GitHub Copilot Chat in VS Code and type:
 ```
-@brd-agent [paste the customer requirement here]
+brd-agent [paste the customer requirement here]
 ```
 
 ### While It Runs — Narrate This
@@ -75,12 +75,12 @@ Walk the audience through:
 ### Recovery
 If the BRD output looks generic or renamed entities:
 > "Let me ask it to be more specific."
-Re-invoke with: `@brd-agent re-read the requirement and preserve
+Re-invoke with: `brd-agent re-read the requirement and preserve
 the exact entity names: [list them]`
 
 ---
 
-## Phase 2: Design — @design-agent
+## Phase 2: Design — design-agent
 **Duration: 20 minutes**
 
 ### What to Say Before Invoking
@@ -91,7 +91,7 @@ the exact entity names: [list them]`
 
 ### How to Invoke
 ```
-@design-agent create the design document from the BRD
+design-agent create the design document from the BRD
 ```
 
 ### While It Runs — Narrate This
@@ -131,11 +131,11 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-### 3a. @epic-agent (~6 min)
+### 3a. epic-agent (~6 min)
 
 **Invoke:**
 ```
-@epic-agent create epics from the design document
+epic-agent create epics from the design document
 ```
 
 **Narrate:**
@@ -146,11 +146,11 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-### 3b. @feature-agent (~6 min)
+### 3b. feature-agent (~6 min)
 
 **Invoke:**
 ```
-@feature-agent create features for all epics
+feature-agent create features for all epics
 ```
 
 **Narrate:**
@@ -161,11 +161,11 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-### 3c. @user-story-agent (~7 min)
+### 3c. user-story-agent (~7 min)
 
 **Invoke:**
 ```
-@user-story-agent create user stories for all features
+user-story-agent create user stories for all features
 ```
 
 **Narrate:**
@@ -184,11 +184,11 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-### 3d. @task-agent (~6 min)
+### 3d. task-agent (~6 min)
 
 **Invoke:**
 ```
-@task-agent create tasks for all user stories
+task-agent create tasks for all user stories
 ```
 
 **Narrate:**
@@ -206,7 +206,7 @@ diagrams render in VS Code preview, not in the raw file.
 
 ---
 
-## Phase 3b: Scaffold — @scaffold-agent
+## Phase 3b: Scaffold — scaffold-agent
 **Duration: 5 minutes**
 
 ### What to Say Before Invoking
@@ -217,7 +217,7 @@ diagrams render in VS Code preview, not in the raw file.
 
 ### How to Invoke
 ```
-@scaffold-agent generate the project scaffold
+scaffold-agent generate the project scaffold
 ```
 
 ### While It Runs — Narrate This
@@ -239,7 +239,7 @@ Open the `src/` folder in VS Code Explorer.
 
 ---
 
-## Phase 4: Implementation — @implement-agent
+## Phase 4: Implementation — implement-agent
 **Duration: Variable (demo one or two tasks)**
 
 ### What to Say Before Invoking
@@ -250,7 +250,7 @@ Open the `src/` folder in VS Code Explorer.
 
 ### How to Invoke
 ```
-@implement-agent implement issues/01-DATABASE-{name}.md
+implement-agent implement issues/01-DATABASE-{name}.md
 ```
 
 ### While It Runs — Narrate This
@@ -263,7 +263,7 @@ Open the `src/` folder in VS Code Explorer.
 Open the generated file(s) in `src/`.
 - Show that the file matches the task acceptance criteria
 - Point out that it used the entities and field names from the BRD
-- Optionally invoke `@review-agent` to demonstrate the review loop
+- Optionally invoke `review-agent` to demonstrate the review loop
 
 ### Key Talking Point
 > "Every piece of code is traceable. This BACKEND file exists because
@@ -273,21 +273,21 @@ Open the generated file(s) in `src/`.
 ### On-Demand: Unit Tests
 After implementing a BACKEND task, optionally run:
 ```
-@unit-test-agent generate unit tests for issues/{task}.md
+unit-test-agent generate unit tests for issues/{task}.md
 ```
 This produces mocked unit tests covering happy path, 401, 404, and
 business rule violations — all without a running database.
 
 ### On-Demand: Code Review
 ```
-@review-agent review issues/{task}.md
+review-agent review issues/{task}.md
 ```
 Validates the implementation against acceptance criteria and posts
 a structured pass/fail review.
 
 ---
 
-## Phase 5: Estimation — @estimate-agent
+## Phase 5: Estimation — estimate-agent
 **Duration: 15 minutes**
 
 ### What to Say Before Invoking
@@ -298,7 +298,7 @@ a structured pass/fail review.
 
 ### How to Invoke
 ```
-@estimate-agent analyse all work and produce the estimate report
+estimate-agent analyse all work and produce the estimate report
 ```
 
 ### While It Runs — Narrate This
@@ -329,7 +329,7 @@ The file is self-contained — no server needed.
 
 ---
 
-## Phase 6: Sprint Planning — @sprint-planning-agent
+## Phase 6: Sprint Planning — sprint-planning-agent
 **Duration: 15 minutes**
 
 ### What to Say Before Invoking
@@ -339,7 +339,7 @@ The file is self-contained — no server needed.
 
 ### How to Invoke
 ```
-@sprint-planning-agent create the sprint plan
+sprint-planning-agent create the sprint plan
 ```
 
 ### The Conversation Moment
@@ -376,7 +376,7 @@ medium-sized requirements.
 
 ---
 
-## Phase 7: ADO Sync — @ado-sync-agent
+## Phase 7: ADO Sync — ado-sync-agent
 **Duration: 10 minutes**
 
 ### What to Say Before Invoking
@@ -387,7 +387,7 @@ medium-sized requirements.
 
 ### How to Invoke
 ```
-@ado-sync-agent push all work items to Azure DevOps
+ado-sync-agent push all work items to Azure DevOps
 ```
 
 ### While It Runs — Narrate This
@@ -450,18 +450,18 @@ If the room is quiet, offer these:
 
 | Phase | Agent | Target Time | Hard Stop |
 |-------|-------|-------------|-----------|
-| Requirements | @brd-agent | 20 min | 25 min |
-| Design | @design-agent | 20 min | 25 min |
-| Epics | @epic-agent | 6 min | 8 min |
-| Features | @feature-agent | 6 min | 8 min |
-| Stories | @user-story-agent | 7 min | 10 min |
-| Tasks | @task-agent | 6 min | 8 min |
-| Scaffold | @scaffold-agent | 5 min | 8 min |
-| Implementation | @implement-agent | variable | — |
-| Unit Tests | @unit-test-agent | variable | — |
-| Estimation | @estimate-agent | 15 min | 20 min |
-| Sprint Planning | @sprint-planning-agent | 15 min | 20 min |
-| ADO Sync | @ado-sync-agent | 10 min | 15 min |
+| Requirements | brd-agent | 20 min | 25 min |
+| Design | design-agent | 20 min | 25 min |
+| Epics | epic-agent | 6 min | 8 min |
+| Features | feature-agent | 6 min | 8 min |
+| Stories | user-story-agent | 7 min | 10 min |
+| Tasks | task-agent | 6 min | 8 min |
+| Scaffold | scaffold-agent | 5 min | 8 min |
+| Implementation | implement-agent | variable | — |
+| Unit Tests | unit-test-agent | variable | — |
+| Estimation | estimate-agent | 15 min | 20 min |
+| Sprint Planning | sprint-planning-agent | 15 min | 20 min |
+| ADO Sync | ado-sync-agent | 10 min | 15 min |
 | Q&A | — | 15 min | 20 min |
 
 If you are running behind, the phases most safe to abbreviate are:

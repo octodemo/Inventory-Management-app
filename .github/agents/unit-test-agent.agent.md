@@ -17,23 +17,20 @@ implemented. There is one `[UNIT-TEST]` task file per `[BACKEND]` task.
 Typical invocations:
 
 ```
-@unit-test-agent implement issues/10-UNIT-TEST-appointment-api.md
-@unit-test-agent implement all UNIT-TEST tasks for story-03-01
-@unit-test-agent implement the next unimplemented UNIT-TEST task
+unit-test-agent implement issues/10-UNIT-TEST-appointment-api.md
+unit-test-agent implement all UNIT-TEST tasks for story-03-01
+unit-test-agent implement the next unimplemented UNIT-TEST task
 ```
 
 ## What You Do
-1. Read `workshop-stack.md` in full — derive:
-   - `unit_test_framework` — the test framework to use (e.g. Jest, pytest,
-     JUnit 5, xUnit, NUnit, RSpec)
-   - `unit_tests_folder` — where test files are saved
-   - `controllers_folder` / `routes_folder` — where the implementation lives
-   - `language` and `framework` — to produce idiomatic test code
-   - Any pre-built files that must not be modified
-2. Read the specified `[UNIT-TEST]` task file from `issues/` — extract:
-   - The parent `[BACKEND]` task ID from the `dependencies` frontmatter field
-   - Every acceptance criterion to cover (these map to test cases)
-   - The API endpoints, business rules, and error scenarios listed
+1. Read `workshop-stack.md` in full — derive `unit_test_framework`,
+   `unit_tests_folder`, `controllers_folder` / `routes_folder`,
+   `language` and `framework`, and any pre-built files that must
+   not be modified.
+2. Read the specified `[UNIT-TEST]` task file from `issues/` —
+   extract the parent `[BACKEND]` task ID, every acceptance criterion
+   to cover, and the API endpoints, business rules, and error scenarios
+   listed.
 3. Read the parent `[BACKEND]` task file from `issues/` — extract the
    full API contract (endpoints, request/response shapes, auth requirements).
 4. Read the implemented source files in `controllers_folder` and
@@ -41,40 +38,11 @@ Typical invocations:
    and error handling patterns to mock correctly.
 5. Read `docs/design/design-doc.md` — confirm API contracts, request
    and response shapes, and error response format.
-6. Generate unit test files following the rules below.
+6. Follow the `create-unit-tests` skill for all test generation rules,
+   mocking rules, file naming, coverage, and stack adaptation. The
+   skill is the authoritative instruction set.
 7. Save all test files to `unit_tests_folder` from `workshop-stack.md`.
-8. Update the UNIT-TEST task file frontmatter: set `status: done`.
-
-## Test Generation Rules
-
-**Scope:** Unit tests for BACKEND logic only.
-Do not write E2E tests, integration tests, or frontend tests.
-Do not modify any production source files.
-
-**What to test per endpoint:**
-- Happy path — correct input returns the expected response and status code
-- Missing or invalid input — returns the correct 4xx error and error shape
-- Unauthenticated request — returns 401 for every protected endpoint
-- Not found — returns 404 when the requested resource does not exist
-- Business rule violations — returns the correct error when a rule
-  is violated (e.g. state transition not allowed, capacity exceeded)
-
-**Mocking rules:**
-- Mock all data access / ORM / repository calls — never hit a real database
-- Mock any external service calls
-- Each test must be fully isolated — no shared mutable state between tests
-- Use the mocking API native to `unit_test_framework` (e.g. `jest.mock()`,
-  `unittest.mock`, `Mockito`, `Moq`, `RSpec mocks`)
-
-**File naming:**
-- Mirror the source file name with a test suffix convention for the stack
-  (e.g. `loan.controller.test.ts`, `test_loan_router.py`,
-  `LoanControllerTest.java`, `LoanControllerTests.cs`)
-- Save to `unit_tests_folder`
-
-**Coverage requirement:**
-Every acceptance criterion from the `[UNIT-TEST]` task must have at least
-one test case. Do not skip criteria.
+8. Update the `[UNIT-TEST]` task file frontmatter: set `status: done`.
 
 ## Stack Adaptation
 All test framework syntax, assertion APIs, mock patterns, and file
@@ -97,5 +65,5 @@ After generating test files, tell the developer:
 >
 > Coverage: {N} acceptance criteria covered, {N} endpoints tested.
 > Task status updated to: done
-> Next: raise a PR and invoke @review-agent to validate the tests
-> against the task acceptance criteria."
+> Next: invoke review-agent to validate the tests against the
+> task acceptance criteria."

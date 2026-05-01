@@ -15,7 +15,7 @@ This workshop demonstrates an end-to-end AI-assisted software development lifecy
 
 ### Step 1: Create BRD (Business Requirements Document)
 
-**Agent:** `@brd-agent`
+**Agent:** `brd-agent`
 
 ```
 PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and press enter
@@ -38,7 +38,7 @@ It will generate Output: docs/requirements/BRD.md
 
 ### Step 2: Create Design Document
 
-**Agent:** `@design-agent`
+**Agent:** `design-agent`
 
 ```
 Architect: select design-agent in Agent dropdown in VS Code and type "create design from BRD" and press enter.
@@ -66,10 +66,10 @@ After running the design-agent, your design-doc.md will have these six sections:
 
 ### Step 3: Create Epics
 
-**Agent:** `@epic-agent`
+**Agent:** `epic-agent`
 
 ```
-PM: @epic-agent create epics from design doc
+PM: epic-agent create epics from design doc
 
 Input: docs/design/design-doc.md
 Output: docs/work-items/epics/epic-{nn}-{name}.md
@@ -98,10 +98,10 @@ Note: No effort estimates at this stage
 
 ### Step 4: Create Features (under Epics)
 
-**Agent:** `@feature-agent`
+**Agent:** `feature-agent`
 
 ```
-PM: @feature-agent create features for epic-01
+PM: feature-agent create features for epic-01
 
 Input: design-doc.md, epic files
 Output: docs/work-items/features/feature-{nn}-{name}.md
@@ -131,10 +131,10 @@ Note: No effort estimates at this stage
 
 ### Step 5: Create User Stories (under Features)
 
-**Agent:** `@user-story-agent`
+**Agent:** `user-story-agent`
 
 ```
-PM: @user-story-agent create stories for feature-01
+PM: user-story-agent create stories for feature-01
 
 Input: BRD.md, design-doc.md, feature files
 Output: docs/work-items/stories/story-{nn}-{name}.md
@@ -168,10 +168,10 @@ Note: Priority set by agent based on BRD analysis
 
 ### Step 6: Create Tasks (under User Stories)
 
-**Agent:** `@task-agent`
+**Agent:** `task-agent`
 
 ```
-PM: @task-agent create tasks for story-01
+PM: task-agent create tasks for story-01
 
 Input: design-doc.md, user story files
 Output: issues/{order}-{type}-{name}.md
@@ -210,10 +210,10 @@ Note: Tasks created but NOT estimated yet
 
 ### Step 7: Estimate All Work
 
-**Agent:** `@estimate-agent`
+**Agent:** `estimate-agent`
 
 ```
-PM or Architect: @estimate-agent analyze all work
+PM or Architect: estimate-agent analyze all work
 
 Process:
 1. Scans all task files in issues/ folder
@@ -272,10 +272,10 @@ Output HTML Report Contains:
 
 ### Step 8: Create Sprint Plans
 
-**Agent:** `@sprint-planning-agent`
+**Agent:** `sprint-planning-agent`
 
 ```
-PM: @sprint-planning-agent create sprint plan
+PM: sprint-planning-agent create sprint plan
 
 Interactive Questions (agent asks):
   Q: How many Database developers?
@@ -336,13 +336,13 @@ Output HTML Report Contains:
 
 ### Step 9: Generate Project Scaffold
 
-**Agent:** `@scaffold-agent`
+**Agent:** `scaffold-agent`
 
 > **Run this step after sprint planning is complete and before implementation begins.**
 > Ensure all `{placeholder}` values in `workshop-stack.md` are filled in.
 
 ```
-Developer: @scaffold-agent generate the project scaffold
+Developer: scaffold-agent generate the project scaffold
 
 What scaffold-agent will do:
 
@@ -387,12 +387,12 @@ Note: Additive only — never overwrites existing files
 
 ### Step 10: Implement Tasks
 
-**Agent:** `@implement-agent`
+**Agent:** `implement-agent`
 
-Implement each task file in dependency order: DATABASE → BACKEND → FRONTEND → TEST
+Implement each task file in dependency order: DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST
 
 ```
-Developer: @implement-agent implement issues/01-DATABASE-{name}.md
+Developer: implement-agent implement issues/01-DATABASE-{name}.md
 
 What implement-agent will do:
 
@@ -426,7 +426,7 @@ Repeat for each task in dependency order.
 **On-demand — after each BACKEND task, optionally run:**
 
 ```
-Developer: @unit-test-agent generate unit tests for issues/{task}.md
+Developer: unit-test-agent generate unit tests for issues/{task}.md
 
 Output:
   {unit_tests_folder}/{test-filename}  (from workshop-stack.md)
@@ -435,7 +435,7 @@ Output:
 **On-demand — review any implemented task:**
 
 ```
-Developer or Lead: @review-agent review issues/{task}.md
+Developer or Lead: review-agent review issues/{task}.md
 
 Output: Structured pass/fail review against task acceptance criteria
 ```
@@ -460,10 +460,10 @@ Output: Structured pass/fail review against task acceptance criteria
 
 ### Step 11 (Optional): Push to Azure DevOps
 
-**Agent:** `@ado-sync-agent`
+**Agent:** `ado-sync-agent`
 
 ```
-PM: @ado-sync-agent push to Azure DevOps
+PM: ado-sync-agent push to Azure DevOps
 
 Requirements:
 - Azure DevOps account
@@ -508,7 +508,7 @@ Modes:
 
 ### Step 12: Generate and Run Playwright Tests
 
-**Agent:** `@playwright-agent`
+**Agent:** `playwright-agent`
 
 > **When to run this phase:**
 > Run after FRONTEND tasks are implemented and the application is running locally.
@@ -524,7 +524,7 @@ Modes:
 **Step 12a: Generate test files**
 
 ```
-QA Engineer: @playwright-agent create tests for all TEST tasks
+QA Engineer: playwright-agent create tests for all TEST tasks
 ```
 
 What the playwright-agent will do:
@@ -560,7 +560,7 @@ Output:
 **Step 12b: Run tests (requires running application)**
 
 ```
-QA Engineer: @playwright-agent run the e2e tests and report results
+QA Engineer: playwright-agent run the e2e tests and report results
 ```
 
 OR run directly in the terminal:

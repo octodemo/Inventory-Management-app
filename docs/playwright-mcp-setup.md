@@ -1,6 +1,6 @@
 # Playwright MCP Setup Guide
 
-> **Read this file before using the Playwright MCP server in `@playwright-agent`.**
+> **Read this file before using the Playwright MCP server in `playwright-agent`.**
 > This guide explains how to install, configure, and use the Playwright MCP server
 > with GitHub Copilot for interactive browser automation and E2E test validation.
 
@@ -10,7 +10,7 @@
 
 The Playwright MCP (Model Context Protocol) server exposes browser automation
 capabilities to AI agents as callable tools. When configured in VS Code, the
-`@playwright-agent` can navigate pages, click elements, fill forms, take
+`playwright-agent` can navigate pages, click elements, fill forms, take
 screenshots, and evaluate JavaScript — all within the agent conversation.
 
 This enables two modes of operation:
@@ -112,7 +112,7 @@ Open VS Code Settings → search for `MCP` → open `mcp.json`
 ### Step 3: Verify the server appears in Copilot
 
 Open GitHub Copilot Chat panel.
-Type `@playwright-agent` and check that Playwright MCP tools are
+Type `playwright-agent` and check that Playwright MCP tools are
 listed in the available tools.
 
 ---

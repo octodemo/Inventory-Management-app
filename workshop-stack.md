@@ -1,6 +1,6 @@
 # Workshop Stack Configuration
 
-> **FACILITATOR — fill in the block below before running `@design-agent`.**
+> **FACILITATOR — fill in the block below before running `design-agent`.**
 > Need help? See [docs/STACK-SETUP-GUIDE.md](docs/STACK-SETUP-GUIDE.md) for step-by-step instructions and ready-to-copy examples (Python, Java, C#, and more).
 
 ---

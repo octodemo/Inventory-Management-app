@@ -38,7 +38,7 @@ Verify on the facilitator machine:
 
 ## 3. ADO Boards Setup *(optional — skip if not using Azure DevOps)*
 
-> **GitHub-only or local-only users:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `@ado-sync-agent` to push work items to Azure DevOps Boards.
+> **GitHub-only or local-only users:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `ado-sync-agent` to push work items to Azure DevOps Boards.
 
 - [ ] ADO project created and accessible
 - [ ] Sprints (Iterations) created in ADO:
@@ -57,7 +57,7 @@ Verify on the facilitator machine:
 
 - [ ] Fill in `workshop-stack.md` with the customer's tech stack:
   - Language, runtime, framework, folder paths, ORM, test framework
-  - Ensure no `{placeholder}` values remain before running `@design-agent`
+  - Ensure no `{placeholder}` values remain before running `design-agent`
 - [ ] *(Optional — ADO only)* Update `docs/ado-sync-config.json`:
   ```json
   {
@@ -78,7 +78,7 @@ Verify on the facilitator machine:
   - Specific enough to produce a real BRD
   - Not so large it produces 20+ epics
   - Domain-specific with named entities and roles
-- [ ] Requirement tested against `@brd-agent` at least once
+- [ ] Requirement tested against `brd-agent` at least once
   in a dry run before the workshop day
 
 ---
@@ -87,15 +87,15 @@ Verify on the facilitator machine:
 
 Run the full chain at least once end-to-end before the workshop:
 
-- [ ] `@brd-agent` produces a complete BRD
-- [ ] `@design-agent` produces a complete design document
-- [ ] `@epic-agent` produces 3-7 epics
-- [ ] `@feature-agent` produces 2-5 features per epic
-- [ ] `@user-story-agent` produces 2-5 stories per feature
-- [ ] `@task-agent` produces 3-4 tasks per story
-- [ ] `@estimate-agent` produces estimates and HTML report
-- [ ] `@sprint-planning-agent` produces sprint plan HTML report
-- [ ] *(Optional — ADO only)* `@ado-sync-agent` creates all work items in ADO correctly
+- [ ] `brd-agent` produces a complete BRD
+- [ ] `design-agent` produces a complete design document
+- [ ] `epic-agent` produces 3-7 epics
+- [ ] `feature-agent` produces 2-5 features per epic
+- [ ] `user-story-agent` produces 2-5 stories per feature
+- [ ] `task-agent` produces 3-4 tasks per story
+- [ ] `estimate-agent` produces estimates and HTML report
+- [ ] `sprint-planning-agent` produces sprint plan HTML report
+- [ ] *(Optional — ADO only)* `ado-sync-agent` creates all work items in ADO correctly
 - [ ] *(Optional — ADO only)* ADO board shows correct Epic → Feature → Story → Task hierarchy
 
 ---
@@ -123,9 +123,9 @@ Run the full chain at least once end-to-end before the workshop:
 - Check `docs/ado-sync-state.json` for failure details
 - Verify PAT token has not expired
 - Verify iteration paths exist in ADO
-- Re-run `@ado-sync-agent` — already-synced items will be skipped
+- Re-run `ado-sync-agent` — already-synced items will be skipped
 
 **Sprint planning produces unrealistic plan:**
 - Adjust team capacity inputs when prompted
-- Re-invoke `@sprint-planning-agent` with corrected numbers
+- Re-invoke `sprint-planning-agent` with corrected numbers
 - The HTML report will be overwritten with the new plan

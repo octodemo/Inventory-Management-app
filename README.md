@@ -77,11 +77,12 @@ Takes a single business requirement as input and produces:
     create-tasks/SKILL.md
     create-scaffold/SKILL.md
     implement-task/SKILL.md
+    create-unit-tests/SKILL.md
     create-estimates/SKILL.md
-    create-sprint-plan/SKILL.md
+    create-sprintplan/SKILL.md
     create-playwright-tests/SKILL.md
     create-ado-sync/SKILL.md
-    review-pull-request/SKILL.md
+    review-task/SKILL.md
 
 docs/
   requirements/
@@ -146,7 +147,7 @@ If you are not using Azure DevOps, skip this step. The framework produces all wo
 Ensure the ADO MCP server is connected in VS Code and can list
 your ADO projects before running the workshop.
 
-> **GitHub-only or local-only users:** Skip this step. The ADO MCP server is not required for any phase except `@ado-sync-agent`.
+> **GitHub-only or local-only users:** Skip this step. The ADO MCP server is not required for any phase except `ado-sync-agent`.
 
 ---
 
@@ -169,7 +170,7 @@ Output: `docs/requirements/BRD.md`
 ### Phase 2 — Design
 
 ```
-@design-agent create the design document from the BRD
+design-agent create the design document from the BRD
 ```
 
 Output: `docs/design/design-doc.md`
@@ -181,22 +182,22 @@ Output: `docs/design/design-doc.md`
 Run each agent in sequence. Each agent reads the output of the previous.
 
 ```
-@epic-agent create epics from the design document
+epic-agent create epics from the design document
 ```
 Output: `docs/work-items/epics/`
 
 ```
-@feature-agent create features for all epics
+feature-agent create features for all epics
 ```
 Output: `docs/work-items/features/`
 
 ```
-@user-story-agent create user stories for all features
+user-story-agent create user stories for all features
 ```
 Output: `docs/work-items/stories/`
 
 ```
-@task-agent create tasks for all user stories
+task-agent create tasks for all user stories
 ```
 Output: `issues/`
 
@@ -205,7 +206,7 @@ Output: `issues/`
 ### Phase 4 — Estimation
 
 ```
-@estimate-agent analyse all work and produce the estimate report
+estimate-agent analyse all work and produce the estimate report
 ```
 
 Output:
@@ -219,7 +220,7 @@ Open the HTML report in a browser to review.
 ### Phase 5 — Sprint Planning
 
 ```
-@sprint-planning-agent create the sprint plan
+sprint-planning-agent create the sprint plan
 ```
 
 The agent will ask three questions about team capacity.
@@ -236,7 +237,7 @@ Open the HTML report in a browser to review.
 > **Run this before implementation.** Ensure `workshop-stack.md` has no unfilled `{placeholder}` values first.
 
 ```
-@scaffold-agent generate the project scaffold
+scaffold-agent generate the project scaffold
 ```
 
 Output: `src/` folder structure with entry points and dependency manifest
@@ -245,18 +246,18 @@ Output: `src/` folder structure with entry points and dependency manifest
 
 ### Phase 7 — Implementation
 
-Run `@implement-agent` for each task file in `issues/`, in dependency order (DATABASE → BACKEND → FRONTEND → TEST).
+Run `implement-agent` for each task file in `issues/`, in dependency order (DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST). `implement-agent` handles DATABASE, BACKEND, and FRONTEND tasks; UNIT-TEST tasks are run with `unit-test-agent` after each BACKEND task, and E2E-TEST tasks are run with `playwright-agent` after all FRONTEND tasks.
 
 ```
-@implement-agent implement issues/01-DATABASE-{name}.md
+implement-agent implement issues/01-DATABASE-{name}.md
 ```
 
-> **On-demand review:** After implementing any task, use `@review-agent` to validate the implementation against acceptance criteria before moving on.
+> **On-demand review:** After implementing any task, use `review-agent` to validate the implementation against acceptance criteria before moving on.
 
 **Optional — unit tests for BACKEND tasks:**
 
 ```
-@unit-test-agent generate unit tests for issues/{task}.md
+unit-test-agent generate unit tests for issues/{task}.md
 ```
 
 Output: `src/` (implementation code), unit test files in `unit_tests_folder` defined in `workshop-stack.md`
@@ -270,7 +271,7 @@ Output: `src/` (implementation code), unit test files in `unit_tests_folder` def
 Run this phase after estimation and sprint planning are reviewed.
 
 ```
-@ado-sync-agent push all work items to Azure DevOps
+ado-sync-agent push all work items to Azure DevOps
 ```
 
 Output:
@@ -294,7 +295,7 @@ Output:
 > - Playwright MCP server configured (see `docs/playwright-mcp-setup.md`)
 
 ```
-@playwright-agent create tests for all TEST tasks
+playwright-agent create tests for all TEST tasks
 ```
 
 Output:
@@ -313,20 +314,20 @@ npx playwright show-report docs/test-reports
 
 | Agent | Purpose | Reads | Writes |
 |-------|---------|-------|--------|
-| `@brd-agent` | Business Requirements Document | Requirement text | `docs/requirements/BRD.md` |
-| `@design-agent` | Technical design | BRD | `docs/design/design-doc.md` |
-| `@epic-agent` | Epic work items | Design doc, BRD | `docs/work-items/epics/` |
-| `@feature-agent` | Feature work items | Epics, design doc | `docs/work-items/features/` |
-| `@user-story-agent` | User story work items | Features, BRD, design doc | `docs/work-items/stories/` |
-| `@task-agent` | Implementation tasks | Stories, design doc | `issues/` |
-| `@scaffold-agent` | Project scaffold | `workshop-stack.md` | `src/` folder structure + entry points |
-| `@implement-agent` | Feature implementation | Task files, design doc, `workshop-stack.md` | `src/` |
-| `@unit-test-agent` *(on-demand)* | Unit tests for BACKEND tasks | BACKEND task files, `workshop-stack.md` | Unit test files in `unit_tests_folder` |
-| `@estimate-agent` | Effort estimates + report | All work items | Work item files + HTML report |
-| `@sprint-planning-agent` | Sprint plan + report | Estimates, stories | HTML report |
-| `@playwright-agent` | E2E tests + test report | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
-| `@ado-sync-agent` | ADO Boards sync | All work items, sprint plan | ADO work items |
-| `@review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code | Review output in chat |
+| `brd-agent` | Business Requirements Document | Requirement text | `docs/requirements/BRD.md` |
+| `design-agent` | Technical design | BRD | `docs/design/design-doc.md` |
+| `epic-agent` | Epic work items | Design doc, BRD | `docs/work-items/epics/` |
+| `feature-agent` | Feature work items | Epics, design doc | `docs/work-items/features/` |
+| `user-story-agent` | User story work items | Features, BRD, design doc | `docs/work-items/stories/` |
+| `task-agent` | Implementation tasks | Stories, design doc | `issues/` |
+| `scaffold-agent` | Project scaffold | `workshop-stack.md` | `src/` folder structure + entry points |
+| `implement-agent` | Feature implementation | Task files, design doc, `workshop-stack.md` | `src/` |
+| `unit-test-agent` *(on-demand)* | Unit tests for BACKEND tasks | BACKEND task files, `workshop-stack.md` | Unit test files in `unit_tests_folder` |
+| `estimate-agent` | Effort estimates + report | All work items | Work item files + HTML report |
+| `sprint-planning-agent` | Sprint plan + report | Estimates, stories | HTML report |
+| `playwright-agent` | E2E tests + test report | TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
+| `ado-sync-agent` | ADO Boards sync | All work items, sprint plan | ADO work items |
+| `review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code | Review output in chat |
 
 ---
 
@@ -347,7 +348,7 @@ Estimation is a separate phase. Work breakdown agents never assign
 effort. This prevents scope being constrained by premature estimates.
 
 **Dependency ordering**
-Tasks are always ordered DATABASE → BACKEND → FRONTEND → TEST.
+Tasks are always ordered DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST.
 Sprint planning always respects this dependency chain.
 
 **Idempotency**

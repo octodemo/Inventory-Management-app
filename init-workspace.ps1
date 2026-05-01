@@ -24,4 +24,4 @@ foreach ($folder in $folders) {
 
 Write-Host ""
 Write-Host "Next step: Update docs\ado-sync-config.json with your ADO settings."
-Write-Host "Then open VS Code and invoke @brd-agent to begin."
+Write-Host "Then open VS Code and invoke brd-agent to begin."

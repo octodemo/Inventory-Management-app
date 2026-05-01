@@ -19,10 +19,10 @@ has been filled in with the target stack, and before `implement-agent`
 runs. Typical invocations:
 
 ```
-@scaffold-agent scaffold the project
-@scaffold-agent generate the initial project structure
-@scaffold-agent set up the project for a Spring Boot + Angular stack
-@scaffold-agent create the folder structure and entry points
+scaffold-agent scaffold the project
+scaffold-agent generate the initial project structure
+scaffold-agent set up the project for a Spring Boot + Angular stack
+scaffold-agent create the folder structure and entry points
 ```
 
 ## What You Do
@@ -85,4 +85,4 @@ After generating the scaffold, tell the developer:
 >   Test:    {unit test command} | npx playwright test
 >
 > workshop-stack.md Pre-Built section updated with all generated files.
-> Next: invoke @implement-agent to begin implementing task files from issues/."
+> Next: invoke implement-agent to begin implementing task files from issues/."

@@ -157,7 +157,7 @@ Do NOT include UI or test automation.
 
 ### [UNIT-TEST] Tasks
 Scope: **Unit tests for the BACKEND layer only** — isolated from the database and UI.
-These tasks are implemented by `@unit-test-agent`, NOT `@implement-agent`.
+These tasks are implemented by `unit-test-agent`, NOT `implement-agent`.
 There is exactly one UNIT-TEST task per BACKEND task.
 
 Include in description:
@@ -196,7 +196,7 @@ Do NOT include API logic or test automation.
 
 ### [E2E-TEST] Tasks
 Scope: **Playwright end-to-end tests only** — browser-level user journey tests.
-These tasks are implemented by `@playwright-agent`, NOT `@implement-agent`.
+These tasks are implemented by `playwright-agent`, NOT `implement-agent`.
 
 > **Do not confuse with UNIT-TEST tasks.** UNIT-TEST tasks cover the BACKEND API in
 > isolation. E2E-TEST tasks cover the full stack through the browser.
