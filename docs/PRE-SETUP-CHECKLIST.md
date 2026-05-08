@@ -45,11 +45,14 @@ Verify on the facilitator machine:
   - Sprint 1, Sprint 2, Sprint 3 (create at least 3)
   - Path format: `{project}\Sprint 1`, `{project}\Sprint 2` etc.
 - [ ] Area path confirmed
-- [ ] Personal Access Token (PAT) generated:
-  - Scopes required: Work Items (Read & Write)
-  - Expiry: set beyond the workshop date
+- [ ] Personal Access Token (PAT) generated **or** `az login` completed:
+  - PAT scopes required: Work Items (Read & Write)
+  - PAT expiry: set beyond the workshop date
 - [ ] ADO MCP server installed and configured in VS Code
+  (see [ado-mcp-setup.md](ado-mcp-setup.md) for full instructions —
+  edit `.vscode/mcp.json`, authenticate, then start the server)
 - [ ] ADO MCP server tested — verify it can list projects
+  (in Copilot Chat: *"List my Azure DevOps projects"*)
 
 ---
 

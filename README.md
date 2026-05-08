@@ -149,7 +149,9 @@ If you are not using Azure DevOps, skip this step. The framework produces all wo
 ### 3. Verify ADO MCP server *(optional — skip if not using Azure DevOps)*
 
 Ensure the ADO MCP server is connected in VS Code and can list
-your ADO projects before running the workshop.
+your ADO projects before running the workshop. Full setup instructions —
+`.vscode/mcp.json`, authentication via `az login` or PAT, and verification —
+are in [docs/ado-mcp-setup.md](docs/ado-mcp-setup.md).
 
 > **Local-only or non-ADO users:** Skip this step. The ADO MCP server is not required for any phase except `ado-sync-agent`.
 
