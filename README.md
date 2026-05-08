@@ -144,7 +144,7 @@ Edit `docs/ado-sync-config.json`:
 }
 ```
 
-If you are not using Azure DevOps, skip this step. The framework produces all work item files locally and the ADO sync phase (Phase 8) can be omitted entirely.
+If you are not using Azure DevOps, skip this step. The framework produces all work item files locally and the optional ADO sync phases (Phase 4 and Phase 7) can be omitted entirely.
 
 ### 3. Verify ADO MCP server *(optional — skip if not using Azure DevOps)*
 
@@ -231,7 +231,30 @@ UNIT-TEST, FRONTEND, E2E-TEST) ready for the team to pick up.
 
 ---
 
-### Phase 4 — Estimation
+### Phase 4 — ADO Sync, 1st pass *(optional — Azure DevOps only)*
+
+> **Skip this phase** if you are not using Azure DevOps. Run it now to
+> push the freshly-created backlog (Epics → Features → Stories → Tasks
+> with parent-child links) to Azure DevOps Boards so PMs and stakeholders
+> can review the hierarchy in ADO before any estimation work begins.
+> No estimates or iteration assignments are pushed yet — those come in
+> the 2nd pass (Phase 7).
+
+**Who:** PM
+**Prerequisites:** ADO MCP server connected; `docs/ado-sync-config.json` filled in.
+**Agent:** `ado-sync-agent`
+**Prompt:**
+```
+push the backlog to Azure DevOps
+```
+**Output:**
+- Full Epic → Feature → Story → Task hierarchy created in ADO Boards
+  with parent-child links
+- `docs/ado-sync-state.json` — records each work item ID for the 2nd pass
+
+---
+
+### Phase 5 — Estimation
 
 **Who:** PM or Architect
 **Agent:** `estimate-agent`
@@ -247,7 +270,7 @@ analyse all work and produce the estimate report
 
 ---
 
-### Phase 5 — Sprint Planning
+### Phase 6 — Sprint Planning
 
 **Who:** PM
 **Agent:** `sprint-planning-agent`
@@ -264,7 +287,27 @@ role, dependencies, and sprint goals. Open in a browser to review.
 
 ---
 
-### Phase 6 — Scaffold
+### Phase 7 — ADO Sync, 2nd pass *(optional — Azure DevOps only; skip if you skipped Phase 4)*
+
+> Re-run the same agent. It detects the existing `docs/ado-sync-state.json`
+> and switches to **update mode** — sets Remaining Work from estimates
+> and Iteration from the sprint plan on already-synced items. Never
+> creates duplicates. Any new work items found locally since the 1st pass
+> are created and linked.
+
+**Who:** PM
+**Agent:** `ado-sync-agent`
+**Prompt:**
+```
+update ADO with estimates and sprint assignments
+```
+**Output:**
+- Remaining Work and Iteration fields populated on existing ADO work items
+- `docs/ado-sync-state.json` updated with `lastUpdated` timestamp
+
+---
+
+### Phase 8 — Scaffold
 
 **Who:** Architect or any developer
 **Prerequisite:** `workshop-stack.md` has no unfilled `{placeholder}` values.
@@ -280,14 +323,14 @@ existing files are overwritten.
 
 ---
 
-### Phase 7 — Implementation
+### Phase 9 — Implementation
 
 **Who:** Database Dev → Backend Dev → UI Dev (in dependency order)
 Implement each task file in `issues/` in this order:
 **DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST**.
 - `implement-agent` handles DATABASE, BACKEND, and FRONTEND tasks
 - `unit-test-agent` handles UNIT-TEST tasks (run after each BACKEND task)
-- `playwright-agent` handles E2E-TEST tasks (Phase 9, after all FRONTEND tasks)
+- `playwright-agent` handles E2E-TEST tasks (Phase 10, after all FRONTEND tasks)
 
 **Agent:** `implement-agent`
 **Prompt** (one task at a time):
@@ -315,31 +358,7 @@ implement issues/{UNIT-TEST-task-file}.md
 
 ---
 
-### Phase 8 — ADO Sync *(optional — Azure DevOps only)*
-
-> **Skip this phase** if you are not using Azure DevOps. All work items
-> already exist as local Markdown files in `docs/work-items/` and
-> `issues/` and can be used directly.
-
-**Who:** PM
-**Prerequisites:** estimation and sprint planning reviewed; ADO MCP server
-connected; `docs/ado-sync-config.json` filled in.
-**Agent:** `ado-sync-agent`
-**Prompt:**
-```
-push all work items to Azure DevOps
-```
-**Output:**
-- Full Epic → Feature → Story → Task hierarchy created in ADO Boards
-  with parent-child links
-- Remaining Work field set from estimates
-- Iteration (Sprint) assignments set from the sprint plan
-- `docs/ado-sync-state.json` — idempotency record so re-runs skip
-  already-synced items
-
----
-
-### Phase 9 — E2E Testing *(optional — requires app to be running)*
+### Phase 10 — E2E Testing *(optional — requires app to be running)*
 
 > **Skip this phase** if the application has not been implemented yet.
 > `playwright-agent` generates test files from E2E-TEST task acceptance
@@ -388,7 +407,7 @@ npx playwright show-report docs/test-reports
 | `estimate-agent` | Effort estimates + report | All work items | Work item files + HTML report |
 | `sprint-planning-agent` | Sprint plan + report | Estimates, stories | HTML report |
 | `playwright-agent` | E2E tests + test report | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + HTML report |
-| `ado-sync-agent` | ADO Boards sync | All work items, sprint plan | ADO work items |
+| `ado-sync-agent` *(optional, two-pass)* | ADO Boards sync — 1st pass after task breakdown creates the hierarchy; 2nd pass after sprint planning updates Remaining Work and Iteration | All work items, estimates, sprint plan | ADO work items + `docs/ado-sync-state.json` |
 | `review-agent` *(on-demand)* | Code review vs acceptance criteria | Task file, implemented code, design doc | Structured review reply in chat (no files written) |
 
 ---
@@ -454,7 +473,7 @@ Add the new type to the type table and define its scope rules.
 | HTML reports not opening | Open directly in a browser — no server needed |
 | ADO sync fails with 401 | Refresh your PAT token |
 | ADO sync fails with 404 | Check organisation and project name in config |
-| Duplicate work items in ADO | Check `docs/ado-sync-state.json` — delete stale entries and re-run |
+| Duplicate work items in ADO | Check `docs/ado-sync-state.json` — re-runs are idempotent (the 2nd pass updates rather than re-creates); only delete stale entries if the ADO item itself was deleted |
 | Sprint plan overcommits capacity | Re-invoke sprint-planning-agent with lower hours per developer |
 
 ---

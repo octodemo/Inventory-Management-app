@@ -30,6 +30,36 @@ Before starting, verify:
 - `docs/ado-sync-config.json` exists and contains valid settings
 - All local work item files have been reviewed and approved
 
+Estimates (`effort-estimate-report.html`) and the sprint plan
+(`sprint-plan-report.html`) are **not** required for the 1st pass.
+If they are absent, leave Remaining Work and Iteration blank on
+created items and defer them to the 2nd pass.
+
+## Two-Pass Behaviour
+
+This skill runs in two optional passes, auto-detected from the
+presence of `docs/ado-sync-state.json`:
+
+**1st pass — Create (state file does NOT exist):**
+- Create the full Epic → Feature → Story → Task hierarchy with
+  parent-child links.
+- Set Remaining Work only if an `estimatedEffort` value is present
+  on the local item; otherwise leave the field blank.
+- Set Iteration Path only if a sprint plan exists and assigns the
+  story to a sprint; otherwise leave it blank.
+- Save the state file at the end.
+
+**2nd pass — Update (state file EXISTS):**
+- Skip re-creating tracked items — never create duplicates.
+- For each tracked item, update Remaining Work from the latest
+  `estimatedEffort` and update Iteration Path from the latest sprint
+  plan. Only call the update API if the value actually changed.
+- For any local item not yet in the state file (added since the 1st
+  pass), create-and-link it as in the 1st pass.
+- Update each entry's `lastUpdated` timestamp in the state file.
+
+Both passes are safe to re-run.
+
 ## Config File Format
 ```json
 {
@@ -67,34 +97,45 @@ Map the template to the story work item type and store as `storyWorkItemType`:
 If detection fails or the template is unrecognised, default to `User Story` and log:
 `⚠️ Could not detect process template — defaulting to "User Story"`
 
-## Step 1 — Load Sync State
+## Step 1 — Load Sync State and Determine Pass Mode
 Read `docs/ado-sync-state.json` if it exists.
-This file tracks which local items have already been created in ADO
-to prevent duplicates on re-run.
+
+- **State file missing** → set `mode = "create"` (1st pass).
+- **State file present** → set `mode = "update"` (2nd pass).
 
 Sync state format:
 ```json
 {
   "lastSyncedAt": "{ISO datetime}",
+  "lastPass": "create | update",
   "epics": {
-    "epic-01": { "adoId": 1001, "adoUrl": "https://..." }
+    "epic-01": {
+      "adoId": 1001,
+      "adoUrl": "https://...",
+      "hasEstimate": false,
+      "hasIteration": false,
+      "lastUpdated": "{ISO datetime}"
+    }
   },
-  "features": {
-    "feature-01-01": { "adoId": 1002, "adoUrl": "https://..." }
-  },
-  "stories": {
-    "story-01-01-01": { "adoId": 1003, "adoUrl": "https://..." }
-  },
-  "tasks": {
-    "01-DATABASE-entity-model": { "adoId": 1004, "adoUrl": "https://..." }
-  },
+  "features": { "feature-01-01": { "adoId": 1002, "adoUrl": "...", "hasEstimate": false, "hasIteration": false, "lastUpdated": "..." } },
+  "stories":  { "story-01-01-01": { "adoId": 1003, "adoUrl": "...", "hasEstimate": false, "hasIteration": false, "lastUpdated": "..." } },
+  "tasks":    { "01-DATABASE-entity-model": { "adoId": 1004, "adoUrl": "...", "hasEstimate": false, "hasIteration": false, "lastUpdated": "..." } },
   "failures": []
 }
 ```
 
-If the file does not exist, start with an empty state.
-If a local item's ID already appears in the state file with an
-`adoId`, skip it entirely — do not create a duplicate.
+In `create` mode:
+- If a local item's ID already appears in the state file with an
+  `adoId`, skip it — do not create a duplicate.
+
+In `update` mode:
+- Skip the create steps for tracked items entirely.
+- For each tracked item, recompute the desired Remaining Work and
+  Iteration Path from the latest local files and call the ADO
+  update API only if the value differs from `hasEstimate`/`hasIteration`
+  state or has changed.
+- For any local item NOT in the state file, create-and-link it
+  using the same rules as `create` mode.
 
 ## Step 2 — Create Epics in ADO
 
@@ -174,6 +215,11 @@ Sprint 1 → {iterationRootPath} 1
 Sprint 2 → {iterationRootPath} 2
 ```
 
+If `sprint-plan-report.html` does not exist (1st pass before
+sprint planning), leave Iteration Path blank and set
+`hasIteration: false` in the state file. The 2nd pass will
+populate it later.
+
 **Steps:**
 1. Look up the parent Feature's ADO ID from sync state
    using the story's `feature` frontmatter field.
@@ -238,18 +284,21 @@ If any work item creation fails:
 After all items are processed, save the complete sync state to
 `docs/ado-sync-state.json` including:
 - `lastSyncedAt` timestamp
-- All successfully created items with their ADO IDs and URLs
+- `lastPass` (`create` or `update`)
+- All tracked items with their ADO IDs and URLs, plus
+  `hasEstimate`, `hasIteration`, and `lastUpdated`
 - All failures with error details
 
-This file ensures the sync is idempotent — safe to re-run without
-creating duplicates.
+This file ensures both passes are idempotent — safe to re-run
+without creating duplicates.
 
 ## Step 8 — Print Sync Summary
 
-After saving state, print a clear summary:
+After saving state, print a clear summary that reflects the pass mode.
 
+**1st pass (create) summary:**
 ```
-ADO Sync Complete
+ADO Sync — 1st pass complete
 ─────────────────────────────────────
 ✅ Epics created:        {N}
 ✅ Features created:     {N}
@@ -259,7 +308,24 @@ ADO Sync Complete
 ⏭️  Skipped (already synced): {N}
 ❌ Failed: {N}
 ─────────────────────────────────────
+Deferred to 2nd pass:
+  • Items without Remaining Work: {N}
+  • Items without Iteration:      {N}
 Total work items in ADO: {N}
+View board: {organization}/{project}/_boards
+Next: run estimate-agent → sprint-planning-agent → re-run this agent.
+```
+
+**2nd pass (update) summary:**
+```
+ADO Sync — 2nd pass complete
+─────────────────────────────────────
+🔄 Remaining Work updated: {N}
+🔄 Iteration updated:      {N}
+➕ New items created:      {N}
+⏭️  Unchanged:              {N}
+❌ Failed: {N}
+─────────────────────────────────────
 View board: {organization}/{project}/_boards
 ```
 
@@ -267,12 +333,15 @@ If there are failures, list them explicitly and suggest resolution steps.
 
 ## Idempotency Rules
 - **Never create a duplicate.** Always check sync state first.
-- **Never update existing ADO work items.** This is a one-way
-  initial sync — updates are made directly in ADO by the team.
+- **Updates are limited to Remaining Work and Iteration Path.**
+  In `update` mode (2nd pass), only these two fields may be written
+  back to ADO. Title, Description, Acceptance Criteria, Tags, and
+  Area Path are written only at create time — further edits to
+  those fields are made directly in ADO by the team.
 - **Never delete ADO work items.** If a local item was removed,
   handle it manually in ADO.
-- **Re-running is safe.** Already-synced items are skipped,
-  failed items are retried.
+- **Re-running is safe.** Already-synced items are skipped (1st pass)
+  or updated in place (2nd pass); failed items are retried.
 
 ## What NOT to Do
 - Do NOT sync without reading the config file first.

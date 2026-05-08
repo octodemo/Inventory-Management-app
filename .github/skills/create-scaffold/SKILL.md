@@ -88,18 +88,44 @@ Create an empty or minimal `seed_file` with a comment indicating where
 seed data records should be added by `implement-agent`.
 
 #### 3f — Playwright Config
-If `e2e_tests_folder` is defined and `playwright.config.ts` does not
-already exist, generate a minimal `playwright.config.ts` at the project
-root:
+If `e2e_tests_folder` is defined, ensure `playwright.config.ts` at the
+project root reflects the chosen stack's `dev_server_url`.
+
+- **If `playwright.config.ts` does not exist:** generate it.
+- **If it already exists:** update only the fallback URL on the
+  `baseURL` line so the config matches `dev_server_url` from
+  `workshop-stack.md`. Do not change any other setting.
+
+The generated / updated file must use this pattern so the URL can be
+overridden per-run via `PLAYWRIGHT_BASE_URL`:
+
 ```typescript
-import { defineConfig } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test'
+
+const baseURL =
+  process.env.PLAYWRIGHT_BASE_URL ?? '{dev_server_url}'
+
 export default defineConfig({
   testDir: './{e2e_tests_folder}',
-  use: { baseURL: '{dev_server_url}' },
-  reporter: [['html', { outputFolder: 'docs/test-reports' }]]
+  fullyParallel: false,
+  retries: 0,
+  workers: 1,
+  reporter: [['html', { outputFolder: 'docs/test-reports', open: 'never' }]],
+  use: {
+    baseURL,
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  ],
 })
 ```
-Substitute `e2e_tests_folder` and `dev_server_url` from `workshop-stack.md`.
+
+Substitute `e2e_tests_folder` and `dev_server_url` literally from
+`workshop-stack.md`. Never hardcode `http://localhost:5173` (or any
+other port) for non-Vite stacks — the fallback URL must always come
+from `dev_server_url`.
 
 ### Step 4 — Generate a README stub
 Create `README.md` at the project root with:

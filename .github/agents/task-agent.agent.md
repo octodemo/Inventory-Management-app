@@ -44,4 +44,9 @@ for a specific story by ID (e.g. "create tasks for story-03-02-01").
 ## Handoff
 After saving all task files tell the Tech Lead:
 > "Tasks saved to issues/. Review the tasks, then invoke
-> estimate-agent to analyse and estimate all work items."
+> estimate-agent to analyse and estimate all work items.
+>
+> *Optional (Azure DevOps users):* invoke ado-sync-agent first to push
+> the backlog hierarchy to ADO Boards now (1st pass). You'll re-run
+> ado-sync-agent after sprint-planning-agent (2nd pass) to add
+> Remaining Work and Iteration assignments — no duplicates are created."

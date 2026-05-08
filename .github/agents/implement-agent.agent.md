@@ -54,7 +54,7 @@ DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST
 > E2E-TEST tasks are handled by `playwright-agent` after all FRONTEND tasks.
 
 Never implement a BACKEND task before its DATABASE dependency is done.
-Never implement a FRONTEND task before its corresponding UNIT-TEST task is done.
+Never implement a FRONTEND task before the BACKEND task it consumes is done.
 If a dependency task has status other than `done`, stop and report it
 before implementing the dependent task.
 

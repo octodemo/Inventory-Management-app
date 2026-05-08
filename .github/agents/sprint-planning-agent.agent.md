@@ -68,5 +68,10 @@ After receiving capacity answers:
 ## Handoff
 After saving the report tell the PM:
 > "Sprint plan saved to docs/reports/sprint-plan-report.html.
-> Review the plan with your team, then invoke implement-agent
-> to begin implementation task by task."
+> Review the plan with your team, then invoke scaffold-agent and
+> implement-agent to begin implementation task by task.
+>
+> *Optional (Azure DevOps users):* invoke ado-sync-agent again now
+> (2nd pass) to push the latest estimates (Remaining Work) and sprint
+> assignments (Iteration) to ADO. The state file makes this an update,
+> not a new create — no duplicates."
