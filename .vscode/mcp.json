@@ -1,9 +1,10 @@
 {
   "servers": {
-    "azure-devops": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@azure-devops/mcp", "ENTER-ADO-ORGNAME-HERE"]
+    "ado-remote-mcp": {
+      "url": "https://mcp.dev.azure.com/{ADO-ORGNAME-HERE}",
+      "type": "http"
     }
-  }
+  },
+  "inputs": []
 }
+

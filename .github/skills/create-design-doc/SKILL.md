@@ -141,22 +141,58 @@ defined in the BRD.
 
 ## Mermaid Syntax Rules — MUST Follow
 These rules prevent parse errors when diagrams are rendered.
+Diagrams target Mermaid 10+ syntax. Each diagram must begin with a valid
+diagram-type keyword on its own line: `graph TD`, `erDiagram`,
+`sequenceDiagram`, or `classDiagram`.
 
-- **No double quotes in labels** — sequence diagram arrow labels cannot
-  contain `"`. Summarise instead.
+### Sequence diagrams (`sequenceDiagram`)
+- **No double quotes in arrow labels** — they cannot contain `"`. Summarise instead.
   Bad:  `API-->>FE: 200 filename="data.csv"`
   Good: `API-->>FE: 200 OK (file download)`
-- **Keep labels short** — do not paste full HTTP headers into arrow labels.
 - **No colons inside a label after the first colon** — the first `:` separates
   the arrow target from the label; subsequent colons can confuse parsers.
-  Use parentheses instead:
+  Use parentheses instead.
   Good: `API-->>FE: 200 OK (text/csv)`
 - **No semicolons in labels** — replace with a comma or omit.
+- **Keep labels short** — do not paste full HTTP headers into arrow labels.
 - **Participant aliases must not contain spaces or special characters** —
   use CamelCase or underscores.
   Good: `participant FE as Frontend`
-- **Validate mentally before writing** — check each arrow label contains
-  no `"`, `;`, or multiple `:` characters.
+
+### Flowcharts (`graph TD`, used for architecture and component trees)
+- **Quote node labels containing spaces, parentheses, slashes, or punctuation.**
+  Bad:  `A[API Layer (REST)]`
+  Good: `A["API Layer (REST)"]`
+- **Edge labels go between pipes with no leading/trailing spaces inside the pipes.**
+  Good: `A -->|HTTP/JSON| B`
+- **Node IDs are CamelCase or snake_case — no spaces or punctuation.**
+  Good: `ApiLayer`, `auth_middleware`
+- **One statement per line.** Do not chain with `;` on a single line.
+
+### ER diagrams (`erDiagram`)
+- **Relationship labels with spaces must be quoted.**
+  Bad:  `Patient ||--o{ Appointment : books appointments`
+  Good: `Patient ||--o{ Appointment : "books"`
+- **Field types must be a single token** (`string`, `int`, `datetime`, `uuid`).
+  If a length or modifier is needed, quote it: `"varchar(50)"`. Avoid
+  parentheses in unquoted types.
+- **Field lines are `type name` (type first, then name)** inside the entity block.
+  Good: `int id PK`
+- **Cardinality symbols** — use `||--o{` (one to many), `}o--o{` (many to many),
+  `||--||` (one to one). Do not invent symbols.
+
+### Class diagrams (`classDiagram`, fallback for older renderers)
+- Member lines use `+name : type` or `+name() type`. Avoid spaces in member names.
+
+### Self-validation — required before writing each block
+After drafting a Mermaid block, re-read it and confirm:
+1. It begins with a valid diagram-type keyword.
+2. Every label obeys the rules for its diagram type above.
+3. Node IDs and participant aliases contain no spaces or punctuation.
+4. The block is syntactically self-contained (no half-finished arrows).
+
+If unsure whether a label needs quoting, **quote it** — quoted labels are
+always valid in `graph` and `erDiagram` blocks.
 
 ## Traceability Requirement
 Every section of the design must trace back to a BRD functional requirement.
@@ -218,4 +254,65 @@ sequenceDiagram
   API->>DB: Fetch appointment
   DB-->>API: Appointment record
   API-->>Patient: 200 OK (appointment details)
+```
+
+## Example — Architecture Diagram (Correct Syntax)
+
+```mermaid
+graph TD
+  subgraph Presentation
+    FE["Frontend SPA"]
+  end
+  subgraph API
+    AUTH["Auth Middleware"]
+    ROUTES["API Routes"]
+    SVC["Service Layer"]
+  end
+  subgraph Data
+    DB[("Relational Database")]
+  end
+
+  FE -->|HTTP/JSON| AUTH
+  AUTH --> ROUTES
+  ROUTES --> SVC
+  SVC --> DB
+```
+
+## Example — ER Diagram (Correct Syntax)
+
+```mermaid
+erDiagram
+  Patient ||--o{ Appointment : "books"
+  Practitioner ||--o{ Appointment : "delivers"
+  Referral ||--o| Appointment : "authorises"
+
+  Patient {
+    int id PK
+    string name
+    string email
+  }
+  Appointment {
+    int id PK
+    int patientId FK
+    int practitionerId FK
+    string status
+    datetime scheduledAt
+  }
+  Practitioner {
+    int id PK
+    string name
+    string speciality
+  }
+```
+
+## Example — Component Tree (Correct Syntax)
+
+```mermaid
+graph TD
+  App["App"] --> Layout["Layout"]
+  Layout --> Nav["NavBar (data-testid=nav-bar)"]
+  Layout --> Page["AppointmentsPage (data-testid=appointments-page)"]
+  Page --> List["AppointmentList (data-testid=appointment-list)"]
+  Page --> Form["AppointmentForm (data-testid=appointment-form)"]
+  List --> Card["AppointmentCard (data-testid=appointment-card)"]
 ```

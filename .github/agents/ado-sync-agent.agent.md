@@ -41,20 +41,36 @@ Never sync partial or unreviewed work — ADO must reflect agreed,
 reviewed content only.
 
 ## What You Do
-1. Read `docs/ado-sync-config.json` — get the ADO organisation,
+1. **Verify inputs exist before doing anything else.** List the
+   contents of each of these directories and count `*.md` files:
+   - `docs/work-items/epics/`
+   - `docs/work-items/features/`
+   - `docs/work-items/stories/`
+   - `issues/`
+
+   Report the actual file counts back to the user. Only declare a
+   prerequisite missing when the **observed** count is `0` — never
+   assume a directory is empty without listing it. If at least one
+   epic file exists, proceed; missing stories or tasks only block
+   their own steps, not the entire sync.
+2. **Verify the ADO MCP server is reachable.** Confirm the ADO MCP
+   tools are available in the current session. If they are not,
+   stop and point the user at `docs/ado-mcp-setup.md` — do not
+   fabricate a different reason for failure.
+3. Read `docs/ado-sync-config.json` — get the ADO organisation,
    project name, and area path to use for work items.
-1a. Detect the project's process template (Agile/Scrum/CMMI) to resolve
-    the correct story work item type (`User Story`, `Product Backlog Item`,
-    or `Requirement`). Use the `processTemplate` field in config if present;
-    otherwise auto-detect via the ADO project API.
-2. Read all Epic files in `docs/work-items/epics/`.
-3. Read all Feature files in `docs/work-items/features/`.
-4. Read all Story files in `docs/work-items/stories/`.
-5. Read all Task files in `issues/`.
-6. Follow the `create-ado-sync` skill for detailed instructions on
+4. Detect the project's process template (Agile/Scrum/CMMI) to resolve
+   the correct story work item type (`User Story`, `Product Backlog Item`,
+   or `Requirement`). Use the `processTemplate` field in config if present;
+   otherwise auto-detect via the ADO project API.
+5. Read all Epic files in `docs/work-items/epics/`.
+6. Read all Feature files in `docs/work-items/features/`.
+7. Read all Story files in `docs/work-items/stories/`.
+8. Read all Task files in `issues/`.
+9. Follow the `create-ado-sync` skill for detailed instructions on
    creating the work item hierarchy in ADO.
-7. Save a sync state file to `docs/ado-sync-state.json` after
-   completion to prevent duplicate creation on re-run.
+10. Save a sync state file to `docs/ado-sync-state.json` after
+    completion to prevent duplicate creation on re-run.
 
 ## Principles
 - Always read `docs/ado-sync-state.json` before creating any work item.
