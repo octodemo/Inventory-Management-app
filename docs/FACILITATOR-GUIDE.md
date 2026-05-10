@@ -383,7 +383,18 @@ medium-sized requirements.
 > "Everything we have built lives in local files right now. In an
 > enterprise, your team tracks work in Azure DevOps. Watch the agent
 > push the entire hierarchy — epics, features, stories, tasks,
-> estimates, sprint assignments — into ADO in one operation."
+> estimates, sprint assignments — into ADO in one operation. It will
+> also attach a hyperlink to the BRD on every Epic and Feature, and a
+> hyperlink to the design document on every User Story — so anyone
+> opening a work item in ADO can jump straight to the source
+> requirement or the technical contract."
+
+> **Before you invoke:** make sure `docs/requirements/BRD.md` and
+> `docs/design/design-doc.md` are **committed and pushed** to the
+> remote repo. The agent builds the hyperlink URLs from
+> `documentLinks.repoBaseUrl` in `docs/ado-sync-config.json` — if the
+> files are not pushed, the links in ADO will 404. The agent verifies
+> this and will stop with a clear message if anything is missing.
 
 ### How to Invoke
 ```
@@ -391,15 +402,19 @@ ado-sync-agent push all work items to Azure DevOps
 ```
 
 ### While It Runs — Narrate This
-- "It reads the config file first — organisation, project, area path"
+- "It reads the config file first — organisation, project, area path, document links"
+- "It verifies the BRD and design doc are pushed so the hyperlinks resolve"
 - "It creates epics first, then features, then stories, then tasks"
 - "Each item is linked to its parent — the hierarchy is preserved"
+- "Epics and Features get a Hyperlink to the BRD; Stories get a Hyperlink to the design doc"
 - "If anything fails, it logs it and continues — it does not abort"
 
 ### After It Completes
 Switch to the browser with ADO Boards open.
 Refresh the board and show:
 - Backlog view with the full Epic → Feature → Story → Task hierarchy
+- One Epic → open the **Links** tab → click the BRD hyperlink to prove it resolves
+- One Story → open the **Links** tab → click the design-doc hyperlink to prove it resolves
 - One story with its Remaining Work field populated
 - Sprint assignment on stories
 - Tags showing task type (DATABASE, BACKEND, FRONTEND, TEST)

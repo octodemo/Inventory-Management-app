@@ -461,6 +461,13 @@ Output: Structured pass/fail review against task acceptance criteria
 > - Personal Access Token (PAT) with Work Items read/write scope
 > - ADO MCP server installed and configured in VS Code
 > - `docs/ado-sync-config.json` populated with your org and project details
+> - **If you want BRD/design-doc hyperlinks on work items** (the default
+>   when `documentLinks.enabled: true` in the config): commit and push
+>   `docs/requirements/BRD.md` **and** `docs/design/design-doc.md` to
+>   the remote repo **before** running `ado-sync-agent`. The agent
+>   builds the URLs from `documentLinks.repoBaseUrl` + the file paths,
+>   so the files must be reachable at those URLs for ADO users.
+>   Otherwise set `documentLinks.enabled: false` to skip hyperlinks.
 >
 > **Local-only users, or teams using other issue trackers:** Skip to Phase 9.
 
@@ -478,24 +485,28 @@ Requirements:
 - ADO MCP server installed
 
 Process:
-1. Reads docs/ado-sync-config.json (ADO settings)
-2. Creates work item hierarchy in ADO:
-   - Epics → ADO Epic work items
-   - Features → ADO Feature work items
-   - User Stories → ADO User Story work items
+1. Reads docs/ado-sync-config.json (ADO settings + documentLinks)
+2. If documentLinks.enabled is true, verifies BRD.md and design-doc.md
+   are committed and pushed to the remote repo (otherwise stops with
+   a clear message asking you to commit/push or disable links)
+3. Creates work item hierarchy in ADO:
+   - Epics → ADO Epic work items     (+ Hyperlink to BRD)
+   - Features → ADO Feature work items (+ Hyperlink to BRD)
+   - User Stories → ADO User Story work items (+ Hyperlink to design doc)
    - Tasks → ADO Task work items
 
-3. Sets fields:
+4. Sets fields:
    - Title, Description, Acceptance Criteria
    - Effort estimate → "Remaining Work" field
    - Priority → ADO priority field
    - Status → State field
 
-4. Creates relationships:
+5. Creates relationships:
    - Parent-child links (Epic → Feature → Story → Task)
    - Predecessor links for dependencies
+   - Hyperlink relations to BRD (Epics, Features) and design doc (Stories)
 
-5. Creates tracking file:
+6. Creates tracking file:
    docs/ado-sync-state.json
    (prevents duplicate creation on re-run)
 

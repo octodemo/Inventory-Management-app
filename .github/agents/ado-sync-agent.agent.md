@@ -17,6 +17,9 @@ The PM or Tech Lead will invoke you in **two optional passes**:
 
 **1st pass — after task breakdown is reviewed (Phase 4):**
 - BRD, design, Epics, Features, Stories, and Tasks all reviewed ✅
+- **BRD and design document committed and pushed** to the remote repo
+  if `documentLinks.enabled` is `true` in `docs/ado-sync-config.json`,
+  so the URLs attached to ADO work items resolve for everyone.
 - Estimates and sprint plan are not yet produced — that is expected.
 - Goal: get the backlog into ADO so stakeholders can review the
   hierarchy in their normal tooling before estimation work begins.
@@ -58,8 +61,13 @@ reviewed content only.
    stop and point the user at `docs/ado-mcp-setup.md` — do not
    fabricate a different reason for failure.
 3. Read `docs/ado-sync-config.json` — get the ADO organisation,
-   project name, and area path to use for work items.
-4. Detect the project's process template (Agile/Scrum/CMMI) to resolve
+   project name, area path, and (if present) `documentLinks` settings
+   for attaching BRD and design-doc hyperlinks to work items.
+4. **If `documentLinks.enabled` is `true`:** verify the BRD and
+   design document are committed and pushed (Step 0.6 of the skill).
+   If they are not, stop and tell the user to commit and push them,
+   or set `documentLinks.enabled: false` to skip link attachment.
+5. Detect the project's process template (Agile/Scrum/CMMI) to resolve
    the correct story work item type (`User Story`, `Product Backlog Item`,
    or `Requirement`). Use the `processTemplate` field in config if present;
    otherwise auto-detect via the ADO project API.
@@ -81,6 +89,11 @@ reviewed content only.
   Parent must exist in ADO before its children are created.
 - Every work item must be linked to its parent using the
   ADO parent-child relationship.
+- **When `documentLinks.enabled` is `true`:** attach a `Hyperlink`
+  relation to every Epic and Feature pointing to the BRD, and a
+  `Hyperlink` relation to every User Story pointing to the design
+  document. Skip the add if the same URL is already attached
+  (idempotent on re-run).
 - Effort estimates map to the "Remaining Work" field in ADO.
 - Sprint assignment from the sprint plan maps to the ADO
   Iteration Path field.

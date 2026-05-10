@@ -29,6 +29,11 @@ Before starting, verify:
 - ADO MCP server is connected and responding
 - `docs/ado-sync-config.json` exists and contains valid settings
 - All local work item files have been reviewed and approved
+- **If `documentLinks.enabled` is `true` in the config:** the BRD
+  (`docs/requirements/BRD.md`) and the design document
+  (`docs/design/design-doc.md`) have been **committed and pushed** to
+  the remote repository so the URLs constructed from `repoBaseUrl`
+  resolve for ADO users. See Step 0.6 for verification.
 
 Estimates (`effort-estimate-report.html`) and the sprint plan
 (`sprint-plan-report.html`) are **not** required for the 1st pass.
@@ -67,12 +72,29 @@ Both passes are safe to re-run.
   "project": "{your-project-name}",
   "areaPath": "{your-project-name}\\{optional-area}",
   "iterationRootPath": "{your-project-name}\\Sprint",
-  "processTemplate": "Agile"
+  "processTemplate": "Agile",
+  "documentLinks": {
+    "enabled": true,
+    "repoBaseUrl": "https://github.com/{org}/{repo}/blob/{branch}",
+    "brdPath": "docs/requirements/BRD.md",
+    "designDocPath": "docs/design/design-doc.md",
+    "brdLinkComment": "Business Requirements Document",
+    "designDocLinkComment": "Technical Design Document"
+  }
 }
 ```
 
 `processTemplate` is optional. Accepted values: `Agile`, `Scrum`, `CMMI`.
 If omitted, the agent will auto-detect it from the ADO project API.
+
+`documentLinks` is optional. When present and `enabled: true`, the
+agent attaches a `Hyperlink` relation pointing to the BRD on every
+Epic and Feature, and a `Hyperlink` relation pointing to the design
+document on every User Story. `repoBaseUrl` may point to GitHub,
+Azure Repos, GitLab, or Bitbucket — the agent simply concatenates
+`{repoBaseUrl}/{brdPath}` and `{repoBaseUrl}/{designDocPath}` to
+build the URLs. If `documentLinks` is absent or `enabled: false`,
+no hyperlinks are attached.
 
 ## Step 0 — Detect Process Template
 
@@ -96,6 +118,42 @@ Map the template to the story work item type and store as `storyWorkItemType`:
 
 If detection fails or the template is unrecognised, default to `User Story` and log:
 `⚠️ Could not detect process template — defaulting to "User Story"`
+
+## Step 0.6 — Resolve Document Link URLs
+
+If `documentLinks` is missing from the config, or `documentLinks.enabled`
+is `false`, set `brdUrl = null` and `designDocUrl = null` and skip the
+rest of this step — no hyperlinks will be attached.
+
+Otherwise:
+
+1. Build the URLs:
+   - `brdUrl = {repoBaseUrl}/{brdPath}`
+   - `designDocUrl = {repoBaseUrl}/{designDocPath}`
+   Use forward slashes only. Do not URL-encode `/`. URL-encode spaces
+   in path segments as `%20`.
+2. **Verify the BRD and design document are committed and pushed.**
+   Run a lightweight git check from the workspace root (do not require
+   network calls — just inspect the local repo):
+   ```
+   git ls-files --error-unmatch docs/requirements/BRD.md
+   git ls-files --error-unmatch docs/design/design-doc.md
+   git status --porcelain docs/requirements/BRD.md docs/design/design-doc.md
+   git log -1 --format=%H origin/{branch} -- docs/requirements/BRD.md
+   ```
+   If either file is untracked, has uncommitted changes, or has local
+   commits not yet pushed, **stop and instruct the user** to commit and
+   push them before re-running:
+   > "⚠️ The BRD or design document is not pushed to the remote.
+   > Hyperlinks added to ADO work items would 404 for other users.
+   > Commit and push these files, then re-run, **or** set
+   > `documentLinks.enabled: false` in `docs/ado-sync-config.json`
+   > to skip hyperlink attachment."
+   If git is not available, skip the verification and warn the user
+   that the URL was not validated.
+3. Log:
+   `🔗 BRD link: {brdUrl}`
+   `🔗 Design doc link: {designDocUrl}`
 
 ## Step 1 — Load Sync State and Determine Pass Mode
 Read `docs/ado-sync-state.json` if it exists.
@@ -155,8 +213,25 @@ For each Epic file not already in sync state:
 **Steps:**
 1. Create the Epic work item using the ADO MCP tool.
 2. Set Area Path from config.
-3. Record the returned ADO work item ID and URL in sync state.
-4. Log: `✅ Epic created: {title} → ADO #{id}`
+3. **If `brdUrl` is set (Step 0.6):** add a `Hyperlink` relation to
+   the Epic pointing to `brdUrl` with `comment = brdLinkComment`.
+   Use the ADO work item update API with a JSON-Patch operation:
+   ```json
+   {
+     "op": "add",
+     "path": "/relations/-",
+     "value": {
+       "rel": "Hyperlink",
+       "url": "{brdUrl}",
+       "attributes": { "comment": "{brdLinkComment}" }
+     }
+   }
+   ```
+   Before adding, fetch the Epic's existing relations and skip the
+   add if a `Hyperlink` with the same URL is already present
+   (idempotency).
+4. Record the returned ADO work item ID and URL in sync state.
+5. Log: `✅ Epic created: {title} → ADO #{id}` (and `🔗 BRD linked` if applicable).
 
 ## Step 3 — Create Features in ADO
 
@@ -179,8 +254,12 @@ For each Feature file not already in sync state:
 2. Create the Feature work item.
 3. Link to parent Epic using ADO parent-child relationship.
 4. Set Area Path from config.
-5. Record ADO ID and URL in sync state.
-6. Log: `✅ Feature created: {title} → ADO #{id} (child of Epic #{parentId})`
+5. **If `brdUrl` is set (Step 0.6):** add a `Hyperlink` relation to
+   the Feature pointing to `brdUrl` with `comment = brdLinkComment`,
+   using the same JSON-Patch operation shown in Step 2. Skip if a
+   `Hyperlink` with the same URL already exists on the Feature.
+6. Record ADO ID and URL in sync state.
+7. Log: `✅ Feature created: {title} → ADO #{id} (child of Epic #{parentId})` (and `🔗 BRD linked` if applicable).
 
 ## Step 4 — Create User Stories in ADO
 
@@ -227,8 +306,13 @@ populate it later.
 3. Link to parent Feature using ADO parent-child relationship.
 4. Set Iteration Path based on sprint assignment.
 5. Set Area Path from config.
-6. Record ADO ID and URL in sync state.
-7. Log: `✅ Story created: {title} → ADO #{id} (child of Feature #{parentId}, Sprint {N})`
+6. **If `designDocUrl` is set (Step 0.6):** add a `Hyperlink` relation
+   to the Story pointing to `designDocUrl` with
+   `comment = designDocLinkComment`, using the same JSON-Patch
+   operation shown in Step 2. Skip if a `Hyperlink` with the same
+   URL already exists on the Story.
+7. Record ADO ID and URL in sync state.
+8. Log: `✅ Story created: {title} → ADO #{id} (child of Feature #{parentId}, Sprint {N})` (and `🔗 Design doc linked` if applicable).
 
 ## Step 5 — Create Tasks in ADO
 

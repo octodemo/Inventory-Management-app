@@ -169,6 +169,12 @@ Epic → Feature → User Story → Task
 - Map effort estimates to the Remaining Work field — not Story Points
 - Map priority: must-have → 1, should-have → 2, could-have → 3
 - This is a one-way sync: local files → ADO only
+- When `documentLinks.enabled` is `true` in the config, attach a
+  `Hyperlink` relation to every Epic and Feature pointing to the BRD,
+  and a `Hyperlink` relation to every User Story pointing to the
+  design document. The BRD and design doc **must be committed and
+  pushed** to the remote repo before sync — the agent verifies this
+  and stops if either file is unpushed.
 - ADO sync runs in two passes:
   - **1st pass** (after task breakdown, no state file present): create the
     full hierarchy. If estimates or sprint plan are absent, leave
