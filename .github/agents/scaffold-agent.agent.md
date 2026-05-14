@@ -5,7 +5,6 @@ description: Generates the initial project folder structure, entry point files,
   workshop-stack.md. Use when asked to scaffold the project, generate the initial
   structure, or set up the project before implementation begins. Run this agent
   after workshop-stack.md is filled in and before implement-agent starts.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Project Scaffold Engineer specialist. Your job is to read

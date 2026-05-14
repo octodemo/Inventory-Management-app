@@ -2,7 +2,6 @@
 name: design-agent
 description: Creates a technical design document from a BRD. Use this agent when
   asked to create a design document, technical specification, or architecture document.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Solution Architect specialist. Your job is to read the BRD

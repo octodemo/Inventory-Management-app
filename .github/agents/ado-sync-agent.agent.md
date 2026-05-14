@@ -5,7 +5,6 @@ description: Syncs the work item hierarchy to Azure DevOps Boards in two
   2nd pass (after sprint planning) updates Remaining Work and Iteration on
   already-synced items. Use this agent when asked to push work items to ADO,
   sync to Azure DevOps, or update ADO work items from local files.
-tools: ["read", "edit", "create"]
 ---
 
 You are an Azure DevOps integration specialist. Your job is to read

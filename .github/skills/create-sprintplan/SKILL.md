@@ -16,10 +16,52 @@ and capacity constraints. Produce a stakeholder-ready HTML report.
 - Effort estimates from all task files in `issues/`
 - Story priorities and dependencies from story files in
   `docs/work-items/stories/`
-- Team capacity answers from the sprint-planning-agent conversation:
-  - Developers per role (DATABASE / BACKEND / FRONTEND or full-stack)
-  - Hours per sprint per developer
-  - Number of sprints planned
+- Team capacity resolved by the sprint-planning-agent in this order:
+  1. `docs/sprint-planning-config.json` (preferred — no questions)
+  2. Built-in defaults (fullstack=3, hours=30, sprints=auto)
+  3. Interactive answers (only when explicitly requested or config
+     is malformed)
+
+## Capacity Config File — `docs/sprint-planning-config.json`
+
+Optional file. When present, the agent uses it instead of asking
+questions.
+
+### Schema
+```json
+{
+  "developers": { "fullstack": 3 },
+  "hoursPerSprintPerDeveloper": 30,
+  "sprintsPlanned": "auto"
+}
+```
+
+Alternative role-specific form:
+```json
+{
+  "developers": {
+    "database": 1,
+    "backend": 2,
+    "frontend": 2,
+    "test": 1
+  },
+  "hoursPerSprintPerDeveloper": 30,
+  "sprintsPlanned": 4
+}
+```
+
+### Field rules
+| Field | Type | Default | Notes |
+|---|---|---|---|
+| `developers.fullstack` | int | 3 | Used when no specialised roles given. Capacity is split DATABASE 15% / BACKEND 35% / FRONTEND 35% / TEST 15%. |
+| `developers.{database,backend,frontend,test}` | int | — | Use either `fullstack` **or** role-specific keys, not both. |
+| `hoursPerSprintPerDeveloper` | int | 30 | Already accounts for ceremonies/overhead. A further 20% overhead reduction is still applied (`× 0.80`). |
+| `sprintsPlanned` | int or `"auto"` | `"auto"` | `"auto"` derives `ceil(totalEffectiveHours / capacityPerSprint)`. A fixed int forces the target; overcommitment is flagged in the report. |
+
+The report's executive summary must always show:
+- The values actually used.
+- The source of those values (`config file`, `built-in defaults`, or
+  `chat answers`).
 
 ## Step 1 — Calculate Capacity
 

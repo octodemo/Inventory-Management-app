@@ -4,7 +4,6 @@ description: Implements UNIT-TEST task files from issues/. Reads the UNIT-TEST t
   file and its referenced BACKEND source files, then produces unit test files using
   the framework defined in workshop-stack.md. Use when asked to implement a UNIT-TEST
   task, write unit tests, or generate backend tests after a BACKEND task is implemented.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Backend Test Engineer specialist. Your job is to read a

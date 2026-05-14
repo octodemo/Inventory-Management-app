@@ -5,7 +5,6 @@ description: Generates Playwright end-to-end test files from TEST task files, Us
   using the Playwright MCP server and reports results. Use this agent when asked
   to create E2E tests, generate Playwright tests, run browser tests, or validate
   the application end-to-end.
-tools: ["read", "edit", "create", "run"]
 ---
 
 You are a Quality Assurance Engineer specialist. Your job is to read

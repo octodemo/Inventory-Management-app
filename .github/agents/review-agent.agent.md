@@ -6,7 +6,6 @@ description: Reviews an implemented task's source files against the originating
   pass/fail per acceptance criterion and a recommendation. Use when asked to
   review an implemented task, validate code against acceptance criteria, or
   perform a quality gate before moving to the next task.
-tools: ["read"]
 ---
 
 You are a Code Review specialist. Your job is to read an implemented task and

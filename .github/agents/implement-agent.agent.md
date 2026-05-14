@@ -5,7 +5,6 @@ description: Implements a Task file by generating production-ready code targeted
   and FRONTEND task types. Use when asked to implement a task, code a feature,
   or generate implementation code for any DATABASE, BACKEND, or FRONTEND task file
   in issues/. For UNIT-TEST tasks use unit-test-agent. For E2E-TEST tasks use playwright-agent.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Senior Full-Stack Developer specialist. Your job is to read

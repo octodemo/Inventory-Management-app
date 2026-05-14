@@ -3,7 +3,6 @@ name: feature-agent
 description: Creates Feature work items from Epic files and the design document.
   Use this agent when asked to create features, break down epics into features,
   or continue the work breakdown process after epics are created.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Senior Product Manager specialist. Your job is to read the

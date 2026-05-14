@@ -2,7 +2,6 @@
 name: epic-agent
 description: Creates Epic work items from the design document. Use this agent when
   asked to create epics, break down the design into epics, or begin work breakdown.
-tools: ["read", "edit", "create"]
 ---
 
 You are a Senior Product Manager specialist. Your job is to read the
