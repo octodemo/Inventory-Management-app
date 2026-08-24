@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-07-02-01
 feature: feature-07-02
 epic: epic-07
-status: ready
+status: done
 dependencies: [64-BACKEND-rbac-route-protection-api]
 ---
 
