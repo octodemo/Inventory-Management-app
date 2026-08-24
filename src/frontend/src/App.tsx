@@ -1,12 +1,27 @@
-import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
+import { AccessDeniedMessage } from './components/AccessDeniedMessage'
+import { NavigationMenu, UserRole } from './components/NavigationMenu'
+import { DashboardPage } from './pages/DashboardPage'
+import { DetailPage } from './pages/DetailPage'
 
+const role = (sessionStorage.getItem('userRole') === 'ADMIN' ? 'ADMIN' : 'USER') as UserRole
+
+/**
+ * Hosts application navigation and feature routes.
+ */
 function App() {
   return (
     <BrowserRouter>
-      <div>
-        <h1>Stationery Inventory Management</h1>
-        {/* Routes and components will be added by implement-agent */}
+      <div className="app-shell">
+        <NavigationMenu role={role} />
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/usage" element={<DetailPage />} />
+          <Route path="/reports" element={<DetailPage />} />
+          <Route path="/access-denied" element={<AccessDeniedMessage />} />
+          <Route path="*" element={<DetailPage />} />
+        </Routes>
       </div>
     </BrowserRouter>
   )

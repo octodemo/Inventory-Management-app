@@ -1,0 +1,21 @@
+:root { color: #172033; background: #f6f8fc; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 15rem; padding: 1rem; background: #172033; color: white; }
+.sidebar h2 { font-size: .8rem; margin: 1.5rem 0 .4rem; text-transform: uppercase; }
+.menu-item { display: block; border-radius: .35rem; color: inherit; margin: .15rem 0; padding: .55rem .7rem; text-decoration: none; }
+.active-menu-item, .menu-item:hover { background: #2858a7; }
+main { flex: 1; padding: 2rem; }
+.page-header { align-items: center; display: flex; gap: 1rem; justify-content: space-between; }
+.page-header h1 { margin-bottom: 0; }
+.date-filter { display: flex; gap: .75rem; }
+.date-filter label { display: grid; gap: .25rem; }
+.dashboard-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: 1.5rem; }
+.widget { background: white; border: 1px solid #d7deeb; border-radius: .5rem; color: inherit; display: grid; gap: .7rem; padding: 1.25rem; text-align: left; }
+button.widget { cursor: pointer; }
+.widget strong { font-size: 2rem; }
+.widget a { color: #1d4ed8; }
+.trend-widget { grid-column: 1 / -1; }
+.access-denied { background: white; border: 1px solid #e87979; border-radius: .5rem; margin: 3rem auto; max-width: 32rem; padding: 2rem; }
+@media (max-width: 700px) { .app-shell { display: block; } .sidebar { width: 100%; } .page-header { align-items: start; flex-direction: column; } }
