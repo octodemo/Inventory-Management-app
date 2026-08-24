@@ -21,7 +21,7 @@ middleware_folder:    src/Backend/Middleware/
 auth_middleware:      src/Backend/Middleware/JwtMiddleware.cs
 
 # ── DATABASE ──────────────────────────────────────────────────────────────────
-database:             SQL Server
+database:             PostgreSQL
 orm:                  Entity Framework Core
 entities_folder:      src/Backend/Models/
 migrations_folder:    src/Backend/Migrations/
