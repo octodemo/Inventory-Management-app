@@ -1,4 +1,5 @@
 import express from 'express'
+import { join, resolve } from 'node:path'
 import { PrismaClient } from '@prisma/client'
 import { createApp } from './app'
 import { loadAuthConfig } from './config/authConfig'
@@ -26,8 +27,12 @@ const app = createApp({
   sessionTtlSeconds: authConfig.sessionTtlSeconds,
 })
 
-// Serve the built frontend when it is available
-app.use(express.static('src/frontend/dist'))
+// Serve the built frontend when it is available, with SPA history fallback
+const frontendDist = resolve('src/frontend/dist')
+app.use(express.static(frontendDist))
+app.get('*', (_req, res) => {
+  res.sendFile(join(frontendDist, 'index.html'))
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)

@@ -45,7 +45,27 @@ npm run dev:frontend
 
 The application will be available at http://localhost:3000
 
-### 4. Run Tests
+The backend also serves the built frontend (`npm run build:frontend`) at the
+same URL, so the app can be demonstrated from the backend alone.
+
+### 4. Sign In
+
+Authentication goes through the IAM framework integration
+(`POST /api/auth/login`) and issues an httpOnly session cookie. The seeded
+accounts are created from the environment variables in `.env`
+(`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` and `SEED_USER_EMAIL` /
+`SEED_USER_PASSWORD`) — no credentials are hardcoded in the source.
+
+| Role | Capabilities |
+|------|--------------|
+| `ADMIN` | Full access, including admin-only routes such as `/api/users` and the Admin menu section |
+| `USER` | Read access only; admin routes return `403 Access denied` and admin menu items are hidden |
+
+Session token signing uses `AUTH_JWT_SECRET`, and the session lifetime is set
+by `AUTH_SESSION_TTL_SECONDS`. `AUTH_JWT_SECRET` is mandatory when
+`NODE_ENV=production`.
+
+### 5. Run Tests
 
 ```bash
 # Run unit tests
