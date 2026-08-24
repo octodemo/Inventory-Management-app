@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-06-02-01
 feature: feature-06-02
 epic: epic-06
-status: ready
+status: done
 dependencies: [58-BACKEND-csv-export-api]
 ---
 
