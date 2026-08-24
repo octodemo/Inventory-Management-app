@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-06-01-02
 feature: feature-06-01
 epic: epic-06
-status: ready
+status: done
 dependencies: [56-BACKEND-upload-preview-api]
 ---
 
