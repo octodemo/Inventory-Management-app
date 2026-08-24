@@ -35,16 +35,30 @@ const toDateCellValue = (value: string): string => {
   return date.toISOString().split('T')[0]
 }
 
+const buildStringCell = (value: string): string =>
+  `<Cell><Data ss:Type="String">${escapeXml(value)}</Data></Cell>`
+
+const buildNumberCell = (value: number): string =>
+  `<Cell><Data ss:Type="Number">${value}</Data></Cell>`
+
 export const generateExcelReportXml = (rows: ReportRow[]): string => {
   const headerCells = excelHeaders
     .map((header) => `<Cell ss:StyleID="header"><Data ss:Type="String">${escapeXml(header)}</Data></Cell>`)
     .join('')
 
   const bodyRows = rows
-    .map(
-      (row) =>
-        `<Row><Cell><Data ss:Type="String">${escapeXml(row.branchName)}</Data></Cell><Cell><Data ss:Type="String">${escapeXml(row.regionalOffice)}</Data></Cell><Cell><Data ss:Type="String">${escapeXml(row.itemName)}</Data></Cell><Cell><Data ss:Type="String">${escapeXml(row.vendorName)}</Data></Cell><Cell><Data ss:Type="Number">${row.quantity}</Data></Cell><Cell><Data ss:Type="String">${toDateCellValue(row.usageDate)}</Data></Cell></Row>`,
-    )
+    .map((row) => {
+      const cells = [
+        buildStringCell(row.branchName),
+        buildStringCell(row.regionalOffice),
+        buildStringCell(row.itemName),
+        buildStringCell(row.vendorName),
+        buildNumberCell(row.quantity),
+        buildStringCell(toDateCellValue(row.usageDate)),
+      ].join('')
+
+      return `<Row>${cells}</Row>`
+    })
     .join('')
 
   const columns = excelColumnWidths
@@ -72,4 +86,5 @@ export const generateExcelReportXml = (rows: ReportRow[]): string => {
 </Workbook>`
 }
 
-export const generateExcelReportBuffer = (rows: ReportRow[]): Buffer => Buffer.from(generateExcelReportXml(rows), 'utf8')
+export const generateExcelReportBuffer = (rows: ReportRow[]): Buffer =>
+  Buffer.from(generateExcelReportXml(rows), 'utf8')
