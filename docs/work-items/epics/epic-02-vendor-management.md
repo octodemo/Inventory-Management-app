@@ -4,7 +4,7 @@ title: Vendor Management
 type: epic
 status: planned
 source: FR-002, FR-015
-features: []
+features: [feature-02-01, feature-02-02]
 ---
 
 # Epic 02: Vendor Management

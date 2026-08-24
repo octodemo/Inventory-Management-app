@@ -4,7 +4,7 @@ title: Access Control & Authentication
 type: epic
 status: planned
 source: FR-020, FR-024, FR-025, FR-026, FR-027
-features: []
+features: [feature-07-01, feature-07-02, feature-07-03]
 ---
 
 # Epic 07: Access Control & Authentication

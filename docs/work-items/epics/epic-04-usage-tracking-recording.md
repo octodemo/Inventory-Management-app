@@ -4,7 +4,7 @@ title: Usage Tracking & Recording
 type: epic
 status: planned
 source: FR-003, FR-021, FR-022
-features: []
+features: [feature-04-01, feature-04-02, feature-04-03]
 ---
 
 # Epic 04: Usage Tracking & Recording

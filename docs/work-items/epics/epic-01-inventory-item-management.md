@@ -4,7 +4,7 @@ title: Inventory & Item Management
 type: epic
 status: planned
 source: FR-001, FR-004, FR-005
-features: []
+features: [feature-01-01, feature-01-02, feature-01-03]
 ---
 
 # Epic 01: Inventory & Item Management

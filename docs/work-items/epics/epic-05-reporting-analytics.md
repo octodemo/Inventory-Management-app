@@ -4,7 +4,7 @@ title: Reporting & Analytics
 type: epic
 status: planned
 source: FR-011, FR-012, FR-013, FR-014, FR-019, FR-023
-features: []
+features: [feature-05-01, feature-05-02, feature-05-03, feature-05-04]
 ---
 
 # Epic 05: Reporting & Analytics

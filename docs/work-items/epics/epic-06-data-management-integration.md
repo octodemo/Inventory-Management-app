@@ -4,7 +4,7 @@ title: Data Management & Integration
 type: epic
 status: planned
 source: FR-016, FR-017, FR-018
-features: []
+features: [feature-06-01, feature-06-02]
 ---
 
 # Epic 06: Data Management & Integration

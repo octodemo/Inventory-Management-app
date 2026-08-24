@@ -4,7 +4,7 @@ title: Organizational Structure Management
 type: epic
 status: planned
 source: FR-006, FR-007, FR-008, FR-009, FR-010
-features: []
+features: [feature-03-01, feature-03-02]
 ---
 
 # Epic 03: Organizational Structure Management
