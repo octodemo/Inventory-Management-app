@@ -62,8 +62,9 @@ accounts are created from the environment variables in `.env`
 | `USER` | Read access only; admin routes return `403 Access denied` and admin menu items are hidden |
 
 Session token signing uses `AUTH_JWT_SECRET`, and the session lifetime is set
-by `AUTH_SESSION_TTL_SECONDS`. `AUTH_JWT_SECRET` is mandatory when
-`NODE_ENV=production`.
+by `AUTH_SESSION_TTL_SECONDS`. `AUTH_JWT_SECRET` is deliberately not committed:
+outside production the server generates a random per-process key, and setting it
+is mandatory when `NODE_ENV=production`.
 
 ### 5. Run Tests
 
