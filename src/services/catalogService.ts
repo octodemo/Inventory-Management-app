@@ -95,6 +95,19 @@ function optionalText(value: unknown): string | null {
   return typeof value === 'string' ? value.trim() : String(value)
 }
 
+function validEmail(value: string): boolean {
+  const at = value.indexOf('@')
+  const domain = value.slice(at + 1)
+  const dot = domain.lastIndexOf('.')
+  return value.length <= 254
+    && at > 0
+    && at === value.lastIndexOf('@')
+    && dot > 0
+    && dot < domain.length - 1
+    && !value.includes('..')
+    && !Array.from(value).some((character) => character.trim().length === 0)
+}
+
 function validDate(value: unknown, field: string): Date {
   const date = new Date(String(value))
   if (Number.isNaN(date.getTime())) throw new CatalogError(`${field} must be a valid date`)
@@ -152,7 +165,7 @@ export class VendorService {
 
   private data(input: VendorInput) {
     const contactEmail = optionalText(input.contactEmail)
-    if (contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+    if (contactEmail && !validEmail(contactEmail)) {
       throw new CatalogError('contactEmail must be a valid email address')
     }
     return {
