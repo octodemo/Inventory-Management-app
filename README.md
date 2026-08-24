@@ -518,7 +518,7 @@ Add the new type to the type table and define its scope rules.
 | Mermaid diagrams not rendering | Open file in VS Code Markdown Preview |
 | HTML reports not opening | Open directly in a browser — no server needed |
 | GitHub Issues not visible on Project board | Check Project auto-add workflows and labels |
-| GitHub Project effort or sprint missing | Update the `Effort` and `Sprint` fields from the estimate and sprint reports |
+| GitHub Project `Effort` or `Sprint` fields not populated | Update the fields from the estimate and sprint reports |
 | ADO sync fails with 401 | Refresh your PAT token |
 | ADO sync fails with 404 | Check organisation and project name in config |
 | Duplicate work items in ADO | Check `docs/ado-sync-state.json` — re-runs are idempotent (the 2nd pass updates rather than re-creates); only delete stale entries if the ADO item itself was deleted |
