@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-07-01-03
 feature: feature-07-01
 epic: epic-07
-status: ready
+status: done
 dependencies: [63-BACKEND-auth-error-handling-api]
 ---
 
