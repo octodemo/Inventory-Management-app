@@ -9,7 +9,7 @@ const currentRange = () => {
   const stored = sessionStorage.getItem('dashboard-date-range')
   if (stored) return JSON.parse(stored) as { startDate: string; endDate: string }
   return {
-    startDate: new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10),
+    startDate: new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1)).toISOString().slice(0, 10),
     endDate: today.toISOString().slice(0, 10),
   }
 }

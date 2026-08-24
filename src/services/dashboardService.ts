@@ -46,7 +46,7 @@ export class DashboardService {
 
   public async getDashboard(query: DashboardQuery = {}) {
     const endDate = query.endDate ?? this.endOfDay(this.now())
-    const startDate = query.startDate ?? new Date(endDate.getFullYear(), endDate.getMonth(), 1)
+    const startDate = query.startDate ?? new Date(Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), 1))
     const periodLength = endDate.getTime() - startDate.getTime() + 1
     const previousEndDate = new Date(startDate.getTime() - 1)
     const previousStartDate = new Date(previousEndDate.getTime() - periodLength + 1)
@@ -70,11 +70,11 @@ export class DashboardService {
   }
 
   private async usageTrend(endDate: Date) {
-    const firstMonth = new Date(endDate.getFullYear(), endDate.getMonth() - 5, 1)
+    const firstMonth = new Date(Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth() - 5, 1))
     const trendRecords = await this.dataSource.findUsageRecords(firstMonth, this.endOfDay(endDate))
     return Array.from({ length: 6 }, (_, index) => {
-      const date = new Date(firstMonth.getFullYear(), firstMonth.getMonth() + index, 1)
-      const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+      const date = new Date(Date.UTC(firstMonth.getUTCFullYear(), firstMonth.getUTCMonth() + index, 1))
+      const month = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
       return {
         month,
         totalQuantity: this.sum(trendRecords.filter((record) => this.month(record.usageDate) === month)),
@@ -132,10 +132,10 @@ export class DashboardService {
   }
 
   private month(date: Date): string {
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
   }
 
   private endOfDay(date: Date): Date {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999)
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999))
   }
 }
