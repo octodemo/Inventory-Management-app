@@ -83,6 +83,7 @@ describe('upload/export API handlers', () => {
           ],
           totalRows: 1,
           invalidRows: 0,
+          createdAt: Date.now(),
         },
       ],
     ])

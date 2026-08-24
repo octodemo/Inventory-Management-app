@@ -35,7 +35,10 @@ type StoredPreview = {
   validRows: ValidUsageRow[]
   totalRows: number
   invalidRows: number
+  createdAt: number
 }
+
+const PREVIEW_TTL_MS = 15 * 60 * 1000
 
 export interface UploadExportDependencies {
   usageRecordRepository: {
@@ -336,6 +339,23 @@ export const uploadMiddleware = multer({
  * Creates API handlers for bulk upload preview/confirm/template and usage exports.
  */
 export function createUploadExportHandlers(dependencies: UploadExportDependencies = defaultDependencies) {
+  const removeExpiredPreviews = (): void => {
+    const now = Date.now()
+    dependencies.previewStore.forEach((preview, key) => {
+      if (now - preview.createdAt > PREVIEW_TTL_MS) {
+        dependencies.previewStore.delete(key)
+      }
+    })
+  }
+
+  const sendInternalServerError = (res: Response, message: string): void => {
+    res.status(500).json({
+      message,
+      status: 500,
+      timestamp: new Date().toISOString(),
+    })
+  }
+
   /**
    * Handles bulk upload parsing and preview without committing rows.
    */
@@ -346,7 +366,14 @@ export function createUploadExportHandlers(dependencies: UploadExportDependencie
       return
     }
 
+    const uploadType = typeof req.body?.uploadType === 'string' ? req.body.uploadType : 'usage'
+    if (uploadType !== 'usage') {
+      res.status(400).json({ message: `Unsupported uploadType: ${uploadType}` })
+      return
+    }
+
     try {
+      removeExpiredPreviews()
       const rows = await parseUploadedRows(file)
       const { parsedRows, validRows } = validateRows(rows)
       const previewId = dependencies.idGenerator()
@@ -355,6 +382,7 @@ export function createUploadExportHandlers(dependencies: UploadExportDependencie
         validRows,
         totalRows: rows.length,
         invalidRows: parsedRows.filter((row) => row.errors.length > 0).length,
+        createdAt: Date.now(),
       })
 
       res.status(200).json({
@@ -382,20 +410,28 @@ export function createUploadExportHandlers(dependencies: UploadExportDependencie
       return
     }
 
+    removeExpiredPreviews()
     const preview = dependencies.previewStore.get(previewId)
     if (!preview) {
       res.status(404).json({ message: 'Preview not found or expired' })
       return
     }
 
-    const result = await dependencies.usageRecordRepository.createMany({ data: preview.validRows })
-    dependencies.previewStore.delete(previewId)
+    try {
+      const result = await dependencies.usageRecordRepository.createMany({ data: preview.validRows })
+      dependencies.previewStore.delete(previewId)
 
-    res.status(200).json({
-      committed: result.count,
-      totalRows: preview.totalRows,
-      invalidRows: preview.invalidRows,
-    })
+      res.status(200).json({
+        committed: result.count,
+        totalRows: preview.totalRows,
+        invalidRows: preview.invalidRows,
+      })
+    } catch (error) {
+      sendInternalServerError(
+        res,
+        error instanceof Error ? error.message : 'Failed to commit preview rows',
+      )
+    }
   }
 
   /**
@@ -429,48 +465,72 @@ export function createUploadExportHandlers(dependencies: UploadExportDependencie
    * Handles usage data export in CSV format using usage filters.
    */
   const exportCsvHandler = async (req: Request, res: Response): Promise<void> => {
-    const rows = await dependencies.usageRecordRepository.findMany({
-      where: buildUsageFilters(req.query),
-      orderBy: { usageDate: 'desc' },
-    })
+    try {
+      const rows = await dependencies.usageRecordRepository.findMany({
+        where: buildUsageFilters(req.query),
+        orderBy: { usageDate: 'desc' },
+      })
 
-    const csvOutput = toCsv(rows)
+      const csvOutput = toCsv(rows)
 
-    res.setHeader('Content-Type', 'text/csv; charset=utf-8')
-    res.setHeader('Content-Disposition', 'attachment; filename="usage-data.csv"')
-    res.status(200).send(csvOutput)
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8')
+      res.setHeader('Content-Disposition', 'attachment; filename="usage-data.csv"')
+      res.status(200).send(csvOutput)
+    } catch (error) {
+      sendInternalServerError(
+        res,
+        error instanceof Error ? error.message : 'Failed to export usage data as CSV',
+      )
+    }
   }
 
   /**
    * Handles usage data export in Excel (.xlsx) format using usage filters.
    */
   const exportExcelHandler = async (req: Request, res: Response): Promise<void> => {
-    const rows = await dependencies.usageRecordRepository.findMany({
-      where: buildUsageFilters(req.query),
-      orderBy: { usageDate: 'desc' },
-    })
+    try {
+      const rows = await dependencies.usageRecordRepository.findMany({
+        where: buildUsageFilters(req.query),
+        orderBy: { usageDate: 'desc' },
+      })
 
-    const output = await toExcel(rows)
+      const output = await toExcel(rows)
 
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    res.setHeader('Content-Disposition', 'attachment; filename="usage-data.xlsx"')
-    res.status(200).send(output)
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      )
+      res.setHeader('Content-Disposition', 'attachment; filename="usage-data.xlsx"')
+      res.status(200).send(output)
+    } catch (error) {
+      sendInternalServerError(
+        res,
+        error instanceof Error ? error.message : 'Failed to export usage data as Excel',
+      )
+    }
   }
 
   /**
    * Handles usage data export in PDF format using usage filters.
    */
   const exportPdfHandler = async (req: Request, res: Response): Promise<void> => {
-    const rows = await dependencies.usageRecordRepository.findMany({
-      where: buildUsageFilters(req.query),
-      orderBy: { usageDate: 'desc' },
-    })
+    try {
+      const rows = await dependencies.usageRecordRepository.findMany({
+        where: buildUsageFilters(req.query),
+        orderBy: { usageDate: 'desc' },
+      })
 
-    const output = await toPdf(rows)
+      const output = await toPdf(rows)
 
-    res.setHeader('Content-Type', 'application/pdf')
-    res.setHeader('Content-Disposition', 'attachment; filename="usage-data.pdf"')
-    res.status(200).send(output)
+      res.setHeader('Content-Type', 'application/pdf')
+      res.setHeader('Content-Disposition', 'attachment; filename="usage-data.pdf"')
+      res.status(200).send(output)
+    } catch (error) {
+      sendInternalServerError(
+        res,
+        error instanceof Error ? error.message : 'Failed to export usage data as PDF',
+      )
+    }
   }
 
   return {

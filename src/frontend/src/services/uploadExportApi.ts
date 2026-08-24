@@ -29,12 +29,13 @@ async function triggerDownloadFromResponse(response: Response, fallbackFileName:
   anchor.click()
   anchor.remove()
 
-  URL.revokeObjectURL(url)
+  setTimeout(() => URL.revokeObjectURL(url), 100)
 }
 
-export async function uploadBulkPreview(file: File): Promise<UploadPreviewResponse> {
+export async function uploadBulkPreview(file: File, uploadType: string): Promise<UploadPreviewResponse> {
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('uploadType', uploadType)
 
   const response = await fetch(`${API_BASE}/upload/bulk`, {
     method: 'POST',

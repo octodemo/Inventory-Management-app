@@ -49,7 +49,7 @@ function App() {
     setMessage('')
 
     try {
-      const response = await uploadBulkPreview(selectedFile)
+      const response = await uploadBulkPreview(selectedFile, uploadType)
       setPreview(response)
       setMessage(`Preview ready: ${response.validRows} valid / ${response.invalidRows} invalid`)
     } catch (error) {
