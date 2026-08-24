@@ -380,8 +380,8 @@ medium-sized requirements.
 **Duration: 10 minutes**
 
 ### What to Say Before Invoking
-> "Everything we have built lives in local files right now. In an
-> a GitHub-native workshop, the team tracks that work directly beside
+> "Everything we have built lives in local files right now. In a
+> GitHub-native workshop, the team tracks that work directly beside
 > the code. We will convert the hierarchy — epics, features, stories,
 > tasks, estimates, and sprint assignments — into GitHub Issues and
 > a GitHub Project. Pull requests will close the linked task issues
