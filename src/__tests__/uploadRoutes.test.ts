@@ -23,14 +23,16 @@ const createRequest = (file: UploadFile): Request => {
 describe('POST /api/upload/:type', () => {
   it.each([
     {
+      label: 'inventory.csv',
       originalname: 'inventory.csv',
       mimetype: 'text/csv',
     },
     {
+      label: 'inventory.xlsx',
       originalname: 'inventory.xlsx',
       mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     },
-  ])('returns import summary for supported upload file %s', async ({ originalname, mimetype }) => {
+  ])('returns import summary for supported upload file $label', async ({ originalname, mimetype }) => {
     const summary: UploadSummary = {
       success: true,
       imported: 2,
@@ -75,6 +77,59 @@ describe('POST /api/upload/:type', () => {
     expect(response.json).toHaveBeenCalledWith(
       expect.objectContaining({
         message: 'Only CSV or Excel files are allowed',
+        status: 400,
+      }),
+    )
+  })
+
+  it('returns 400 when file is missing', async () => {
+    const uploadService: UploadService = {
+      importData: jest.fn(),
+    }
+    const handler = createUploadHandler(uploadService)
+    const request = {
+      params: {
+        type: 'inventory',
+      },
+    } as unknown as Request
+    const response = createResponse()
+
+    await handler(request, response)
+
+    expect(uploadService.importData).not.toHaveBeenCalled()
+    expect(response.status).toHaveBeenCalledWith(400)
+    expect(response.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'No file was provided',
+        status: 400,
+      }),
+    )
+  })
+
+  it('returns 400 for unsupported upload type', async () => {
+    const uploadService: UploadService = {
+      importData: jest.fn(),
+    }
+    const handler = createUploadHandler(uploadService)
+    const request = {
+      ...createRequest({
+        originalname: 'inventory.csv',
+        mimetype: 'text/csv',
+        buffer: Buffer.from('mock file content'),
+      }),
+      params: {
+        type: 'unknown',
+      },
+    } as unknown as Request
+    const response = createResponse()
+
+    await handler(request, response)
+
+    expect(uploadService.importData).not.toHaveBeenCalled()
+    expect(response.status).toHaveBeenCalledWith(400)
+    expect(response.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'Upload type "unknown" is not supported',
         status: 400,
       }),
     )

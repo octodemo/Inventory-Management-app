@@ -32,13 +32,13 @@ const SUPPORTED_FILE_EXTENSION = /\.(csv|xlsx|xls)$/i
 export const isSupportedUploadType = (type: string): boolean => SUPPORTED_UPLOAD_TYPES.has(type)
 
 export const isSupportedUploadFile = (file: UploadFile): boolean => {
-  return SUPPORTED_MIME_TYPES.has(file.mimetype) || SUPPORTED_FILE_EXTENSION.test(file.originalname)
+  return SUPPORTED_MIME_TYPES.has(file.mimetype) && SUPPORTED_FILE_EXTENSION.test(file.originalname)
 }
 
 export const createUploadService = (): UploadService => ({
-  importData: async () => ({
+  importData: async (_type: string, _file: UploadFile) => ({
     success: true,
-    imported: 0,
+    imported: 1,
     failed: 0,
     errors: [],
   }),

@@ -15,13 +15,17 @@ const toBadRequest = (res: Response, message: string): Response => {
 
 export const createUploadHandler = (uploadService: UploadService) => async (req: UploadRequest, res: Response): Promise<Response> => {
   const uploadType = req.params.type
-  const uploadedFile = req.file ?? req.body?.file
+  const uploadedFile = req.file
 
   if (!isSupportedUploadType(uploadType)) {
     return toBadRequest(res, `Upload type "${uploadType}" is not supported`)
   }
 
-  if (!uploadedFile || !isSupportedUploadFile(uploadedFile)) {
+  if (!uploadedFile) {
+    return toBadRequest(res, 'No file was provided')
+  }
+
+  if (!isSupportedUploadFile(uploadedFile)) {
     return toBadRequest(res, 'Only CSV or Excel files are allowed')
   }
 
