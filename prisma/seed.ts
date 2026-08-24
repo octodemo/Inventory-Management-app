@@ -4,8 +4,32 @@ const prisma = new PrismaClient()
 
 async function main() {
   console.log('Seeding database...')
-  
-  // Seed data will be added by implement-agent
+
+  await Promise.all(
+    [
+      {
+        name: 'Amit Kumar',
+        email: 'amit.kumar@company.com',
+        phone: '+91-9999999991',
+      },
+      {
+        name: 'Priya Sharma',
+        email: 'priya.sharma@company.com',
+        phone: '+91-9999999992',
+      },
+      {
+        name: 'Rajesh Gupta',
+        email: 'rajesh.gupta@company.com',
+        phone: '+91-9999999993',
+      },
+    ].map(({ email, ...data }) =>
+      prisma.supervisor.upsert({
+        where: { email },
+        create: { email, ...data },
+        update: data,
+      }),
+    ),
+  )
   
   console.log('Seeding complete.')
 }
