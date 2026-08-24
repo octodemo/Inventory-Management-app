@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-06-02-02
 feature: feature-06-02
 epic: epic-06
-status: ready
+status: done
 dependencies: [59-BACKEND-excel-export-api]
 ---
 
