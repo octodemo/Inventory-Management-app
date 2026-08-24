@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-03-02-01
 feature: feature-03-02
 epic: epic-03
-status: ready
+status: done
 dependencies: [31-BACKEND-supervisor-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [31-BACKEND-supervisor-api]
 Write Jest unit tests for Supervisor CRUD endpoints covering creation, unique email validation, and premises listing.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies POST /api/supervisors creates supervisor with unique email and returns 201 Created
-- [ ] Unit test verifies GET /api/supervisors/:id returns supervisor details including assigned premises
+- [x] Unit test verifies POST /api/supervisors creates supervisor with unique email and returns 201 Created
+- [x] Unit test verifies GET /api/supervisors/:id returns supervisor details including assigned premises

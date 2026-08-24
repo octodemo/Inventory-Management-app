@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-05-03-01
 feature: feature-05-03
 epic: epic-05
-status: ready
+status: done
 dependencies: [48-BACKEND-hierarchy-based-report-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [48-BACKEND-hierarchy-based-report-api]
 Write Jest unit tests for POST /api/reports/hierarchy-wise endpoint covering hierarchy aggregation and filtering.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies POST /api/reports/hierarchy-wise returns usage data aggregated by hierarchy nodes
-- [ ] Unit test verifies aggregation correctly includes all items within each hierarchy node
+- [x] Unit test verifies POST /api/reports/hierarchy-wise returns usage data aggregated by hierarchy nodes
+- [x] Unit test verifies aggregation correctly includes all items within each hierarchy node

@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-05-03-02
 feature: feature-05-03
 epic: epic-05
-status: ready
+status: done
 dependencies: [49-BACKEND-hierarchy-drill-down-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [49-BACKEND-hierarchy-drill-down-api]
 Write Jest unit tests for hierarchy-wise report drill-down covering item-level details within hierarchy nodes.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies hierarchy-wise report response includes items array for each node with correct structure
-- [ ] Unit test verifies drill-down allows filtering to specific items within a hierarchy node
+- [x] Unit test verifies hierarchy-wise report response includes items array for each node with correct structure
+- [x] Unit test verifies drill-down allows filtering to specific items within a hierarchy node

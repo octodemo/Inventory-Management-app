@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-05-01-02
 feature: feature-05-01
 epic: epic-05
-status: ready
+status: done
 dependencies: [43-BACKEND-multi-select-branches-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [43-BACKEND-multi-select-branches-api]
 Write Jest unit tests for branch-wise report with branchIds array filter covering multiple branch selection.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies POST /api/reports/branch-wise with branchIds array filters results correctly
-- [ ] Unit test verifies POST /api/reports/branch-wise returns 400 Bad Request when branchIds contains invalid IDs
+- [x] Unit test verifies POST /api/reports/branch-wise with branchIds array filters results correctly
+- [x] Unit test verifies POST /api/reports/branch-wise returns 400 Bad Request when branchIds contains invalid IDs
