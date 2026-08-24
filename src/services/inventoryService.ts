@@ -21,14 +21,32 @@ interface InventoryModel {
 }
 
 let inventoryModel: InventoryModel | null = null
+let defaultHandlers: ReturnType<typeof createInventoryHandlers> | null = null
+let prismaClient: PrismaClient | null = null
 
 const getInventoryModel = () => {
   if (!inventoryModel) {
-    const prisma = new PrismaClient()
-    inventoryModel = (prisma as unknown as { inventoryItem: InventoryModel }).inventoryItem
+    if (!prismaClient) {
+      prismaClient = new PrismaClient()
+    }
+
+    inventoryModel = (prismaClient as unknown as { inventoryItem: InventoryModel }).inventoryItem
   }
 
   return inventoryModel
+}
+
+const parseInventoryId = (id: string) => {
+  if (!/^\d+$/.test(id)) {
+    return null
+  }
+
+  const parsed = Number(id)
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) {
+    return null
+  }
+
+  return parsed
 }
 
 const sendError = (res: Response, status: number, message: string) => {
@@ -42,16 +60,16 @@ const sendError = (res: Response, status: number, message: string) => {
 const hasMissingRequiredField = (body: Record<string, unknown>) => {
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const unit = typeof body.unit === 'string' ? body.unit.trim() : ''
-  const vendorId = body.vendorId
-  const hierarchyId = body.hierarchyId
+  const vendorId = Number(body.vendorId)
+  const hierarchyId = Number(body.hierarchyId)
 
   return (
     name.length === 0 ||
     unit.length === 0 ||
-    vendorId === undefined ||
-    vendorId === null ||
-    hierarchyId === undefined ||
-    hierarchyId === null
+    !Number.isFinite(vendorId) ||
+    !Number.isFinite(hierarchyId) ||
+    vendorId <= 0 ||
+    hierarchyId <= 0
   )
 }
 
@@ -66,25 +84,33 @@ const isPrismaNotFoundError = (error: unknown) => {
 
 export const createInventoryHandlers = (model: InventoryModel) => {
   const getInventoryById = async (req: Request, res: Response) => {
-    const id = Number(req.params.id)
+    const id = parseInventoryId(req.params.id)
 
-    if (!Number.isInteger(id) || id <= 0) {
+    if (id === null) {
       return sendError(res, 400, 'Invalid inventory id')
     }
 
-    const item = await model.findUnique({ where: { id } })
+    try {
+      const item = await model.findUnique({ where: { id } })
 
-    if (!item) {
-      return sendError(res, 404, 'Inventory item not found')
+      if (!item) {
+        return sendError(res, 404, 'Inventory item not found')
+      }
+
+      return res.status(200).json(item)
+    } catch (error) {
+      if (isPrismaNotFoundError(error)) {
+        return sendError(res, 404, 'Inventory item not found')
+      }
+
+      throw error
     }
-
-    return res.status(200).json(item)
   }
 
   const updateInventoryById = async (req: Request, res: Response) => {
-    const id = Number(req.params.id)
+    const id = parseInventoryId(req.params.id)
 
-    if (!Number.isInteger(id) || id <= 0) {
+    if (id === null) {
       return sendError(res, 400, 'Invalid inventory id')
     }
 
@@ -127,9 +153,17 @@ export const createInventoryHandlers = (model: InventoryModel) => {
 
 export const inventoryHandlers = {
   getInventoryById: (req: Request, res: Response) => {
-    return createInventoryHandlers(getInventoryModel()).getInventoryById(req, res)
+    if (!defaultHandlers) {
+      defaultHandlers = createInventoryHandlers(getInventoryModel())
+    }
+
+    return defaultHandlers.getInventoryById(req, res)
   },
   updateInventoryById: (req: Request, res: Response) => {
-    return createInventoryHandlers(getInventoryModel()).updateInventoryById(req, res)
+    if (!defaultHandlers) {
+      defaultHandlers = createInventoryHandlers(getInventoryModel())
+    }
+
+    return defaultHandlers.updateInventoryById(req, res)
   },
 }
