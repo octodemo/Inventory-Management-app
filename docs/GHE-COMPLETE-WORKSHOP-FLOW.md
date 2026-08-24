@@ -1,6 +1,6 @@
 # Complete Agentic SDLC Workshop Flow — GitHub Platform Edition
 
-**Version:** 1.0 (GitHub Issues + GitHub Projects + GitHub Actions)  
+**Version:** 1.1 (GitHub Issues + GitHub Projects + GitHub Actions)  
 **Last Updated:** August 2026  
 **Based on:** [COMPLETE-WORKSHOP-FLOW.md](./COMPLETE-WORKSHOP-FLOW.md)
 
@@ -8,9 +8,11 @@
 
 ## Overview
 
-This workshop demonstrates an end-to-end AI-assisted software development lifecycle using the **GitHub platform natively** — GitHub Issues, GitHub Projects, GitHub Actions, and GitHub Copilot agents — at every phase. No Azure DevOps or external trackers required.
+This workshop demonstrates an end-to-end AI-assisted software development lifecycle using the **GitHub platform natively** — GitHub Issues, GitHub Projects, GitHub Actions, and GitHub Copilot agents.
 
-**Key difference from the base flow:** Work items (Epics, Features, Stories, Tasks) are created directly as **GitHub Issues** with labels, linked into a **GitHub Project board**, and managed using **GitHub CLI (`gh`)** — replacing the `ado-sync-agent` step entirely.
+**Key difference from the base flow:** Work items (Epics, Features, Stories, Tasks) are created directly as **GitHub Issues** with labels, linked into a **GitHub Project board**, and managed using **GitHub Projects** for sprint planning and capacity tracking.
+
+**All GitHub push operations are handled by a single agent: `github-sync-agent`.** You no longer need to run `gh` CLI scripts manually — the agent is idempotent and safe to re-run.
 
 ---
 
@@ -24,17 +26,21 @@ This workshop demonstrates an end-to-end AI-assisted software development lifecy
 - Git
 
 ### GitHub Platform Setup (do this once before the workshop)
-1. Create a **GitHub Project** (table or board layout) in your org/repo
-2. Add custom fields to the Project:
+
+1. Create a **GitHub Project** (table or board layout) in your org/repo.
+2. Note your **Project number** (visible in the Project URL: `github.com/orgs/<org>/projects/<number>`).
+3. Add custom fields to the Project:
    - `Type` → Single select: `Epic`, `Feature`, `User Story`, `Task`
    - `Priority` → Single select: `must-have`, `should-have`, `could-have`
    - `Effort` → Number field (hours)
    - `Sprint` → Iteration field (2-week sprints)
    - `Task Type` → Single select: `DATABASE`, `BACKEND`, `FRONTEND`, `UNIT-TEST`, `E2E-TEST`
-3. Create the following **labels** in the repository:
-   - `epic`, `feature`, `user-story`, `task`
-   - `database`, `backend`, `frontend`, `unit-test`, `e2e-test`
-   - `must-have`, `should-have`, `could-have`
+4. Labels are created **automatically** by `github-sync-agent` on first run (idempotent). No manual label creation needed.
+
+> 💡 To find your **Project ID** and **field IDs** for Effort and Sprint, run:
+> ```bash
+> gh project field-list <project-number> --owner <org> --format json
+> ```
 
 ---
 
@@ -48,8 +54,8 @@ This workshop demonstrates an end-to-end AI-assisted software development lifecy
 PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and press enter
 
 What will BRD agent do:
-It will take Input: Requirement Issue or text description
-It will generate Output: docs/requirements/BRD.md
+  Input:  Requirement Issue or text description
+  Output: docs/requirements/BRD.md
 ```
 
 **Duration:** 5-10 minutes
@@ -74,18 +80,10 @@ It will generate Output: docs/requirements/BRD.md
 Architect: select design-agent in Agent dropdown in VS Code and type "create design from BRD" and press enter.
 
 What Design agent will do:
-It will take Input: docs/requirements/BRD.md (primary source)
-It will generate Output:
-  - docs/design/design-doc.md (architecture, API contracts, data models, components)
-  - Data model definitions appropriate to the target tech stack
-
-After running the design-agent, your design-doc.md will have these six sections:
-- Architecture Overview (Mermaid diagram)
-- Data Model (ER diagram, schema definitions)
-- API Endpoints (REST contracts)
-- Component Structure (UI component hierarchy)
-- Key User Flows (Sequence diagrams)
-- Seed Data Plan
+  Input:  docs/requirements/BRD.md
+  Output: docs/design/design-doc.md
+          (Architecture Overview · Data Model · API Endpoints ·
+           Component Structure · Key User Flows · Seed Data Plan)
 ```
 
 **Duration:** 10-15 minutes
@@ -98,6 +96,13 @@ After running the design-agent, your design-doc.md will have these six sections:
 
 ## Phase 3: Work Breakdown (Top-Down Creation)
 
+> **How GitHub sync works in this phase:**
+> After each agent generates its local files, you call **`github-sync-agent`** once to push
+> that level to GitHub Issues, wire up the sub-issue hierarchy, and add items to your Project board.
+> The agent reads `docs/github-sync-state.json` to stay idempotent — re-running it is always safe.
+
+---
+
 ### Step 3: Create Epics
 
 **Agent:** `epic-agent`
@@ -105,29 +110,27 @@ After running the design-agent, your design-doc.md will have these six sections:
 ```
 PM: epic-agent create epics from design doc
 
-Input: docs/design/design-doc.md
-Output: docs/work-items/epics/epic-{nn}-{name}.md
+  Input:  docs/design/design-doc.md
+  Output: docs/work-items/epics/epic-{nn}-{name}.md
 ```
 
 **Duration:** 5 minutes
 
 #### ➡️ Push Epics to GitHub Issues
 
-After `epic-agent` finishes, run:
-
-```bash
-for file in docs/work-items/epics/epic-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  gh issue create \
-    --title "$title" \
-    --label "epic" \
-    --body-file "$file"
-done
 ```
+PM: github-sync-agent push epics to GitHub Issues
 
-Then add all epic issues to your GitHub Project:
-```bash
-gh project item-add <project-number> --owner <org> --url <issue-url>
+What github-sync-agent will do:
+  1. Bootstrap all required labels (epic, feature, user-story, task,
+     database, backend, frontend, unit-test, e2e-test,
+     must-have, should-have, could-have) — safe to run multiple times.
+  2. For each docs/work-items/epics/epic-*.md file:
+     - Check docs/github-sync-state.json — skip if already pushed.
+     - Run: gh issue create --title <title> --label epic --body-file <file>
+     - Add the new issue to your GitHub Project board.
+     - Record the issue number in docs/github-sync-state.json.
+  3. Report: "N epics created, M skipped (already existed)."
 ```
 
 ---
@@ -139,29 +142,32 @@ gh project item-add <project-number> --owner <org> --url <issue-url>
 ```
 PM: feature-agent create features for epic-01
 
-Input: design-doc.md, epic files
-Output: docs/work-items/features/feature-{nn}-{name}.md
+  Input:  docs/design/design-doc.md, docs/work-items/epics/
+  Output: docs/work-items/features/feature-{nn}-{name}.md
+          (front-matter includes: epic: epic-{nn})
 ```
 
 **Duration:** 5 minutes
 
 #### ➡️ Push Features to GitHub Issues
 
-```bash
-for file in docs/work-items/features/feature-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  gh issue create \
-    --title "$title" \
-    --label "feature" \
-    --body-file "$file"
-done
+```
+PM: github-sync-agent push features to GitHub Issues
+
+What github-sync-agent will do:
+  1. For each docs/work-items/features/feature-*.md file:
+     - Check docs/github-sync-state.json — skip if already pushed.
+     - Run: gh issue create --title <title> --label feature --body-file <file>
+     - Read the epic: field from front-matter, look up the Epic issue
+       number in docs/github-sync-state.json.
+     - Run: gh issue edit <feature-number> --add-sub-issue-of <epic-number>
+     - Add the new issue to your GitHub Project board.
+     - Record in docs/github-sync-state.json.
+  2. Report: "N features created, M skipped."
 ```
 
-> 💡 Link each Feature issue to its parent Epic using
-> [sub-issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/adding-sub-issues):
-> ```bash
-> gh issue edit <feature-issue-number> --add-sub-issue-of <epic-issue-number>
-> ```
+> 💡 Sub-issue linking works automatically because `feature-agent` writes
+> `epic: epic-{nn}` into each feature file's front-matter.
 
 ---
 
@@ -172,23 +178,31 @@ done
 ```
 PM: user-story-agent create stories for feature-01
 
-Input: BRD.md, design-doc.md, feature files
-Output: docs/work-items/stories/story-{nn}-{name}.md
+  Input:  docs/requirements/BRD.md, docs/design/design-doc.md,
+          docs/work-items/features/
+  Output: docs/work-items/stories/story-{nn}-{name}.md
+          (front-matter includes: feature: feature-{nn}, epic: epic-{nn},
+           priority: must-have | should-have | could-have)
 ```
 
 **Duration:** 10 minutes
 
 #### ➡️ Push User Stories to GitHub Issues
 
-```bash
-for file in docs/work-items/stories/story-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  priority=$(grep '^priority:' "$file" | sed 's/priority: //')
-  gh issue create \
-    --title "$title" \
-    --label "user-story,$priority" \
-    --body-file "$file"
-done
+```
+PM: github-sync-agent push user stories to GitHub Issues
+
+What github-sync-agent will do:
+  1. For each docs/work-items/stories/story-*.md file:
+     - Check docs/github-sync-state.json — skip if already pushed.
+     - Run: gh issue create --title <title>
+              --label user-story,<priority> --body-file <file>
+     - Read the feature: field from front-matter, look up the Feature
+       issue number in docs/github-sync-state.json.
+     - Run: gh issue edit <story-number> --add-sub-issue-of <feature-number>
+     - Add to GitHub Project board.
+     - Record in docs/github-sync-state.json.
+  2. Report: "N stories created, M skipped."
 ```
 
 ---
@@ -200,35 +214,46 @@ done
 ```
 PM: task-agent create tasks for story-01
 
-Input: design-doc.md, user story files
-Output: issues/{order}-{type}-{name}.md
+  Input:  docs/design/design-doc.md, docs/work-items/stories/
+  Output: issues/{order}-{type}-{name}.md
 
-Example files:
-  - issues/01-DATABASE-{entity}-model.md
-  - issues/02-BACKEND-{entity}-api.md
-  - issues/03-UNIT-TEST-{entity}-api.md
-  - issues/04-FRONTEND-{entity}-list.md
-  - issues/05-E2E-TEST-{entity}.md
+  Example files:
+    issues/01-DATABASE-{entity}-model.md
+    issues/02-BACKEND-{entity}-api.md
+    issues/03-UNIT-TEST-{entity}-api.md
+    issues/04-FRONTEND-{entity}-list.md
+    issues/05-E2E-TEST-{entity}.md
+
+  Each file's front-matter includes:
+    story:   story-{nn}
+    feature: feature-{nn}
+    epic:    epic-{nn}
 ```
 
 **Duration:** 10 minutes
 
 #### ➡️ Push Tasks to GitHub Issues
 
-```bash
-for file in issues/*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  type=$(echo "$title" | grep -oP '\[\K[^\]]+' | tr '[:upper:]' '[:lower:]')
-  gh issue create \
-    --title "$title" \
-    --label "task,$type" \
-    --body-file "$file"
-done
+```
+PM: github-sync-agent push tasks to GitHub Issues
+
+What github-sync-agent will do:
+  1. For each issues/*.md file:
+     - Check docs/github-sync-state.json — skip if already pushed.
+     - Derive the type label from the [TYPE] prefix in the title
+       (e.g. [DATABASE] → database).
+     - Run: gh issue create --title <title>
+              --label task,<type> --body-file <file>
+     - Read the story: field from front-matter, look up the Story
+       issue number in docs/github-sync-state.json.
+     - Run: gh issue edit <task-number> --add-sub-issue-of <story-number>
+     - Add to GitHub Project board.
+     - Record in docs/github-sync-state.json.
+  2. Report: "N tasks created, M skipped."
 ```
 
-> 💡 Link each Task to its parent User Story as a sub-issue in GitHub.
-
-**Result:** Complete work hierarchy in GitHub Issues (Epic → Feature → Story → Task), visible on your GitHub Project board.
+**Result:** Complete work hierarchy in GitHub Issues (Epic → Feature → Story → Task),
+visible on your GitHub Project board with sub-issue nesting intact.
 
 ---
 
@@ -242,38 +267,40 @@ done
 PM or Architect: estimate-agent analyze all work
 
 Process:
-1. Scans all task files in issues/ folder
-2. Assigns effort estimate using heuristics:
-
-   [DATABASE]: 15min – 45min
-   [BACKEND]:  30min – 2h
-   [FRONTEND]: 30min – 2h
-   [UNIT-TEST]: 15min – 30min
-   [E2E-TEST]:  15min – 30min
-
-3. Updates each task file with:
-   estimatedEffort: 30min
-
-4. Rolls up estimates bottom-up:
-   Story → Feature → Epic
-
-5. Generates: docs/reports/effort-estimate-report.html
+  1. Scans all task files in issues/
+  2. Assigns effort using heuristics:
+       [DATABASE]:  15min – 45min
+       [BACKEND]:   30min – 2h
+       [FRONTEND]:  30min – 2h
+       [UNIT-TEST]: 15min – 30min
+       [E2E-TEST]:  15min – 30min
+  3. Updates each task file: estimatedEffort: <value>
+  4. Rolls up: Task → Story → Feature → Epic
+  5. Generates: docs/reports/effort-estimate-report.html
+  6. Generates: docs/sprint-assignments.json
+     (maps each work-item stem to sprint number + GitHub iteration ID)
 ```
 
 **Duration:** 5 minutes
 
 #### ➡️ Sync Estimates to GitHub Project
 
-After estimation, update the `Effort` field on each task issue in the GitHub Project:
-
-```bash
-# Example: set Effort field on a task issue
-gh project item-edit \
-  --project-id <project-id> \
-  --id <item-id> \
-  --field-id <effort-field-id> \
-  --number <effort-in-hours>
 ```
+PM: github-sync-agent sync estimates to GitHub Project
+
+What github-sync-agent will do:
+  1. For each issues/*.md file with an estimatedEffort: field:
+     - Convert the value to decimal hours (e.g. 30min → 0.5, 1.5h → 1.5).
+     - Look up the item ID in the GitHub Project via gh project item-list.
+     - Run: gh project item-edit --field-id <effort-field-id>
+              --number <effort-in-hours>
+  2. Report: "Effort synced for N task issues."
+```
+
+> 💡 Find your `EFFORT_FIELD_ID` once with:
+> ```bash
+> gh project field-list <project-number> --owner <org> --format json
+> ```
 
 ---
 
@@ -287,31 +314,36 @@ gh project item-edit \
 PM: sprint-planning-agent create sprint plan
 
 Interactive Questions:
-  Q: How many Database developers?   A: 2
+  Q: How many Database developers?    A: 2
   Q: How many Backend/API developers? A: 3
   Q: How many Frontend/UI developers? A: 2
   Q: Hours per sprint per developer?  A: 40h
 
-Output: docs/reports/sprint-plan-report.html
+Output:
+  docs/reports/sprint-plan-report.html
+  docs/sprint-assignments.json
+    { "story-01": { "sprint": 1, "iteration_id": "<gh-iteration-id>" }, ... }
 ```
 
 **Duration:** 5-10 minutes
 
 #### ➡️ Assign Sprints in GitHub Project
 
-Based on the sprint plan report, assign issues to **Iteration** fields in your GitHub Project:
+```
+PM: github-sync-agent sync sprints to GitHub Project
 
-```bash
-# Assign an issue to Sprint 1 iteration
-gh project item-edit \
-  --project-id <project-id> \
-  --id <item-id> \
-  --field-id <sprint-iteration-field-id> \
-  --iteration-id <sprint-1-iteration-id>
+What github-sync-agent will do:
+  1. Read docs/sprint-assignments.json.
+  2. For each entry:
+     - Look up the issue number from docs/github-sync-state.json.
+     - Look up the item ID in the GitHub Project.
+     - Run: gh project item-edit --field-id <sprint-field-id>
+              --iteration-id <iteration-id>
+  3. Report: "Sprint assigned for N items."
 ```
 
 > 💡 Use the **GitHub Project board view** (grouped by Sprint iteration) to visually
-> review capacity and drag-and-drop stories between sprints.
+> review capacity and drag-and-drop stories between sprints before committing.
 
 **Result:** GitHub Project board shows sprint-assigned issues with effort, priority, and status.
 
@@ -329,9 +361,9 @@ gh project item-edit \
 ```
 Developer: scaffold-agent generate the project scaffold
 
-Input:  workshop-stack.md
-Output: src/ structure, package.json/pom.xml/requirements.txt,
-        playwright.config.ts, README.md
+  Input:  workshop-stack.md
+  Output: src/ structure, package.json / pom.xml / requirements.txt,
+          playwright.config.ts, README.md
 ```
 
 **Duration:** 5 minutes
@@ -369,40 +401,37 @@ Implement in dependency order: DATABASE → BACKEND → UNIT-TEST → FRONTEND �
 ```
 Developer: implement-agent implement issues/01-DATABASE-{name}.md
 
-Input:
-  - issues/{task}.md
-  - docs/design/design-doc.md
-  - docs/requirements/BRD.md
-  - workshop-stack.md
-
-Output: src/{appropriate-folder}/{filename}
+  Input:
+    - issues/{task}.md
+    - docs/design/design-doc.md
+    - docs/requirements/BRD.md
+    - workshop-stack.md
+  Output: src/{appropriate-folder}/{filename}
 ```
 
 #### ➡️ GitHub Flow for Each Task
 
-For each task issue, follow this branch-per-issue workflow:
+For each task, `github-sync-agent` handles the branch, commit, and PR:
 
-```bash
-# 1. Create a branch linked to the issue
-gh issue develop <issue-number> --checkout
-# Branch name: <issue-number>-task-title
+```
+Developer: github-sync-agent create branch and PR for issue <issue-number>
 
-# 2. Implement with implement-agent in VS Code
-
-# 3. Commit and push
-git add .
-git commit -m "closes #<issue-number>: [DATABASE] Item model"
-git push
-
-# 4. Open a Pull Request
-gh pr create \
-  --title "[DATABASE] Item model (#<issue-number>)" \
-  --body "Closes #<issue-number>" \
-  --label "database"
+What github-sync-agent will do:
+  1. Run: gh issue develop <issue-number> --checkout
+     (creates and checks out a branch named <issue-number>-<slug>)
+  2. Prompt you to run implement-agent in VS Code.
+  3. After you confirm implementation is done:
+     git add .
+     git commit -m "closes #<issue-number>: <title>"
+     git push
+  4. Run: gh pr create
+          --title "<title> (#<issue-number>)"
+          --body  "Closes #<issue-number>"
+          --label "<type-label>"
 ```
 
-> 💡 Using `Closes #<issue-number>` in the PR body automatically closes the linked
-> issue and moves it to **Done** on the GitHub Project board when the PR is merged.
+> 💡 `Closes #<issue-number>` in the PR body automatically closes the issue
+> and moves it to **Done** on the GitHub Project board when the PR is merged.
 
 **On-demand — unit tests after each BACKEND task:**
 ```
@@ -420,7 +449,7 @@ Developer or Lead: review-agent review issues/{task}.md
 
 ## Phase 8: GitHub Issues & Project — Full Sync Summary
 
-This replaces the ADO phase entirely. All work items are native GitHub Issues.
+All work items are native GitHub Issues managed entirely by `github-sync-agent`.
 
 ### GitHub Project Board Layout
 
@@ -435,14 +464,28 @@ This replaces the ADO phase entirely. All work items are native GitHub Issues.
 
 ```
 Epic Issue
-  └── Feature Issue (sub-issue of Epic)
-        └── User Story Issue (sub-issue of Feature)
-              └── Task Issue (sub-issue of User Story)
+  └── Feature Issue  (sub-issue of Epic   — linked via epic: front-matter)
+        └── User Story Issue  (sub-issue of Feature — linked via feature: front-matter)
+              └── Task Issue  (sub-issue of User Story — linked via story: front-matter)
 ```
 
-### Automation (built-in GitHub Project workflows)
+### State File — `docs/github-sync-state.json`
 
-Enable these in your Project → Settings → Workflows:
+`github-sync-agent` maintains this file automatically. It maps every local file stem
+to its GitHub Issue number, making every sync operation idempotent.
+
+```json
+{
+  "epics":    { "epic-01": 42 },
+  "features": { "feature-01-01": 44 },
+  "stories":  { "story-01-01-01": 45 },
+  "tasks":    { "01-DATABASE-item-model": 46 }
+}
+```
+
+### Enable Project Automations (one-time, ~2 minutes)
+
+Go to your GitHub Project → **Settings → Workflows** and enable:
 - ✅ **Auto-add items** — when issue is labeled `task`, add to project
 - ✅ **Item closed** → set Status to `Done`
 - ✅ **Pull request merged** → set linked issue Status to `Done`
@@ -463,14 +506,13 @@ Enable these in your Project → Settings → Workflows:
 ```
 QA Engineer: playwright-agent create tests for all E2E-TEST tasks
 
-Input:
-  - issues/*.md (E2E-TEST task files)
-  - docs/design/design-doc.md
-  - docs/requirements/BRD.md
-  - workshop-stack.md
-  - playwright.config.ts
-
-Output: e2e/{feature-name}.spec.ts
+  Input:
+    - issues/*.md  (E2E-TEST task files)
+    - docs/design/design-doc.md
+    - docs/requirements/BRD.md
+    - workshop-stack.md
+    - playwright.config.ts
+  Output: e2e/{feature-name}.spec.ts
 ```
 
 **Step 11b: Run tests**
@@ -479,7 +521,7 @@ Output: e2e/{feature-name}.spec.ts
 # Run all E2E tests
 npx playwright test
 
-# Run in headed mode
+# Run in headed mode (useful for live demos)
 npx playwright test --headed
 
 # View HTML report
@@ -521,19 +563,20 @@ jobs:
 
 | Agent | Purpose | Input | Output | Duration |
 |---|---|---|---|---|
-| **brd-agent** | Create BRD | Requirement text | BRD.md | 5-10 min |
-| **design-agent** | Technical design | BRD | design-doc.md | 10-15 min |
-| **epic-agent** | Create epics | Design doc | Epic files → GitHub Issues | 5 min |
-| **feature-agent** | Create features | Design + epics | Feature files → GitHub Issues | 5 min |
-| **user-story-agent** | Create stories | BRD + features | Story files → GitHub Issues | 10 min |
-| **task-agent** | Create tasks | Design + stories | Task files → GitHub Issues | 10 min |
-| **estimate-agent** | Estimate effort | All tasks | Estimates + HTML report + GitHub Project `Effort` field | 5 min |
-| **sprint-planning-agent** | Create sprints | Estimates + capacity | Sprint plan HTML + GitHub Project `Sprint` iteration | 5-10 min |
-| **scaffold-agent** | Project scaffold | workshop-stack.md | `src/` structure + CI workflow stub | 5 min |
-| **implement-agent** | Generate code | Task files, design doc, workshop-stack.md | `src/` implementation + PR per task | Per task |
+| **brd-agent** | Create BRD | Requirement text | `BRD.md` | 5-10 min |
+| **design-agent** | Technical design | BRD | `design-doc.md` | 10-15 min |
+| **epic-agent** | Create epics | Design doc | Epic `.md` files | 5 min |
+| **feature-agent** | Create features | Design + epics | Feature `.md` files | 5 min |
+| **user-story-agent** | Create stories | BRD + features | Story `.md` files | 10 min |
+| **task-agent** | Create tasks | Design + stories | Task `.md` files in `issues/` | 10 min |
+| **github-sync-agent** | Push all work items to GitHub | Local `.md` files + `docs/github-sync-state.json` | GitHub Issues + sub-issue links + Project items + Effort + Sprint + PRs | Per phase (~2 min) |
+| **estimate-agent** | Estimate effort | All tasks | Estimates in task files + `effort-estimate-report.html` | 5 min |
+| **sprint-planning-agent** | Create sprints | Estimates + capacity | `sprint-plan-report.html` + `docs/sprint-assignments.json` | 5-10 min |
+| **scaffold-agent** | Project scaffold | `workshop-stack.md` | `src/` structure + CI workflow stub | 5 min |
+| **implement-agent** | Generate code | Task files, design doc, `workshop-stack.md` | `src/` implementation | Per task |
 | **unit-test-agent** *(on-demand)* | Unit tests | BACKEND task files | Unit test files | Per task |
 | **review-agent** *(on-demand)* | Code review | Task file + implemented code | Pass/fail review in chat | Per task |
-| **playwright-agent** | E2E test generation + execution | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + GitHub Actions artifact | 5-10 min |
+| **playwright-agent** | E2E test generation | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + Actions artifact | 5-10 min |
 
 ---
 
@@ -548,12 +591,12 @@ jobs:
 
 **Phase 3: Work Breakdown + GitHub Issues** (35 minutes)
 - Epic/Feature/Story/Task creation (~6 min per level)
-- `gh issue create` + GitHub Project setup (5 min)
+- `github-sync-agent` push after each level (2 min per level)
 
 **Phase 4–5: Estimation & Sprint Planning** (20 minutes)
 - Effort estimation (5 min)
 - Sprint planning (10 min)
-- Sync to GitHub Project iterations (5 min)
+- `github-sync-agent` sync estimates + sprints (5 min)
 
 **Phase 6: Scaffold + CI Setup** (10 minutes)
 - Scaffold (5 min)
@@ -563,7 +606,7 @@ jobs:
 - DATABASE tasks (20 min)
 - BACKEND tasks (30 min)
 - FRONTEND tasks (30 min)
-- PR per task with `Closes #issue`
+- `github-sync-agent` branch + PR per task
 
 **Phase 8: E2E Testing** (10 minutes)
 
@@ -578,8 +621,10 @@ jobs:
 2. `docs/design/design-doc.md` — Technical design (Mermaid rendered on GitHub)
 3. `docs/work-items/` — Epic/Feature/Story local files
 4. `issues/` — Task local files
-5. `docs/reports/effort-estimate-report.html` — Effort analysis
-6. `docs/reports/sprint-plan-report.html` — Sprint roadmap
+5. `docs/github-sync-state.json` — Issue number registry (maintained by `github-sync-agent`)
+6. `docs/sprint-assignments.json` — Sprint mapping (produced by `sprint-planning-agent`)
+7. `docs/reports/effort-estimate-report.html` — Effort analysis
+8. `docs/reports/sprint-plan-report.html` — Sprint roadmap
 
 ### GitHub Platform Artefacts
 - GitHub Issues (Epics, Features, Stories, Tasks) with labels + sub-issue hierarchy
@@ -608,6 +653,9 @@ jobs:
 ## Benefits of GitHub-Native Approach
 
 - ✅ **Zero external dependencies** — no ADO account, no MCP server, no PAT setup
+- ✅ **Single agent for all GitHub operations** — `github-sync-agent` replaces all manual `gh` CLI scripts
+- ✅ **Idempotent syncs** — re-run `github-sync-agent` at any time; it never creates duplicates
+- ✅ **Sub-issue hierarchy auto-wired** — parent references are in file front-matter; no manual linking
 - ✅ **Issues live next to code** — Copilot can cross-reference issues and PRs natively
 - ✅ **`Closes #N` auto-closes issues** on PR merge and updates the Project board
 - ✅ **Mermaid diagrams rendered natively** in GitHub Markdown
@@ -620,9 +668,9 @@ jobs:
 ## Next Steps
 
 1. **Set up GitHub Project** — create board with custom fields (Type, Priority, Effort, Sprint)
-2. **Create labels** — `epic`, `feature`, `user-story`, `task`, `must-have`, etc.
+2. **Note your Project number** — needed by `github-sync-agent` (visible in the Project URL)
 3. **Run the Workshop** — follow the phase-by-phase flow above
-4. **Enable Project Automations** — auto-close issues on PR merge
+4. **Enable Project Automations** — auto-close issues on PR merge (Phase 8 setup)
 5. **Review Reports** — examine HTML reports with stakeholders
 6. **Customize** — adjust estimation heuristics in `.github/skills/create-estimates/SKILL.md`
 
