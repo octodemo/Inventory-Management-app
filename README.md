@@ -52,7 +52,7 @@ Takes a single business requirement as input and produces:
 | GitHub Copilot extension | Latest (signed in) |
 | Git | Any recent version |
 | GitHub CLI (`gh`) | Required for the GitHub-native workshop flow |
-| GitHub Project | Recommended for sprint planning and backlog visibility |
+| GitHub Projects | Recommended for sprint planning and backlog visibility |
 | Azure DevOps account | **Optional** — only required if using the ADO sync phase |
 | ADO MCP server | **Optional** — only required if syncing work items to ADO Boards |
 
