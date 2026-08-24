@@ -26,7 +26,7 @@ Phase 3b: Scaffold           ~ 5 min   scaffold-agent
 Phase 4: Implementation      variable  implement-agent (+ optional unit-test-agent)
 Phase 5: Estimation          ~15 min   estimate-agent
 Phase 6: Sprint Planning     ~15 min   sprint-planning-agent
-Phase 7: ADO Sync            ~10 min   ado-sync-agent (optional)
+Phase 7: GitHub Tracking     ~10 min   GitHub Issues + GitHub Projects
 Phase 8: E2E Testing         ~10 min   playwright-agent (optional)
 Buffer + Q&A                 ~15 min
 ─────────────────────────────────────
@@ -376,61 +376,62 @@ medium-sized requirements.
 
 ---
 
-## Phase 7: ADO Sync — ado-sync-agent
+## Phase 7: GitHub Tracking — Issues, Projects, and Pull Requests
 **Duration: 10 minutes**
 
 ### What to Say Before Invoking
-> "Everything we have built lives in local files right now. In an
-> enterprise, your team tracks work in Azure DevOps. Watch the agent
-> push the entire hierarchy — epics, features, stories, tasks,
-> estimates, sprint assignments — into ADO in one operation. It will
-> also attach a hyperlink to the BRD on every Epic and Feature, and a
-> hyperlink to the design document on every User Story — so anyone
-> opening a work item in ADO can jump straight to the source
-> requirement or the technical contract."
+> "Everything we have built lives in local files right now. In a
+> GitHub-native workshop, the team tracks that work directly beside
+> the code. We will convert the hierarchy — epics, features, stories,
+> tasks, estimates, and sprint assignments — into GitHub Issues and
+> a GitHub Project. Pull requests will close the linked task issues
+> automatically when merged."
 
-> **Before you invoke:** make sure `docs/requirements/BRD.md` and
-> `docs/design/design-doc.md` are **committed and pushed** to the
-> remote repo. The agent builds the hyperlink URLs from
-> `documentLinks.repoBaseUrl` in `docs/ado-sync-config.json` — if the
-> files are not pushed, the links in ADO will 404. The agent verifies
-> this and will stop with a clear message if anything is missing.
+> **Before you begin:** make sure the GitHub Project, labels, and
+> Project fields from `docs/PRE-SETUP-CHECKLIST.md` exist. Use
+> `docs/GHE-COMPLETE-WORKSHOP-FLOW.md` as the runbook for the exact
+> issue creation, sub-issue linking, and Project field update steps.
 
 ### How to Invoke
 ```
-ado-sync-agent push all work items to Azure DevOps
+Follow docs/GHE-COMPLETE-WORKSHOP-FLOW.md to create GitHub Issues,
+link sub-issues, and update the GitHub Project fields.
 ```
 
 ### While It Runs — Narrate This
-- "It reads the config file first — organisation, project, area path, document links"
-- "It verifies the BRD and design doc are pushed so the hyperlinks resolve"
-- "It creates epics first, then features, then stories, then tasks"
-- "Each item is linked to its parent — the hierarchy is preserved"
-- "Epics and Features get a Hyperlink to the BRD; Stories get a Hyperlink to the design doc"
-- "If anything fails, it logs it and continues — it does not abort"
+- "GitHub Issues become the work items — no external tracker is required"
+- "Labels identify Epic, Feature, User Story, Task, priority, and implementation type"
+- "Sub-issues preserve the Epic → Feature → User Story → Task hierarchy"
+- "The GitHub Project shows sprint, effort, type, priority, and status in one board"
+- "Pull requests with `Closes #<issue-number>` close tasks automatically when merged"
 
 ### After It Completes
-Switch to the browser with ADO Boards open.
-Refresh the board and show:
-- Backlog view with the full Epic → Feature → Story → Task hierarchy
-- One Epic → open the **Links** tab → click the BRD hyperlink to prove it resolves
-- One Story → open the **Links** tab → click the design-doc hyperlink to prove it resolves
-- One story with its Remaining Work field populated
-- Sprint assignment on stories
-- Tags showing task type (DATABASE, BACKEND, FRONTEND, TEST)
+Switch to the browser with GitHub open.
+Refresh the Project board and show:
+- Project board grouped by Status
+- Table view grouped by Sprint
+- One Epic issue with Feature sub-issues
+- One User Story issue with Task sub-issues
+- One task issue with `Effort`, `Sprint`, `Priority`, and `Task Type` fields populated
+- A pull request linked with `Closes #<issue-number>`
 
 ### Key Talking Point
-> "The team can now start their first sprint. Everything is in ADO.
+> "The team can now start their first sprint. Everything is in GitHub:
+> requirements, work tracking, code, reviews, CI, and test evidence.
 > Estimates are set. Sprints are assigned. Dependencies are visible.
 > What would have taken a week of meetings and manual data entry
 > happened in two and a half hours."
 
 ### Recovery
-If ADO sync fails:
-> "The agent logs failures and continues. Let's look at what it
-> created successfully — and I will show you the sync state file
-> that prevents duplicates if we re-run."
-Show `docs/ado-sync-state.json` — this is itself a compelling artefact.
+If GitHub issue creation or Project updates fail:
+> "The generated files remain the source of truth. We can fix the
+> GitHub authentication, label, or Project field issue and re-run only
+> the failed import step without changing the generated artefacts."
+Check `gh auth status`, labels, Project fields, and repository permissions.
+
+> **Optional ADO note:** If a customer specifically requires Azure DevOps
+> Boards, use the optional `ado-sync-agent` flow in `README.md` and
+> `docs/COMPLETE-WORKSHOP-FLOW.md`.
 
 ---
 
@@ -455,7 +456,7 @@ If the room is quiet, offer these:
 ### What to Leave With the Customer
 - The framework repo with all agents and skills
 - The generated HTML reports (effort estimate + sprint plan)
-- The ADO board with all work items created
+- The GitHub Project board with all work items created
 - The Pre-Setup Checklist for their own use
 - This facilitator guide (optional — if they want to run it themselves)
 
@@ -476,10 +477,10 @@ If the room is quiet, offer these:
 | Unit Tests | unit-test-agent | variable | — |
 | Estimation | estimate-agent | 15 min | 20 min |
 | Sprint Planning | sprint-planning-agent | 15 min | 20 min |
-| ADO Sync | ado-sync-agent | 10 min | 15 min |
+| GitHub Tracking | GitHub Issues + Projects | 10 min | 15 min |
 | Q&A | — | 15 min | 20 min |
 
 If you are running behind, the phases most safe to abbreviate are:
 1. Feature agent — invoke and move on, do not walk through files
 2. Task agent — show one file only, not all of them
-3. ADO sync — show the board after, do not narrate every item created
+3. GitHub tracking — show the Project board after, do not narrate every item created

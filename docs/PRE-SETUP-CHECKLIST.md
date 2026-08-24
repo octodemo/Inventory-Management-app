@@ -16,7 +16,7 @@ Verify on the facilitator machine:
 
 ## 2. Repository Setup
 
-- [ ] Create a new repository in ADO / GitLab / Bitbucket
+- [ ] Create or select the GitHub repository for the workshop
 - [ ] Clone the repository locally
 - [ ] Copy the `.github/` folder (agents and skills) into the repo root
 - [ ] Run the workspace initialisation script:
@@ -36,7 +36,37 @@ Verify on the facilitator machine:
 
 ---
 
-## 3. ADO Boards Setup *(optional — skip if not using Azure DevOps)*
+## 3. GitHub Platform Setup *(recommended — no Azure DevOps required)*
+
+> Use this section when running the workshop with GitHub Issues,
+> GitHub Projects, GitHub Actions, and Copilot agents instead of ADO.
+
+- [ ] GitHub CLI (`gh`) installed and authenticated:
+  ```bash
+  gh auth status
+  ```
+- [ ] GitHub Project created for the repository or organisation
+- [ ] Project fields created:
+  - `Type` — Single select: `Epic`, `Feature`, `User Story`, `Task`
+  - `Priority` — Single select: `must-have`, `should-have`, `could-have`
+  - `Effort` — Number field
+  - `Sprint` — Iteration field
+  - `Task Type` — Single select: `DATABASE`, `BACKEND`, `FRONTEND`, `UNIT-TEST`, `E2E-TEST`
+- [ ] Repository labels created:
+  - `epic`, `feature`, `user-story`, `task`
+  - `database`, `backend`, `frontend`, `unit-test`, `e2e-test`
+  - `must-have`, `should-have`, `could-have`
+- [ ] GitHub Project workflows enabled:
+  - Auto-add labeled issues
+  - Set new items to Todo
+  - Move closed issues to Done
+  - Move linked issues to Done when pull requests merge
+- [ ] Review the GitHub-native runbook:
+  `docs/GHE-COMPLETE-WORKSHOP-FLOW.md`
+
+---
+
+## 4. ADO Boards Setup *(optional — skip if not using Azure DevOps)*
 
 > **Local-only users or teams using other issue trackers:** Skip this entire section. The ADO MCP server, PAT, and board configuration are only needed if you plan to run `ado-sync-agent` to push work items to Azure DevOps Boards.
 
@@ -56,7 +86,7 @@ Verify on the facilitator machine:
 
 ---
 
-## 4. Config Files
+## 5. Config Files
 
 - [ ] Fill in `workshop-stack.md` with the customer's tech stack:
   - Language, runtime, framework, folder paths, ORM, test framework
@@ -73,7 +103,7 @@ Verify on the facilitator machine:
 
 ---
 
-## 5. Requirement Preparation
+## 6. Requirement Preparation
 
 - [ ] Customer requirement prepared as plain text
   (paste-ready or saved as a `.txt` file in the repo root)
@@ -86,7 +116,7 @@ Verify on the facilitator machine:
 
 ---
 
-## 6. Dry Run Verification
+## 7. Dry Run Verification
 
 Run the full chain at least once end-to-end before the workshop:
 
@@ -96,6 +126,9 @@ Run the full chain at least once end-to-end before the workshop:
 - [ ] `feature-agent` produces 2-5 features per epic
 - [ ] `user-story-agent` produces 2-5 stories per feature
 - [ ] `task-agent` produces 3-4 tasks per story
+- [ ] GitHub Issues can be created from generated work-item files
+- [ ] GitHub sub-issues can represent Epic → Feature → Story → Task hierarchy
+- [ ] GitHub Project board shows work by Status, Sprint, Type, and Priority
 - [ ] `estimate-agent` produces estimates and HTML report
 - [ ] `sprint-planning-agent` produces sprint plan HTML report
 - [ ] *(Optional — ADO only)* `ado-sync-agent` creates all work items in ADO correctly
@@ -103,13 +136,15 @@ Run the full chain at least once end-to-end before the workshop:
 
 ---
 
-## 7. On The Day — Final Checks
+## 8. On The Day — Final Checks
 
 - [ ] VS Code open with the workshop repo loaded
 - [ ] GitHub Copilot Chat panel open
-- [ ] ADO board open in browser (logged in)
+- [ ] GitHub Project board open in browser
+- [ ] GitHub Issues page open in browser
+- [ ] *(Optional — ADO only)* ADO board open in browser (logged in)
 - [ ] Requirement text ready to paste
-- [ ] `docs/ado-sync-state.json` deleted if re-running from scratch
+- [ ] *(Optional — ADO only)* `docs/ado-sync-state.json` deleted if re-running from scratch
 - [ ] All files in `issues/` and `docs/work-items/`
       cleared if re-running from scratch
 
@@ -121,6 +156,12 @@ Run the full chain at least once end-to-end before the workshop:
 - Ask it to try again with more specific instructions
 - Reference the relevant design doc section explicitly
 - If output is partially wrong, edit the file manually and continue
+
+**GitHub issue creation or Project setup fails:**
+- Run `gh auth status` and re-authenticate if needed
+- Confirm the Project exists and the current account has write access
+- Confirm required labels and Project fields exist before importing work items
+- Re-run only the failed issue or Project update step
 
 **ADO sync fails:**
 - Check `docs/ado-sync-state.json` for failure details

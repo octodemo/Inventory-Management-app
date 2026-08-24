@@ -18,11 +18,12 @@ If you are new to this framework, read the documents in this order:
 | 1 | `README.md` *(this file)* | Overview, folder structure, setup, and quick-start commands |
 | 2 | `docs/PRE-SETUP-CHECKLIST.md` | Checklist of everything to prepare before the workshop begins |
 | 3 | `workshop-stack.md` | **Fill this in before Phase 2.** Your tech stack config — language, framework, database, frontend, paths. See `docs/STACK-SETUP-GUIDE.md` for step-by-step help and ready-to-copy examples. |
-| 4 | `docs/COMPLETE-WORKSHOP-FLOW.md` | Full step-by-step guide to running the workshop with all agents |
-| 5 | `docs/FACILITATOR-GUIDE.md` | Narration scripts and talking points (facilitator only) |
+| 4 | `docs/GHE-COMPLETE-WORKSHOP-FLOW.md` | Recommended GitHub-native flow using GitHub Issues, Projects, Actions, and Copilot agents without Azure DevOps |
+| 5 | `docs/COMPLETE-WORKSHOP-FLOW.md` | Full base flow, including optional Azure DevOps sync phases |
+| 6 | `docs/FACILITATOR-GUIDE.md` | Narration scripts and talking points (facilitator only) |
 
 > **Just running the workshop?** Read steps 1 → 2 → 3 → 4.  
-> **Facilitating for an audience?** Read all five in order.
+> **Facilitating for an audience?** Read all six in order.
 
 ---
 
@@ -37,6 +38,8 @@ Takes a single business requirement as input and produces:
 - A capacity-driven sprint plan
 - A working application scaffolded and implemented for your chosen tech stack
 - Playwright end-to-end tests covering the implemented features
+- GitHub-native work tracking through GitHub Issues, GitHub Projects,
+  pull requests, and GitHub Actions
 - *Optional:* the full work-item hierarchy synced to Azure DevOps Boards
 
 ---
@@ -48,6 +51,8 @@ Takes a single business requirement as input and produces:
 | VS Code | Latest |
 | GitHub Copilot extension | Latest (signed in) |
 | Git | Any recent version |
+| GitHub CLI (`gh`) | Required for the GitHub-native workshop flow |
+| GitHub Projects | Recommended for sprint planning and backlog visibility |
 | Azure DevOps account | **Optional** — only required if using the ADO sync phase |
 | ADO MCP server | **Optional** — only required if syncing work items to ADO Boards |
 
@@ -131,7 +136,24 @@ bash init-workspace.sh
 .\init-workspace.ps1
 ```
 
-### 2. Configure ADO connection *(optional — skip if not using Azure DevOps)*
+### 2. Prepare GitHub-native work tracking *(recommended — no Azure DevOps required)*
+
+Use [docs/GHE-COMPLETE-WORKSHOP-FLOW.md](docs/GHE-COMPLETE-WORKSHOP-FLOW.md)
+when running the workshop fully on GitHub. Before the workshop:
+
+1. Create a GitHub Project for the repository or organisation.
+2. Add Project fields for `Type`, `Priority`, `Effort`, `Sprint`, and `Task Type`.
+3. Create repository labels for `epic`, `feature`, `user-story`, `task`,
+   `database`, `backend`, `frontend`, `unit-test`, `e2e-test`,
+   `must-have`, `should-have`, and `could-have`.
+4. Enable Project workflows to auto-add matching issues and move completed
+   work to Done when linked pull requests are merged.
+
+Use GitHub Issues as the work-item system and GitHub sub-issues for the
+Epic → Feature → User Story → Task hierarchy. In this mode, skip both
+`ado-sync-agent` phases entirely.
+
+### 3. Configure ADO connection *(optional — skip if not using Azure DevOps)*
 
 Edit `docs/ado-sync-config.json`:
 
@@ -146,7 +168,7 @@ Edit `docs/ado-sync-config.json`:
 
 If you are not using Azure DevOps, skip this step. The framework produces all work item files locally and the optional ADO sync phases (Phase 4 and Phase 7) can be omitted entirely.
 
-### 3. Verify ADO MCP server *(optional — skip if not using Azure DevOps)*
+### 4. Verify ADO MCP server *(optional — skip if not using Azure DevOps)*
 
 Ensure the ADO MCP server is connected in VS Code and can list
 your ADO projects before running the workshop. Full setup instructions —
@@ -254,6 +276,17 @@ push the backlog to Azure DevOps
   with parent-child links
 - `docs/ado-sync-state.json` — records each work item ID for the 2nd pass
 
+### GitHub-native alternative to Phase 4 *(recommended if not using ADO)*
+
+Use the issue creation and Project setup steps in
+[docs/GHE-COMPLETE-WORKSHOP-FLOW.md](docs/GHE-COMPLETE-WORKSHOP-FLOW.md):
+
+- Create GitHub Issues from the generated Epic, Feature, User Story, and Task files.
+- Apply the corresponding labels and Project field values.
+- Link the hierarchy with GitHub sub-issues:
+  Epic → Feature → User Story → Task.
+- Add issues to the GitHub Project board for backlog and stakeholder review.
+
 ---
 
 ### Phase 5 — Estimation
@@ -306,6 +339,15 @@ update ADO with estimates and sprint assignments
 **Output:**
 - Remaining Work and Iteration fields populated on existing ADO work items
 - `docs/ado-sync-state.json` updated with `lastUpdated` timestamp
+
+### GitHub-native alternative to Phase 7 *(recommended if not using ADO)*
+
+After estimation and sprint planning:
+
+- Update the GitHub Project `Effort` field from the generated estimates.
+- Assign each issue to the correct `Sprint` iteration from the sprint plan.
+- Use Project views grouped by Sprint, Type, Priority, and Status for review.
+- Keep implementation traceability by linking pull requests with `Closes #<issue-number>`.
 
 ---
 
@@ -436,7 +478,9 @@ Sprint planning always respects this dependency chain.
 
 **Idempotency**
 Every agent handles re-runs gracefully. Files are overwritten, not
-duplicated. The ADO sync state file prevents duplicate work items.
+duplicated. For GitHub-native workshops, use labels, sub-issues, and
+Project fields to keep the hierarchy visible in GitHub. If using ADO,
+the ADO sync state file prevents duplicate work items.
 
 **Tech-stack agnostic**
 The framework describes patterns and contracts, not specific
@@ -473,6 +517,8 @@ Add the new type to the type table and define its scope rules.
 | Agent renames domain entities | Re-invoke with explicit entity names listed |
 | Mermaid diagrams not rendering | Open file in VS Code Markdown Preview |
 | HTML reports not opening | Open directly in a browser — no server needed |
+| GitHub Issues not visible on Project board | Check Project auto-add workflows and labels |
+| GitHub Project `Effort` or `Sprint` fields not populated | Update the fields from the estimate and sprint reports |
 | ADO sync fails with 401 | Refresh your PAT token |
 | ADO sync fails with 404 | Check organisation and project name in config |
 | Duplicate work items in ADO | Check `docs/ado-sync-state.json` — re-runs are idempotent (the 2nd pass updates rather than re-creates); only delete stale entries if the ADO item itself was deleted |
