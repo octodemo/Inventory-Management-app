@@ -7,26 +7,26 @@
 
 ```
 # ── LANGUAGE ─────────────────────────────────────────────────────────────────
-language:             C#
+language:             TypeScript
 
 # ── BACKEND ──────────────────────────────────────────────────────────────────
-runtime:              .NET 8
-framework:            ASP.NET Core
-build_tool:           dotnet
-base_package:         StationeryInventory
-entry_point:          src/Backend/Program.cs
-routes_folder:        src/Backend/Controllers/
-controllers_folder:   src/Backend/Services/
-middleware_folder:    src/Backend/Middleware/
-auth_middleware:      src/Backend/Middleware/JwtMiddleware.cs
+runtime:              Node.js 20
+framework:            Express
+build_tool:           npm
+base_package:         stationery-inventory
+entry_point:          src/server.ts
+routes_folder:        src/routes/
+controllers_folder:   src/services/
+middleware_folder:    src/middleware/
+auth_middleware:      src/middleware/auth.ts
 
 # ── DATABASE ──────────────────────────────────────────────────────────────────
-database:             PostgreSQL
-orm:                  Entity Framework Core
-entities_folder:      src/Backend/Models/
-migrations_folder:    src/Backend/Migrations/
-seed_file:            src/Backend/Data/DataSeeder.cs
-api_error_format:     "{ title: string, status: int, traceId: string }"
+database:             SQLite
+orm:                  Prisma
+schema_file:          prisma/schema.prisma
+migrations_folder:    prisma/migrations/
+seed_file:            prisma/seed.ts
+api_error_format:     "{ message: string, status: number, timestamp: string }"
 
 # ── FRONTEND ──────────────────────────────────────────────────────────────────
 frontend_framework:   React
@@ -37,11 +37,11 @@ services_folder:      src/frontend/src/services/
 context_folder:       src/frontend/src/context/
 
 # ── TESTING ───────────────────────────────────────────────────────────────────
-unit_test_framework:  xUnit
-unit_tests_folder:    src/Backend.Tests/
+unit_test_framework:  Jest
+unit_tests_folder:    src/__tests__/
 e2e_test_framework:   Playwright
 e2e_tests_folder:     e2e/
-dev_server_url:       http://localhost:5000
+dev_server_url:       http://localhost:3000
 
 # ── TEST USER CREDENTIALS ─────────────────────────────────────────────────────
 # Used by Playwright E2E tests — must match a user in your seed file

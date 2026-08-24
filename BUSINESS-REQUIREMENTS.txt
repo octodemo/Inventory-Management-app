@@ -1,0 +1,42 @@
+### ** Stationery Usage Analysis / Inventory Management**
+**Purpose:**
+Track and analyze stationery inventory usage across a large MicroFinance company with around 1,500 branches.
+
+**Key Features:**
+
+- Inventory master management
+- Vendor-wise analysis
+- Item-wise usage tracking
+- Item hierarchy management
+- Item rate maintenance
+- Branch master and regional office master
+- Premises and supervisor mapping
+- Checkbox-based selections for branches/regional offices/items
+- Tabular reports with pagination
+- Upload/download capability
+- PDF export
+- Dashboard/widgets for usage insights
+**Functional Scope:**
+
+- Supports branch-level and regional-office-level tracking
+- Enables vendor, item, and hierarchy-based reporting
+- Designed for large distributed operations
+- Better suited for structured internal application UI
+- Requires data storage and defined data model
+
+---
+
+### **Common Application Requirements**
+**Technology/UI:**
+
+- React-based user interface
+- Menu-based navigation
+- Better user experience than spreadsheet/manual tracking
+- Widgets and dashboards
+- Tabular layout with pagination
+**Access & Security:**
+
+- Admin access
+- IAM framework
+- Role-based access control
+- Restricted user access

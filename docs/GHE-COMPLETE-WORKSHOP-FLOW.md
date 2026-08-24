@@ -1,555 +1,517 @@
-# Complete Agentic SDLC Workshop Flow — GitHub Platform Edition
+# 90-Minute EXPRESS Agentic SDLC Workshop — GitHub Edition
 
-**Version:** 1.1 (GitHub Issues + GitHub Projects + GitHub Actions)  
-**Last Updated:** August 2026  
-**Based on:** [COMPLETE-WORKSHOP-FLOW.md](./COMPLETE-WORKSHOP-FLOW.md)
-
----
-
-## Overview
-
-This workshop demonstrates an end-to-end AI-assisted software development lifecycle using the **GitHub platform natively** — GitHub Issues, GitHub Projects, GitHub Actions, and GitHub Copilot agents at every phase.
-
-**Key difference from the base flow:** Work items (Epics, Features, Stories, Tasks) are created directly as **GitHub Issues** with labels, linked into a **GitHub Project board**, and managed using **GitHub-native tooling** throughout.
+**⏱️ Total Time:** 90-105 minutes  
+**🎯 Goal:** Requirements → Design → Working App → Tests — All AI-Generated  
+**🛠️ Tools:** VS Code + GitHub.com only (app runs locally)  
+**📅 Last Updated:** August 2026
 
 ---
 
-## Prerequisites
+## 🚀 QUICK START — READ THIS FIRST!
 
-### For All Modes
-- VS Code (latest)
-- GitHub Copilot extension (signed in)
-- [GitHub CLI (`gh`)](https://cli.github.com/) installed and authenticated (`gh auth login`)
-- Runtime environment appropriate for the chosen tech stack
-- Git
+This is a **streamlined** workshop optimized for **90-105 minutes**. Follow this guide step-by-step with your customer.
 
-### GitHub Platform Setup (do this once before the workshop)
-1. Create a **GitHub Project** (table or board layout) in your org/repo
-2. Add custom fields to the Project:
-   - `Type` → Single select: `Epic`, `Feature`, `User Story`, `Task`
-   - `Priority` → Single select: `must-have`, `should-have`, `could-have`
-   - `Effort` → Number field (hours)
-   - `Sprint` → Iteration field (2-week sprints)
-   - `Task Type` → Single select: `DATABASE`, `BACKEND`, `FRONTEND`, `UNIT-TEST`, `E2E-TEST`
-3. Create the following **labels** in the repository:
-   - `epic`, `feature`, `user-story`, `task`
-   - `database`, `backend`, `frontend`, `unit-test`, `e2e-test`
-   - `must-have`, `should-have`, `could-have`
+**What's been cut to save time:**
+- ❌ Feature layer (go Epic → Story → Task directly)
+- ❌ Effort estimation agent (show pre-generated report)
+- ❌ Sprint planning agent (skip entirely)
+- ❌ Unit test generation (optional)
+- ❌ Detailed GitHub CLI automation (manual faster for 3-4 issues)
+- ❌ PR workflow (commit direct to main)
+
+**What you'll showcase:**
+- ✅ AI-generated BRD from requirements
+- ✅ AI-generated design with Mermaid diagrams (GitHub renders!)
+- ✅ AI-generated work breakdown (Epic → Story → Task)
+- ✅ AI-generated full-stack code (DB + API + UI)
+- ✅ **Running application** in browser (customer sees it work!)
+- ✅ AI-generated E2E tests (automated browser testing)
+- ✅ GitHub Actions CI pipeline
 
 ---
 
-## Phase 1: Requirements
+## ✅ PRE-WORKSHOP SETUP (30 Minutes Before Customer Arrives!)
 
-### Step 1: Create BRD (Business Requirements Document)
+### 1. Fill `workshop-stack.md`
+
+**Recommended stack for speed:**
+```yaml
+Backend: Node.js + Express + TypeScript
+Frontend: React + TypeScript
+Database: SQLite (no setup needed!)
+Test Framework: Playwright
+```
+
+Open `workshop-stack.md` and fill **ALL** `{placeholder}` values. Use these defaults:
+
+```
+language: typescript
+backend_framework: express
+frontend_framework: react
+database_type: sqlite
+orm: prisma
+test_framework: playwright
+dev_server_url: http://localhost:3000
+```
+
+**✅ Checkpoint:** Run `git add workshop-stack.md && git commit -m "Configure stack"`
+
+---
+
+### 2. Prepare Small Requirement (Use This!)
+
+**Copy this requirement** (keeps demo to 90 min — 3 entities, 1 user flow):
+
+```
+Simple Inventory Management System
+
+Users need to:
+- Add/view/edit Products (name, SKU, price, quantity)
+- Track Stock Movements (product, quantity change, date, type: in/out)
+- View current Stock Levels (product, available quantity)
+
+Roles: Admin (full access), Viewer (read-only)
+
+Requirements:
+- Admin can add, edit, delete products
+- Admin can record stock movements (receive/ship)
+- Both roles can view product list and stock levels
+- System tracks movement history
+```
+
+**Save this** to `requirements.txt` for easy copy-paste during the workshop.
+
+---
+
+### 3. GitHub Setup (Do This NOW!)
+
+```powershell
+# Create repo
+gh repo create workshop-demo --public --clone
+cd workshop-demo
+
+# Copy workshop framework files
+# (Assumes you have the workshop framework in a sibling folder)
+# Adjust path as needed
+cp -r ../agentic-sdlc-workshop-tech-agnostic/.github .
+cp -r ../agentic-sdlc-workshop-tech-agnostic/docs .
+cp ../agentic-sdlc-workshop-tech-agnostic/workshop-stack.md .
+cp ../agentic-sdlc-workshop-tech-agnostic/package.json .
+cp ../agentic-sdlc-workshop-tech-agnostic/playwright.config.ts .
+
+# Commit framework
+git add .
+git commit -m "Add workshop framework"
+git push
+
+# Create labels
+gh label create epic --color "8B5CF6"
+gh label create user-story --color "3B82F6"
+gh label create task --color "10B981"
+gh label create database --color "EF4444"
+gh label create backend --color "F59E0B"
+gh label create frontend --color "EC4899"
+gh label create e2e-test --color "06B6D4"
+```
+
+**✅ Checkpoint:** Verify repo exists at `github.com/<your-org>/workshop-demo`
+
+---
+
+### 4. Install Dependencies
+
+```powershell
+npm install
+```
+
+**✅ Checkpoint:** All pre-setup complete! You're ready for the customer.
+
+---
+
+## 📋 WORKSHOP FLOW (Follow Step-by-Step with Customer)
+
+### **⏱️ [0-10 min] Phase 1: BRD Generation**
 
 **Agent:** `brd-agent`
 
+**What to do:**
+
+1. **Open VS Code** in `workshop-demo` folder
+2. **Open Copilot Chat** (Ctrl+Shift+I or Cmd+Shift+I)
+3. **Select `brd-agent`** from Agent dropdown (top of chat panel)
+4. **Paste the requirement text** from pre-setup (inventory system)
+5. **Press Enter**
+
+**What Copilot does:**
+- Analyzes requirement text
+- Generates structured BRD with functional requirements, user roles, and entities
+- Creates `docs/requirements/BRD.md`
+
+**Immediately after generation:**
+```powershell
+git add docs/requirements/BRD.md
+git commit -m "Add BRD"
+git push
 ```
-PM: select brd-agent in Agent dropdown in VS Code and paste your requirement text and press enter
 
-What will BRD agent do:
-It will take Input: Requirement Issue or text description
-It will generate Output: docs/requirements/BRD.md
-```
+**✅ DEMO MOMENT 1:** Open `docs/requirements/BRD.md` on GitHub in browser  
+👉 Show customer the **structured requirements** with FR-001, FR-002, etc.
 
-**Duration:** 5-10 minutes
-
-> 💡 **GitHub Tip:** After `BRD.md` is committed, create a pinned GitHub Issue titled
-> `[BRD] {Project Name}` with a link to `docs/requirements/BRD.md` so stakeholders
-> can track and comment on requirements directly in GitHub.
+**Duration:** 8-10 minutes
 
 ---
 
-## Phase 2: Design
-
-> **Before running this step:** Fill in `workshop-stack.md` (repo root) with the customer's
-> tech stack — language, framework, folder paths, ORM, and test framework.
-> The design-agent reads it to produce stack-aware output.
-
-### Step 2: Create Design Document
+### **⏱️ [10-22 min] Phase 2: Design Document**
 
 **Agent:** `design-agent`
 
+**What to do:**
+
+1. **Select `design-agent`** from Agent dropdown
+2. **Type:** `create design from BRD`
+3. **Press Enter**
+
+**What Copilot does:**
+- Reads `docs/requirements/BRD.md`
+- Reads `workshop-stack.md` (knows your tech stack!)
+- Generates complete design document with:
+  - Architecture diagram (Mermaid)
+  - ER diagram (Mermaid)
+  - API endpoints
+  - Component structure
+  - Seed data plan
+- Creates `docs/design/design-doc.md`
+
+**Immediately after generation:**
+```powershell
+git add docs/design/
+git commit -m "Add design document"
+git push
 ```
-Architect: select design-agent in Agent dropdown in VS Code and type "create design from BRD" and press enter.
 
-What Design agent will do:
-It will take Input: docs/requirements/BRD.md (primary source)
-It will generate Output:
-  - docs/design/design-doc.md (architecture, API contracts, data models, components)
-  - Data model definitions appropriate to the target tech stack
+**✅ DEMO MOMENT 2:** Open `docs/design/design-doc.md` on GitHub  
+👉 **WOW!** GitHub renders the **Mermaid architecture diagram** natively!  
+👉 Scroll to ER diagram — also rendered!  
+👉 Show API endpoints — fully specified by AI
 
-After running the design-agent, your design-doc.md will have these six sections:
-- Architecture Overview (Mermaid diagram)
-- Data Model (ER diagram, schema definitions)
-- API Endpoints (REST contracts)
-- Component Structure (UI component hierarchy)
-- Key User Flows (Sequence diagrams)
-- Seed Data Plan
-```
-
-**Duration:** 10-15 minutes
-
-> 💡 **GitHub Tip:** Commit and push `docs/design/design-doc.md` immediately after generation.
-> GitHub renders Mermaid diagrams natively in Markdown — stakeholders can view the
-> architecture diagram directly in the browser without any extra tooling.
+**Duration:** 10-12 minutes
 
 ---
 
-## Phase 3: Work Breakdown (Top-Down Creation)
+### **⏱️ [22-35 min] Phase 3: Work Breakdown (Simplified)**
 
-### Step 3: Create Epics
+**⚡ We skip the Feature layer to save time — go Epic → Story → Task**
+
+#### **Step 3a: Create Epic** (3 min)
 
 **Agent:** `epic-agent`
 
-```
-PM: epic-agent create epics from design doc
+1. **Select `epic-agent`** from Agent dropdown
+2. **Type:** `create epics from design doc`
+3. **Press Enter**
 
-Input: docs/design/design-doc.md
-Output: docs/work-items/epics/epic-{nn}-{name}.md
-```
+**Output:** `docs/work-items/epics/epic-01-inventory-management.md`
 
-**Duration:** 5 minutes
-
-#### ➡️ Push Epics to GitHub Issues
-
-After `epic-agent` finishes, run:
-
-```bash
-for file in docs/work-items/epics/epic-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  gh issue create \
-    --title "$title" \
-    --label "epic" \
-    --body-file "$file"
-done
-```
-
-Then add all epic issues to your GitHub Project:
-```bash
-gh project item-add <project-number> --owner <org> --url <issue-url>
+```powershell
+git add docs/work-items/epics/
+git commit -m "Add epics"
 ```
 
 ---
 
-### Step 4: Create Features (under Epics)
-
-**Agent:** `feature-agent`
-
-```
-PM: feature-agent create features for epic-01
-
-Input: design-doc.md, epic files
-Output: docs/work-items/features/feature-{nn}-{name}.md
-```
-
-**Duration:** 5 minutes
-
-#### ➡️ Push Features to GitHub Issues
-
-```bash
-for file in docs/work-items/features/feature-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  gh issue create \
-    --title "$title" \
-    --label "feature" \
-    --body-file "$file"
-done
-```
-
-> 💡 Link each Feature issue to its parent Epic using
-> [sub-issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/adding-sub-issues):
-> ```bash
-> gh issue edit <feature-issue-number> --add-sub-issue-of <epic-issue-number>
-> ```
-
----
-
-### Step 5: Create User Stories (under Features)
+#### **Step 3b: Create User Stories** (5 min)
 
 **Agent:** `user-story-agent`
 
-```
-PM: user-story-agent create stories for feature-01
+1. **Select `user-story-agent`** from Agent dropdown
+2. **Type:** `create stories from epic-01`
+3. **Press Enter**
 
-Input: BRD.md, design-doc.md, feature files
-Output: docs/work-items/stories/story-{nn}-{name}.md
-```
+**Output:** `docs/work-items/stories/story-01-manage-products.md` (and 1-2 more)
 
-**Duration:** 10 minutes
-
-#### ➡️ Push User Stories to GitHub Issues
-
-```bash
-for file in docs/work-items/stories/story-*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  priority=$(grep '^priority:' "$file" | sed 's/priority: //')
-  gh issue create \
-    --title "$title" \
-    --label "user-story,$priority" \
-    --body-file "$file"
-done
+```powershell
+git add docs/work-items/stories/
+git commit -m "Add user stories"
 ```
 
 ---
 
-### Step 6: Create Tasks (under User Stories)
+#### **Step 3c: Create Tasks** (5 min)
 
 **Agent:** `task-agent`
 
+1. **Select `task-agent`** from Agent dropdown
+2. **Type:** `create tasks for story-01`
+3. **Press Enter**
+
+**Output:** Task files in `issues/` folder:
 ```
-PM: task-agent create tasks for story-01
+issues/01-DATABASE-product-model.md
+issues/02-BACKEND-product-api.md
+issues/03-FRONTEND-product-list.md
+issues/04-E2E-TEST-products.md
+```
 
-Input: design-doc.md, user story files
-Output: issues/{order}-{type}-{name}.md
+```powershell
+git add issues/
+git commit -m "Add tasks"
+git push
+```
 
-Example files:
-  - issues/01-DATABASE-{entity}-model.md
-  - issues/02-BACKEND-{entity}-api.md
-  - issues/03-UNIT-TEST-{entity}-api.md
-  - issues/04-FRONTEND-{entity}-list.md
-  - issues/05-E2E-TEST-{entity}.md
+**✅ Checkpoint:** Show customer the `issues/` folder with 4-6 task files  
+👉 Each task has **title, acceptance criteria, FR traceability**
+
+**Duration:** 13 minutes total
+
+---
+
+### **⏱️ [35-40 min] Phase 4: GitHub Issues (Manual)**
+
+**Skip automation — create 3 issues manually on github.com (faster!)**
+
+1. Go to `github.com/<your-org>/workshop-demo/issues`
+2. Click **New Issue**
+3. **Title:** `[DATABASE] Product model`
+4. **Body:** Copy from `issues/01-DATABASE-product-model.md`
+5. **Labels:** Add `task`, `database`
+6. Click **Create issue**
+7. **Repeat** for:
+   - `[BACKEND] Product API` (labels: `task`, `backend`)
+   - `[FRONTEND] Product list` (labels: `task`, `frontend`)
+
+**✅ DEMO MOMENT 3:** Show the 3 GitHub Issues  
+👉 "These are our implementation tasks — AI generated the breakdown!"
+
+**Duration:** 5 minutes
+
+---
+
+### **⏱️ [40-45 min] Phase 5: Scaffold**
+
+**Agent:** `scaffold-agent`
+
+**What to do:**
+
+1. **Select `scaffold-agent`** from Agent dropdown
+2. **Type:** `generate the project scaffold`
+3. **Press Enter**
+
+**What Copilot does:**
+- Reads `workshop-stack.md`
+- Generates complete folder structure:
+  ```
+  src/
+    models/         (for Prisma/TypeORM/etc.)
+    routes/         (Express routes)
+    services/       (business logic)
+    components/     (React components)
+    pages/          (React pages)
+  ```
+- Creates `package.json` with dependencies
+- Creates Prisma schema (if using Prisma)
+- Updates `playwright.config.ts` with correct paths
+
+**Immediately after generation:**
+```powershell
+npm install
+git add .
+git commit -m "Add project scaffold"
+git push
+```
+
+**Duration:** 5 minutes
+
+---
+
+### **⏱️ [45-70 min] Phase 6: Implementation (1 Complete Flow Only!)**
+
+**Implement ONLY Product management:** DATABASE → BACKEND → FRONTEND  
+**(Skip Stock Movements to save time — show it can be done the same way)**
+
+---
+
+#### **[45-50 min] DATABASE Task**
+
+**Agent:** `implement-agent`
+
+1. **Select `implement-agent`** from Agent dropdown
+2. **Type:** `implement issues/01-DATABASE-product-model.md`
+3. **Press Enter**
+
+**Output:** 
+- `src/models/Product.ts` (if TypeORM)
+- OR updates to `prisma/schema.prisma` (if Prisma)
+
+```powershell
+git add src/models/ prisma/
+git commit -m "[DATABASE] Product model"
+```
+
+**Duration:** 5 minutes
+
+---
+
+#### **[50-60 min] BACKEND Task**
+
+**Agent:** `implement-agent`
+
+1. **Type:** `implement issues/02-BACKEND-product-api.md`
+2. **Press Enter**
+
+**Output:**
+```
+src/routes/products.ts        (Express routes: GET, POST, PUT, DELETE)
+src/services/productService.ts (business logic)
+```
+
+**What Copilot generates:**
+- CRUD API endpoints (`/api/products`)
+- Request validation
+- Error handling
+- Database integration
+
+```powershell
+git add src/routes/ src/services/
+git commit -m "[BACKEND] Product API"
 ```
 
 **Duration:** 10 minutes
 
-#### ➡️ Push Tasks to GitHub Issues
-
-```bash
-for file in issues/*.md; do
-  title=$(grep '^title:' "$file" | sed 's/title: //')
-  type=$(echo "$title" | grep -oP '\[\K[^\]]+' | tr '[:upper:]' '[:lower:]')
-  gh issue create \
-    --title "$title" \
-    --label "task,$type" \
-    --body-file "$file"
-done
-```
-
-> 💡 Link each Task to its parent User Story as a sub-issue in GitHub.
-
-**Result:** Complete work hierarchy in GitHub Issues (Epic → Feature → Story → Task), visible on your GitHub Project board.
-
 ---
 
-## Phase 4: Effort Estimation (Bottom-Up)
-
-### Step 7: Estimate All Work
-
-**Agent:** `estimate-agent`
-
-```
-PM or Architect: estimate-agent analyze all work
-
-Process:
-1. Scans all task files in issues/ folder
-2. Assigns effort estimate using heuristics:
-
-   [DATABASE]: 15min – 45min
-   [BACKEND]:  30min – 2h
-   [FRONTEND]: 30min – 2h
-   [UNIT-TEST]: 15min – 30min
-   [E2E-TEST]:  15min – 30min
-
-3. Updates each task file with:
-   estimatedEffort: 30min
-
-4. Rolls up estimates bottom-up:
-   Story → Feature → Epic
-
-5. Generates: docs/reports/effort-estimate-report.html
-```
-
-**Duration:** 5 minutes
-
-#### ➡️ Sync Estimates to GitHub Project
-
-After estimation, update the `Effort` field on each task issue in the GitHub Project:
-
-```bash
-# Example: set Effort field on a task issue
-gh project item-edit \
-  --project-id <project-id> \
-  --id <item-id> \
-  --field-id <effort-field-id> \
-  --number <effort-in-hours>
-```
-
----
-
-## Phase 5: Sprint Planning (Capacity-Driven)
-
-### Step 8: Create Sprint Plans
-
-**Agent:** `sprint-planning-agent`
-
-```
-PM: sprint-planning-agent create sprint plan
-
-Interactive Questions:
-  Q: How many Database developers?   A: 2
-  Q: How many Backend/API developers? A: 3
-  Q: How many Frontend/UI developers? A: 2
-  Q: Hours per sprint per developer?  A: 40h
-
-Output: docs/reports/sprint-plan-report.html
-```
-
-**Duration:** 5-10 minutes
-
-#### ➡️ Assign Sprints in GitHub Project
-
-Based on the sprint plan report, assign issues to **Iteration** fields in your GitHub Project:
-
-```bash
-# Assign an issue to Sprint 1 iteration
-gh project item-edit \
-  --project-id <project-id> \
-  --id <item-id> \
-  --field-id <sprint-iteration-field-id> \
-  --iteration-id <sprint-1-iteration-id>
-```
-
-> 💡 Use the **GitHub Project board view** (grouped by Sprint iteration) to visually
-> review capacity and drag-and-drop stories between sprints.
-
-**Result:** GitHub Project board shows sprint-assigned issues with effort, priority, and status.
-
----
-
-## Phase 6: Scaffold
-
-### Step 9: Generate Project Scaffold
-
-**Agent:** `scaffold-agent`
-
-> **Run after sprint planning and before implementation.**
-> Ensure all `{placeholder}` values in `workshop-stack.md` are filled in.
-
-```
-Developer: scaffold-agent generate the project scaffold
-
-Input:  workshop-stack.md
-Output: src/ structure, package.json/pom.xml/requirements.txt,
-        playwright.config.ts, README.md
-```
-
-**Duration:** 5 minutes
-
-#### ➡️ GitHub Actions: CI Setup
-
-After scaffold, add a basic CI workflow so every PR is validated:
-
-```yaml
-# .github/workflows/ci.yml
-name: CI
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm test
-```
-
----
-
-## Phase 7: Implementation
-
-### Step 10: Implement Tasks
+#### **[60-70 min] FRONTEND Task**
 
 **Agent:** `implement-agent`
 
-Implement in dependency order: DATABASE → BACKEND → UNIT-TEST → FRONTEND → E2E-TEST
+1. **Type:** `implement issues/03-FRONTEND-product-list.md`
+2. **Press Enter**
 
+**Output:**
 ```
-Developer: implement-agent implement issues/01-DATABASE-{name}.md
-
-Input:
-  - issues/{task}.md
-  - docs/design/design-doc.md
-  - docs/requirements/BRD.md
-  - workshop-stack.md
-
-Output: src/{appropriate-folder}/{filename}
+src/pages/Products.tsx          (main page)
+src/components/ProductList.tsx   (list component)
+src/components/ProductForm.tsx   (add/edit form)
 ```
 
-#### ➡️ GitHub Flow for Each Task
+**What Copilot generates:**
+- React components with TypeScript
+- State management (useState/useEffect)
+- API calls to backend
+- Form validation
+- **data-testid attributes** (for E2E tests later!)
 
-For each task issue, follow this branch-per-issue workflow:
-
-```bash
-# 1. Create a branch linked to the issue
-gh issue develop <issue-number> --checkout
-# Branch name: <issue-number>-task-title
-
-# 2. Implement with implement-agent in VS Code
-
-# 3. Commit and push
-git add .
-git commit -m "closes #<issue-number>: [DATABASE] Item model"
+```powershell
+git add src/pages/ src/components/
+git commit -m "[FRONTEND] Product pages"
 git push
-
-# 4. Open a Pull Request
-gh pr create \
-  --title "[DATABASE] Item model (#<issue-number>)" \
-  --body "Closes #<issue-number>" \
-  --label "database"
 ```
 
-> 💡 Using `Closes #<issue-number>` in the PR body automatically closes the linked
-> issue and moves it to **Done** on the GitHub Project board when the PR is merged.
-
-**On-demand — unit tests after each BACKEND task:**
-```
-Developer: unit-test-agent generate unit tests for issues/{task}.md
-```
-
-**On-demand — code review:**
-```
-Developer or Lead: review-agent review issues/{task}.md
-```
-
-**Duration:** Variable (20-30 min per task)
+**Duration:** 10 minutes
 
 ---
 
-### Step 10b: Start and View the Running Application
+### **⏱️ [70-75 min] Phase 7: RUN THE APP! 🎉**
 
-> **🎯 This is the customer demo moment.** Run this after all FRONTEND tasks are merged
-> so the customer can see the working application in a browser before E2E tests begin.
+**🎯 THIS IS YOUR KEY DEMO MOMENT — Customer sees the working application!**
 
-**Install dependencies and seed data:**
+**What to do:**
 
-```bash
-# Install dependencies
-npm install          # Node.js
-# pip install -r requirements.txt   (Python)
-# dotnet restore                    (.NET)
+```powershell
+# Generate Prisma client (if using Prisma)
+npx prisma generate
 
-# Seed the database (if a seed file was generated by scaffold-agent)
+# Create database tables
+npx prisma db push
+
+# Seed database (optional — scaffold-agent may have created this)
 npm run seed
-# python seed.py   (Python)
-# dotnet run --seed   (.NET)
-```
 
-**Start the development server:**
-
-```bash
+# Start the development server
 npm run dev
-# python app.py        (Python / Flask)
-# dotnet run           (.NET)
-# mvn spring-boot:run  (Java / Spring)
 ```
 
-> The app will be available at the `dev_server_url` defined in `workshop-stack.md`
-> (also the `baseURL` in `playwright.config.ts`). Default: `http://localhost:3000`
+**Expected output:**
+```
+> workshop-demo@1.0.0 dev
+> concurrently "npm run dev:server" "npm run dev:client"
 
-**Open in the browser:**
-
-```bash
-# macOS
-open http://localhost:3000
-
-# Windows
-start http://localhost:3000
-
-# Linux
-xdg-open http://localhost:3000
+Server running on http://localhost:3001
+Frontend running on http://localhost:3000
 ```
 
-> 💡 **Facilitator tip:** Screen-share or take a screenshot of the running app here.
-> It confirms the full stack is wired end-to-end and makes the demo tangible for
-> stakeholders before automated tests run.
+**Open browser:**
+```powershell
+start http://localhost:3000   # Windows
+# open http://localhost:3000  # macOS
+```
 
-**Duration:** 2-5 minutes
+**✅ DEMO MOMENT 4 — THE BIG ONE!**  
+👉 **Show the running application in the browser!**  
+👉 Click "Add Product" → enter data → Save  
+👉 See product appear in the list  
+👉 Click Edit → modify → Save  
+👉 **"This entire application was generated by AI in ~25 minutes of coding time!"**
 
-**Result:** ✅ Customer sees the working application running in the browser.
+**Duration:** 5 minutes
 
 ---
 
-## Phase 8: GitHub Issues & Project — Full Sync Summary
-
-This replaces the ADO phase entirely. All work items are native GitHub Issues.
-
-### GitHub Project Board Layout
-
-| View | Purpose |
-|---|---|
-| **Board (by Status)** | Kanban: Todo → In Progress → In Review → Done |
-| **Table (by Sprint)** | Sprint planning and capacity overview |
-| **Table (by Type)** | Filter by Epic / Feature / Story / Task |
-| **Roadmap** | Timeline view of epics and features |
-
-### Issue Hierarchy (via Sub-issues)
-
-```
-Epic Issue
-  └── Feature Issue (sub-issue of Epic)
-        └── User Story Issue (sub-issue of Feature)
-              └── Task Issue (sub-issue of User Story)
-```
-
-### Automation (built-in GitHub Project workflows)
-
-Enable these in your Project → Settings → Workflows:
-- ✅ **Auto-add items** — when issue is labeled `task`, add to project
-- ✅ **Item closed** → set Status to `Done`
-- ✅ **Pull request merged** → set linked issue Status to `Done`
-- ✅ **Item added** → set Status to `Todo`
-
----
-
-## Phase 9: E2E Testing with Playwright
-
-### Step 11: Generate and Run Playwright Tests
+### **⏱️ [75-85 min] Phase 8: E2E Testing**
 
 **Agent:** `playwright-agent`
 
-> **Requirements:**
-> - Application running at `baseURL` from `playwright.config.ts` (started in Step 10b)
-> - Playwright installed: `npm ci` / `pip install pytest-playwright`
+**⚠️ KEEP THE APP RUNNING!** (Playwright will test against `http://localhost:3000`)
 
-**Step 11a: Generate test files**
+**What to do:**
 
-```
-QA Engineer: playwright-agent create tests for all E2E-TEST tasks
+1. **Open a NEW terminal** (keep dev server running in the first one)
+2. **In VS Code Copilot Chat**, select `playwright-agent`
+3. **Type:** `create tests for issues/04-E2E-TEST-products.md`
+4. **Press Enter**
 
-Input:
-  - issues/*.md (E2E-TEST task files)
-  - docs/design/design-doc.md
-  - docs/requirements/BRD.md
-  - workshop-stack.md
-  - playwright.config.ts
+**Output:** `e2e/products.spec.ts`
 
-Output: e2e/{feature-name}.spec.ts
-```
+**What Copilot generates:**
+- Test that adds a product
+- Test that views product list
+- Test that edits a product
+- Uses `data-testid` selectors (from the design doc!)
 
-**Step 11b: Run tests**
-
-```bash
-# Run all E2E tests
-npx playwright test
-
-# Run in headed mode (see the browser during tests)
+**Run the test:**
+```powershell
 npx playwright test --headed
-
-# View HTML report
-npx playwright show-report docs/test-reports
 ```
 
-#### ➡️ GitHub Actions: E2E in CI
+**✅ DEMO MOMENT 5 — AUTOMATION MAGIC!**  
+👉 Watch the **browser open automatically**  
+👉 Watch Playwright **click buttons, type text, verify results**  
+👉 All **without any manual test scripting** — AI generated the tests!
+
+**View HTML report:**
+```powershell
+npx playwright show-report docs/test-reports/
+```
+
+**Commit:**
+```powershell
+git add e2e/ docs/test-reports/
+git commit -m "[E2E] Product tests"
+git push
+```
+
+**Duration:** 10 minutes
+
+---
+
+### **⏱️ [85-90 min] Phase 9: GitHub Actions CI**
+
+**Create `.github/workflows/ci.yml`:**
 
 ```yaml
-# .github/workflows/e2e.yml
-name: E2E Tests
-on: [pull_request]
+name: CI
+on: [push, pull_request]
 jobs:
-  e2e:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -557,6 +519,8 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      - run: npx prisma generate
+      - run: npx prisma db push
       - run: npx playwright install --with-deps
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
@@ -566,124 +530,144 @@ jobs:
           path: docs/test-reports/
 ```
 
-> 💡 The Playwright HTML report is uploaded as a GitHub Actions artifact — accessible
-> directly from the PR's Checks tab without any external hosting.
+```powershell
+# Create the file manually or use Copilot to generate it
+git add .github/workflows/ci.yml
+git commit -m "Add CI workflow"
+git push
+```
 
-**Duration:** 5-10 minutes
+**✅ DEMO MOMENT 6:** Open GitHub in browser  
+👉 Go to **Actions** tab  
+👉 Show the **running workflow** (triggered by push)  
+👉 **Green checkmark** = tests passed automatically!  
+👉 Click workflow → **download Playwright report artifact**
 
----
-
-## Key Agents Summary
-
-| Agent | Purpose | Input | Output | Duration |
-|---|---|---|---|---|
-| **brd-agent** | Create BRD | Requirement text | BRD.md | 5-10 min |
-| **design-agent** | Technical design | BRD | design-doc.md | 10-15 min |
-| **epic-agent** | Create epics | Design doc | Epic files → GitHub Issues | 5 min |
-| **feature-agent** | Create features | Design + epics | Feature files → GitHub Issues | 5 min |
-| **user-story-agent** | Create stories | BRD + features | Story files → GitHub Issues | 10 min |
-| **task-agent** | Create tasks | Design + stories | Task files → GitHub Issues | 10 min |
-| **estimate-agent** | Estimate effort | All tasks | Estimates + HTML report + GitHub Project `Effort` field | 5 min |
-| **sprint-planning-agent** | Create sprints | Estimates + capacity | Sprint plan HTML + GitHub Project `Sprint` iteration | 5-10 min |
-| **scaffold-agent** | Project scaffold | workshop-stack.md | `src/` structure + CI workflow stub | 5 min |
-| **implement-agent** | Generate code | Task files, design doc, workshop-stack.md | `src/` implementation + PR per task | Per task |
-| **unit-test-agent** *(on-demand)* | Unit tests | BACKEND task files | Unit test files | Per task |
-| **review-agent** *(on-demand)* | Code review | Task file + implemented code | Pass/fail review in chat | Per task |
-| **playwright-agent** | E2E test generation + execution | E2E-TEST tasks, design doc | `e2e/*.spec.ts` + GitHub Actions artifact | 5-10 min |
+**Duration:** 5 minutes
 
 ---
 
-## Workshop Timeline
+## 🎉 WRAP-UP & RECAP (90 min mark)
 
-### 2-3 Hour Workshop
+**Show customer what we accomplished in 90 minutes:**
 
-**Phases 1–2: Requirements & Design** (30 minutes)
-- BRD creation (10 min)
-- Design document (15 min)
-- Commit & push docs (5 min)
+| **Phase** | **What AI Generated** | **Time** |
+|---|---|---|
+| **1. BRD** | Structured requirements with FR-001, FR-002, user roles | 10 min |
+| **2. Design** | Architecture + ER diagrams (Mermaid!), API specs, component structure | 12 min |
+| **3. Work Breakdown** | Epic → Stories → Tasks with acceptance criteria | 13 min |
+| **4. GitHub Issues** | Created 3 issues manually (could automate) | 5 min |
+| **5. Scaffold** | Complete folder structure, package.json, config files | 5 min |
+| **6. Implementation** | Database model, API routes, React components (~600 LoC) | 25 min |
+| **7. Running App** | Fully functional application in browser! | 5 min |
+| **8. E2E Tests** | Automated browser tests with Playwright | 10 min |
+| **9. CI/CD** | GitHub Actions pipeline validates every commit | 5 min |
 
-**Phase 3: Work Breakdown + GitHub Issues** (35 minutes)
-- Epic/Feature/Story/Task creation (~6 min per level)
-- `gh issue create` + GitHub Project setup (5 min)
-
-**Phase 4–5: Estimation & Sprint Planning** (20 minutes)
-- Effort estimation (5 min)
-- Sprint planning (10 min)
-- Sync to GitHub Project iterations (5 min)
-
-**Phase 6: Scaffold + CI Setup** (10 minutes)
-- Scaffold (5 min)
-- GitHub Actions CI workflow (5 min)
-
-**Phase 7: Implementation + Demo** (variable)
-- DATABASE tasks (20 min)
-- BACKEND tasks (30 min)
-- FRONTEND tasks (30 min)
-- PR per task with `Closes #issue`
-- **Start app + show customer the running application (5 min)**
-
-**Phase 8: E2E Testing** (10 minutes)
-
-**Demo & Retrospective** (10 minutes)
+**Total:** ~90 minutes  
+**Lines of Code Generated:** ~800-1000  
+**Manual Coding:** 0 lines  
+**Equivalent Manual Effort:** 2-3 days
 
 ---
 
-## Key Outputs
+## ✅ SUCCESS METRICS — What Customer Saw
 
-### Documents Generated
-1. `docs/requirements/BRD.md` — Business requirements
-2. `docs/design/design-doc.md` — Technical design (Mermaid rendered on GitHub)
-3. `docs/work-items/` — Epic/Feature/Story local files
-4. `issues/` — Task local files
-5. `docs/reports/effort-estimate-report.html` — Effort analysis
-6. `docs/reports/sprint-plan-report.html` — Sprint roadmap
+1. ✅ **AI-powered requirements** → structured BRD
+2. ✅ **AI-powered design** → Mermaid diagrams rendered on GitHub
+3. ✅ **AI-powered breakdown** → Epic/Story/Task hierarchy
+4. ✅ **AI-powered code generation** → Full stack (DB + API + UI)
+5. ✅ **Working application** → Running in browser with CRUD operations
+6. ✅ **AI-powered tests** → E2E automation with Playwright
+7. ✅ **GitHub-native platform** → Issues, native Mermaid rendering, Actions
 
-### GitHub Platform Artefacts
-- GitHub Issues (Epics, Features, Stories, Tasks) with labels + sub-issue hierarchy
-- GitHub Project board with Sprint iterations, Effort field, Status automation
-- Pull Requests per task, linked to issues (`Closes #N`)
-- GitHub Actions CI workflow
-- Playwright HTML report as GitHub Actions artifact
-
-### Code Generated
-- Data model schema
-- API layer (routes, controllers, services)
-- UI layer (pages, components)
-- `e2e/` — End-to-end test scripts
-
-### Deliverables
-- ✅ Complete work hierarchy in GitHub Issues (Epic → Feature → Story → Task)
-- ✅ GitHub Project board with sprint planning and capacity
-- ✅ Effort estimate report (HTML)
-- ✅ Sprint plan report (HTML)
-- ✅ Working application running at `dev_server_url` (visible to customer)
-- ✅ CI/CD with GitHub Actions
-- ✅ Passing E2E tests as GitHub Actions artifact
+**💡 Key Differentiators:**
+- **GitHub renders Mermaid natively** → No external tools needed for diagrams
+- **GitHub Issues + Labels** → Native project management, no ADO needed
+- **GitHub Actions** → Built-in CI/CD, free for public repos
+- **Copilot Agents** → Specialized AI for each SDLC phase
+- **End-to-end in 90 minutes** → What normally takes days
 
 ---
 
-## Benefits of GitHub-Native Approach
+## ⚠️ TROUBLESHOOTING
 
-- ✅ **Zero external dependencies** — no ADO account, no MCP server, no PAT setup
-- ✅ **Issues live next to code** — Copilot can cross-reference issues and PRs natively
-- ✅ **`Closes #N` auto-closes issues** on PR merge and updates the Project board
-- ✅ **Mermaid diagrams rendered natively** in GitHub Markdown
-- ✅ **GitHub Actions CI** validates every PR automatically
-- ✅ **Playwright reports** accessible as Actions artifacts from the PR Checks tab
-- ✅ **Free for public repos**, included in GitHub Team/Enterprise plans
+### **Agent not found in dropdown**
+- Check `.github/agents/` folder exists in repo
+- Reload VS Code window (Ctrl+Shift+P → "Reload Window")
+
+### **App won't start**
+- Run `npm install` first
+- Check port 3000 not in use: `netstat -ano | findstr :3000` (Windows)
+- Kill process if needed: `taskkill /PID <pid> /F`
+
+### **Playwright test fails**
+- Ensure app is running at `http://localhost:3000`
+- Run `npx playwright install` if browsers not installed
+- Check `playwright.config.ts` has correct `baseURL`
+
+### **GitHub CLI errors**
+- Verify authentication: `gh auth status`
+- Re-login: `gh auth login`
+
+### **Prisma/Database errors**
+- Run `npx prisma generate` after schema changes
+- Run `npx prisma db push` to create tables
+- Delete `prisma/dev.db` and re-run `db push` to reset
 
 ---
 
-## Next Steps
+## 📚 OPTIONAL: What We Skipped (Can Show if Extra Time)
 
-1. **Set up GitHub Project** — create board with custom fields (Type, Priority, Effort, Sprint)
-2. **Create labels** — `epic`, `feature`, `user-story`, `task`, `must-have`, etc.
-3. **Run the Workshop** — follow the phase-by-phase flow above
-4. **Enable Project Automations** — auto-close issues on PR merge
-5. **Review Reports** — examine HTML reports with stakeholders
-6. **Customize** — adjust estimation heuristics in `.github/skills/create-estimates/SKILL.md`
+If you finish early or customer asks, you can optionally demonstrate:
+
+### **Effort Estimation** (5 min)
+```
+Select estimate-agent → "analyze all work"
+```
+Shows HTML report with effort rolled up Epic → Story → Task
+
+### **Sprint Planning** (10 min)
+```
+Select sprint-planning-agent → "create sprint plan"
+```
+Interactive capacity planning with HTML report
+
+### **Unit Tests** (10 min per backend task)
+```
+Select unit-test-agent → "generate unit tests for issues/02-BACKEND-product-api.md"
+```
+Generates Jest/Vitest tests for API routes
+
+### **GitHub Project Board** (5 min)
+- Create a GitHub Project
+- Add Issues to the board
+- Show Kanban view with task status
 
 ---
 
-**Questions or Issues?**
-Refer to the base [COMPLETE-WORKSHOP-FLOW.md](./COMPLETE-WORKSHOP-FLOW.md) or consult the facilitator guide.
+## 🎯 FACILITATOR NOTES
+
+**Before workshop:**
+- [ ] Fill `workshop-stack.md` completely
+- [ ] Create GitHub repo with labels
+- [ ] Test the requirement text generates good output
+- [ ] Run through scaffold → implement → run app locally once
+- [ ] Have browser bookmarks ready (GitHub repo, Actions tab)
+
+**During workshop:**
+- [ ] Narrate what each agent is doing while it generates
+- [ ] Emphasize **zero manual coding** throughout
+- [ ] Pause at DEMO MOMENTS to let customer see the output
+- [ ] Keep energy high when showing running app (Phase 7!)
+- [ ] If any step fails, have a backup branch with working code
+
+**After workshop:**
+- [ ] Share the repo link with customer
+- [ ] Point them to docs/reports/ for HTML reports
+- [ ] Explain they can clone and extend this workflow
+
+---
+
+**Questions or need help?**  
+Refer to the full [COMPLETE-WORKSHOP-FLOW.md](./COMPLETE-WORKSHOP-FLOW.md) for detailed explanations.
+
