@@ -32,6 +32,8 @@ export function SupervisorForm({ initialValues, onSubmit, onCancel, error }: Sup
   useEffect(() => {
     if (initialValues) {
       setValues({ name: initialValues.name, email: initialValues.email, phone: initialValues.phone ?? '' })
+    } else {
+      setValues(EMPTY_VALUES)
     }
   }, [initialValues])
 

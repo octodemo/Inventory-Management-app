@@ -35,6 +35,8 @@ export function RegionalOfficeForm({ initialValues, onSubmit, onCancel, error }:
   useEffect(() => {
     if (initialValues) {
       setValues({ name: initialValues.name, code: initialValues.code, address: initialValues.address ?? '' })
+    } else {
+      setValues(EMPTY_VALUES)
     }
   }, [initialValues])
 

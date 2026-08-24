@@ -43,6 +43,8 @@ export function PremisesForm({ supervisors, initialValues, onSubmit, onCancel, e
         address: initialValues.address ?? '',
         supervisorId: initialValues.supervisorId,
       })
+    } else {
+      setValues(EMPTY_VALUES)
     }
   }, [initialValues])
 

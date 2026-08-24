@@ -50,6 +50,8 @@ export function UsageForm({ items, branches, initialValues, onSubmit, onCancel, 
         usageDate: initialValues.usageDate.slice(0, 10),
         notes: initialValues.notes ?? '',
       })
+    } else {
+      setValues(EMPTY_VALUES)
     }
   }, [initialValues])
 

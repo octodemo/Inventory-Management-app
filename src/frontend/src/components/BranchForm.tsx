@@ -45,6 +45,8 @@ export function BranchForm({ regionalOffices, initialValues, onSubmit, onCancel,
         regionalOfficeId: initialValues.regionalOfficeId,
         address: initialValues.address ?? '',
       })
+    } else {
+      setValues(EMPTY_VALUES)
     }
   }, [initialValues])
 
