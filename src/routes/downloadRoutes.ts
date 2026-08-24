@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { ReportRow, generateExcelReportBuffer } from '../services/reportExportService'
 
-export const defaultReportData: ReportRow[] = [
+const defaultReportData: ReadonlyArray<ReportRow> = [
   {
     branchName: 'Branch 1',
     regionalOffice: 'North Region',
@@ -20,7 +20,7 @@ export const defaultReportData: ReportRow[] = [
   },
 ]
 
-export const getReportData = (): ReportRow[] => defaultReportData
+export const getReportData = (): ReportRow[] => [...defaultReportData]
 
 export const downloadReport = (req: Request, res: Response): void => {
   const { format } = req.query
@@ -37,8 +37,8 @@ export const downloadReport = (req: Request, res: Response): void => {
   const reportData = getReportData()
   const excelBuffer = generateExcelReportBuffer(reportData)
 
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-  res.setHeader('Content-Disposition', 'attachment; filename="usage-report.xlsx"')
+  res.setHeader('Content-Type', 'application/vnd.ms-excel')
+  res.setHeader('Content-Disposition', 'attachment; filename="usage-report.xls"')
   res.status(200).send(excelBuffer)
 }
 

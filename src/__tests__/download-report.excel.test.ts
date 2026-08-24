@@ -1,9 +1,7 @@
 import { Request, Response } from 'express'
+import { downloadReport } from '../routes/downloadRoutes'
 import {
-  downloadReport,
-  defaultReportData,
-} from '../routes/downloadRoutes'
-import {
+  ReportRow,
   excelColumnWidths,
   excelHeaders,
   generateExcelReportXml,
@@ -37,31 +35,47 @@ describe('GET /api/download/report?format=excel', () => {
 
     downloadReport(req, res)
 
-    expect(res.setHeader).toHaveBeenCalledWith(
-      'Content-Type',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    )
+    expect(res.setHeader).toHaveBeenCalledWith('Content-Type', 'application/vnd.ms-excel')
     expect(res.setHeader).toHaveBeenCalledWith(
       'Content-Disposition',
-      'attachment; filename="usage-report.xlsx"',
+      'attachment; filename="usage-report.xls"',
     )
     expect(res.status).toHaveBeenCalledWith(200)
     expect(res.send).toHaveBeenCalledWith(expect.any(Buffer))
   })
 
   it('includes all report data with formatted headers and column widths', () => {
-    const excelXml = generateExcelReportXml(defaultReportData)
+    const reportRows: ReportRow[] = [
+      {
+        branchName: 'Branch 1',
+        regionalOffice: 'North Region',
+        itemName: 'A4 Paper',
+        vendorName: 'Vendor A',
+        quantity: 120,
+        usageDate: '2026-08-01',
+      },
+      {
+        branchName: 'Branch 2',
+        regionalOffice: 'South Region',
+        itemName: 'Pen',
+        vendorName: 'Vendor B',
+        quantity: 75,
+        usageDate: '2026-08-05',
+      },
+    ]
+
+    const excelXml = generateExcelReportXml(reportRows)
 
     excelHeaders.forEach((header) => {
       expect(excelXml).toContain(`>${header}<`)
     })
 
-    defaultReportData.forEach((row) => {
+    reportRows.forEach((row) => {
       expect(excelXml).toContain(`>${row.branchName}<`)
       expect(excelXml).toContain(`>${row.regionalOffice}<`)
       expect(excelXml).toContain(`>${row.itemName}<`)
       expect(excelXml).toContain(`>${row.vendorName}<`)
-      expect(excelXml).toContain(`>${row.quantity}<`)
+      expect(excelXml).toContain(`<Data ss:Type="Number">${row.quantity}</Data>`)
       expect(excelXml).toContain(`>${row.usageDate}<`)
     })
 
