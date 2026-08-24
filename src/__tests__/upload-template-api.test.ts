@@ -50,4 +50,25 @@ describe('GET /api/upload/template/:type', () => {
       'attachment; filename="inventory-template.csv"',
     )
   })
+
+  it('returns vendors CSV template mapping with download filename', async () => {
+    const response = await fetch(`${baseUrl}/api/upload/template/vendors`)
+    const body = await response.text()
+
+    expect(response.status).toBe(200)
+    expect(body).toBe('name,contactName,contactEmail,contactPhone,address\n')
+    expect(response.headers.get('content-disposition')).toBe(
+      'attachment; filename="vendors-template.csv"',
+    )
+  })
+
+  it('returns 400 for invalid template type', async () => {
+    const response = await fetch(`${baseUrl}/api/upload/template/unknown`)
+    const body = await response.json() as { message: string; status: number; timestamp: string }
+
+    expect(response.status).toBe(400)
+    expect(body.message).toBe('Invalid upload template type')
+    expect(body.status).toBe(400)
+    expect(typeof body.timestamp).toBe('string')
+  })
 })
