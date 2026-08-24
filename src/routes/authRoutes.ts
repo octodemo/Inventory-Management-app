@@ -1,4 +1,5 @@
 import { Request, Response, Router, RequestHandler } from 'express'
+import { createRateLimiter } from '../middleware/rateLimit'
 import type { AuthService } from '../services/authService'
 import { buildApiError } from '../utils/apiError'
 import { SESSION_COOKIE_NAME } from '../utils/sessionToken'
@@ -25,8 +26,9 @@ export const createAuthRouter = ({
   sessionTtlSeconds,
 }: AuthRouterDependencies): Router => {
   const router = Router()
+  const loginRateLimiter = createRateLimiter({ windowMs: 60_000, max: 20 })
 
-  router.post('/login', async (req: Request, res: Response): Promise<void> => {
+  router.post('/login', loginRateLimiter, async (req: Request, res: Response): Promise<void> => {
     const { email, password } = (req.body ?? {}) as { email?: unknown; password?: unknown }
 
     if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {

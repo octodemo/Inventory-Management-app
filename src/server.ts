@@ -2,6 +2,7 @@ import express from 'express'
 import { join, resolve } from 'node:path'
 import { PrismaClient } from '@prisma/client'
 import { createApp } from './app'
+import { createRateLimiter } from './middleware/rateLimit'
 import { loadAuthConfig } from './config/authConfig'
 import { DatabaseIamClient } from './services/iamClient'
 import { InMemorySessionStore } from './services/sessionStore'
@@ -30,7 +31,7 @@ const app = createApp({
 // Serve the built frontend when it is available, with SPA history fallback
 const frontendDist = resolve('src/frontend/dist')
 app.use(express.static(frontendDist))
-app.get('*', (_req, res) => {
+app.get('*', createRateLimiter({ windowMs: 60_000, max: 600 }), (_req, res) => {
   res.sendFile(join(frontendDist, 'index.html'))
 })
 
