@@ -11,15 +11,28 @@ export interface UsageRecordInput {
   notes?: string | null
 }
 
-/** Query filters supported by GET /api/usage (FR-003, FR-021, FR-022). */
+/**
+ * Query filters supported by GET /api/usage (FR-003, FR-021, FR-022).
+ *
+ * Accepts both the plural array forms (`itemIds`, `branchIds`,
+ * `regionalOfficeIds` — as a comma-separated string or repeated query
+ * params) and the singular/bracket forms (`itemId`, `branchId`,
+ * `regionalOfficeId` — a single value, or an array via `itemId[]=1&itemId[]=2`
+ * query syntax, which Express's query parser collapses onto the same key).
+ * When both a plural and singular key are present for the same filter, the
+ * plural key takes precedence.
+ */
 export interface UsageRecordFilters {
   page?: unknown
   limit?: unknown
   startDate?: unknown
   endDate?: unknown
   branchIds?: unknown
+  branchId?: unknown
   itemIds?: unknown
+  itemId?: unknown
   regionalOfficeIds?: unknown
+  regionalOfficeId?: unknown
 }
 
 /**
@@ -74,9 +87,9 @@ async function assertBranchesExist(branchIds: number[]): Promise<void> {
 export async function listUsageRecords(filters: UsageRecordFilters) {
   const { page, limit } = parsePagination(filters.page ?? DEFAULT_PAGE, filters.limit ?? DEFAULT_LIMIT)
 
-  const branchIds = parseIdArray(filters.branchIds)
-  const itemIds = parseIdArray(filters.itemIds)
-  const regionalOfficeIds = parseIdArray(filters.regionalOfficeIds)
+  const branchIds = parseIdArray(filters.branchIds ?? filters.branchId)
+  const itemIds = parseIdArray(filters.itemIds ?? filters.itemId)
+  const regionalOfficeIds = parseIdArray(filters.regionalOfficeIds ?? filters.regionalOfficeId)
 
   const usageDate: Record<string, Date> = {}
   if (filters.startDate) usageDate.gte = new Date(String(filters.startDate))
