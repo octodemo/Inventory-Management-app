@@ -10,4 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Models will be added here by implement-agent
+model UsageRecord {
+  id             Int      @id @default(autoincrement())
+  itemName       String
+  branchName     String
+  quantity       Float
+  usageDate      DateTime
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
