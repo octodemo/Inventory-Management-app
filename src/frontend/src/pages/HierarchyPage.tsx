@@ -41,7 +41,7 @@ export function HierarchyPage() {
   }
   const displayedTree = visibleTree(tree, nodes, parentFilter)
 
-  return <section>
+  return <section data-testid="hierarchy-page">
     <h2>Item Hierarchy</h2>{message && <p role="status">{message}</p>}{error && <p role="alert">{error}</p>}
     <form data-testid="hierarchy-form" onSubmit={submit}>
       <input aria-label="Hierarchy name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />

@@ -42,7 +42,7 @@ export function RatesPage() {
     try { await rateApi.remove(rate.id); setMessage('Item rate deleted successfully.'); await load() }
     catch (cause) { setError(cause instanceof Error ? cause.message : 'Unable to delete item rate.') }
   }
-  return <section>
+  return <section data-testid="rates-page">
     <h2>Item Rates</h2>{message && <p role="status">{message}</p>}{error && <p role="alert">{error}</p>}
     <form data-testid="item-rate-form" onSubmit={submit}>
       <select aria-label="Inventory item" value={form.itemId || ''} onChange={(e) => setForm({ ...form, itemId: Number(e.target.value) })} required><option value="">Select item</option>{items.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
