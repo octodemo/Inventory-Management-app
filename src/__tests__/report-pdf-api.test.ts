@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import downloadRoutes from '../routes/downloadRoutes'
+import { downloadReportPdf } from '../services/downloadReportPdf'
 
 const createMockResponse = () => {
   const setHeader = jest.fn()
@@ -22,11 +23,14 @@ describe('POST /api/download/report-pdf', () => {
     jest.useRealTimers()
   })
 
-  it('generates a PDF file from report data with proper formatting', () => {
-    const routeLayer = (downloadRoutes as unknown as { stack: Array<{ route?: { path: string; stack: Array<{ handle: (req: Request, res: Response) => void }>; methods: Record<string, boolean> } }> }).stack
-      .find((layer) => layer.route?.path === '/report-pdf')
+  it('registers POST /report-pdf route', () => {
+    const hasRoute = (downloadRoutes as unknown as { stack: Array<{ route?: { path: string; methods: Record<string, boolean> } }> }).stack
+      .some((layer) => layer.route?.path === '/report-pdf' && layer.route.methods.post)
 
-    expect(routeLayer?.route?.methods.post).toBe(true)
+    expect(hasRoute).toBe(true)
+  })
+
+  it('generates a PDF file from report data with proper formatting', () => {
 
     const req = {
       body: {
@@ -43,7 +47,7 @@ describe('POST /api/download/report-pdf', () => {
     } as Request
     const res = createMockResponse()
 
-    routeLayer?.route?.stack[0].handle(req, res)
+    downloadReportPdf(req, res)
 
     expect((res.setHeader as jest.Mock).mock.calls).toEqual(
       expect.arrayContaining([
@@ -59,9 +63,6 @@ describe('POST /api/download/report-pdf', () => {
   })
 
   it('includes report title, filter summary, data table, and timestamp in PDF output', () => {
-    const routeLayer = (downloadRoutes as unknown as { stack: Array<{ route?: { path: string; stack: Array<{ handle: (req: Request, res: Response) => void }> } }> }).stack
-      .find((layer) => layer.route?.path === '/report-pdf')
-
     const req = {
       body: {
         reportTitle: 'Vendor Usage Summary',
@@ -76,7 +77,7 @@ describe('POST /api/download/report-pdf', () => {
     } as Request
     const res = createMockResponse()
 
-    routeLayer?.route?.stack[0].handle(req, res)
+    downloadReportPdf(req, res)
 
     const pdfOutput = ((res.send as jest.Mock).mock.calls[0][0] as Buffer).toString('utf-8')
 
