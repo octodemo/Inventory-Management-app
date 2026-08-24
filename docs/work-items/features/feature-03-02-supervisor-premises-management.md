@@ -5,7 +5,7 @@ type: feature
 epic: epic-03
 status: planned
 source: FR-008, FR-009, FR-010
-userStories: []
+userStories: [story-03-02-01, story-03-02-02, story-03-02-03]
 ---
 
 # Feature 03-02: Supervisor & Premises Management

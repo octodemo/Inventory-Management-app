@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-022
 dependencies: []
-tasks: []
+tasks: [41-BACKEND-regional-office-usage-summary-api, 101-UNIT-TEST-regional-office-usage-summary-api, 161-FRONTEND-regional-office-usage-summary, 221-E2E-TEST-regional-office-summary]
 ---
 
 # Story 04-03-02: View regional office usage summary

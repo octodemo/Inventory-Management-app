@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-016
 dependencies: []
-tasks: []
+tasks: [56-BACKEND-upload-preview-api, 116-UNIT-TEST-upload-preview-api, 176-FRONTEND-upload-preview, 236-E2E-TEST-upload-preview]
 ---
 
 # Story 06-01-02: Preview upload data before committing

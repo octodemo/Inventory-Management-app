@@ -5,7 +5,7 @@ type: feature
 epic: epic-05
 status: planned
 source: FR-023
-userStories: []
+userStories: [story-05-03-01, story-05-03-02, story-05-03-03]
 ---
 
 # Feature 05-03: Hierarchy-Based Reporting

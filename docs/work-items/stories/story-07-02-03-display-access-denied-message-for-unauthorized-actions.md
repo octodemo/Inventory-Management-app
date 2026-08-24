@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-026
 dependencies: []
-tasks: []
+tasks: [66-BACKEND-rbac-access-denied-api, 126-UNIT-TEST-rbac-access-denied-api, 186-FRONTEND-rbac-access-denied, 246-E2E-TEST-access-denied]
 ---
 
 # Story 07-02-03: Display access denied message for unauthorized actions

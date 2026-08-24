@@ -1,0 +1,364 @@
+{
+  "stories": {
+    "story-02-01-02": {
+      "feature": "feature-02-01",
+      "issueNumber": 41,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/41",
+      "title": "View and search vendors"
+    },
+    "story-04-02-01": {
+      "feature": "feature-04-02",
+      "issueNumber": 57,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/57",
+      "title": "Filter usage data by branch"
+    },
+    "story-01-01-02": {
+      "feature": "feature-01-01",
+      "issueNumber": 30,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/30",
+      "title": "View and search inventory items"
+    },
+    "story-02-01-04": {
+      "feature": "feature-02-01",
+      "issueNumber": 43,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/43",
+      "title": "Delete vendor"
+    },
+    "story-05-01-02": {
+      "feature": "feature-05-01",
+      "issueNumber": 62,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/62",
+      "title": "Multi-select branches using checkboxes"
+    },
+    "story-01-03-01": {
+      "feature": "feature-01-03",
+      "issueNumber": 37,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/37",
+      "title": "Create item rate"
+    },
+    "story-02-01-01": {
+      "feature": "feature-02-01",
+      "issueNumber": 40,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/40",
+      "title": "Create vendor record"
+    },
+    "story-03-02-03": {
+      "feature": "feature-03-02",
+      "issueNumber": 52,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/52",
+      "title": "Prevent supervisor deletion with premises"
+    },
+    "story-04-01-04": {
+      "feature": "feature-04-01",
+      "issueNumber": 56,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/56",
+      "title": "Delete usage record (Admin only)"
+    },
+    "story-04-01-01": {
+      "feature": "feature-04-01",
+      "issueNumber": 53,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/53",
+      "title": "Create usage record"
+    },
+    "story-05-02-01": {
+      "feature": "feature-05-02",
+      "issueNumber": 64,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/64",
+      "title": "Display reports in tabular format"
+    },
+    "story-05-04-03": {
+      "feature": "feature-05-04",
+      "issueNumber": 72,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/72",
+      "title": "Drill down from dashboard widget to detailed report"
+    },
+    "story-05-02-02": {
+      "feature": "feature-05-02",
+      "issueNumber": 65,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/65",
+      "title": "Navigate report pages using pagination controls"
+    },
+    "story-04-01-03": {
+      "feature": "feature-04-01",
+      "issueNumber": 55,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/55",
+      "title": "Edit usage record"
+    },
+    "story-05-04-04": {
+      "feature": "feature-05-04",
+      "issueNumber": 73,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/73",
+      "title": "Display trend visualization in dashboard widget"
+    },
+    "story-07-03-01": {
+      "feature": "feature-07-03",
+      "issueNumber": 86,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/86",
+      "title": "Display menu based on role permissions"
+    },
+    "story-03-01-03": {
+      "feature": "feature-03-01",
+      "issueNumber": 49,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/49",
+      "title": "Prevent regional office deletion with branches"
+    },
+    "story-07-02-01": {
+      "feature": "feature-07-02",
+      "issueNumber": 83,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/83",
+      "title": "Enforce role-based access control on routes"
+    },
+    "story-01-02-02": {
+      "feature": "feature-01-02",
+      "issueNumber": 34,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/34",
+      "title": "View hierarchy tree"
+    },
+    "story-02-02-01": {
+      "feature": "feature-02-02",
+      "issueNumber": 44,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/44",
+      "title": "Generate vendor-wise usage report"
+    },
+    "story-03-01-02": {
+      "feature": "feature-03-01",
+      "issueNumber": 48,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/48",
+      "title": "Manage branches"
+    },
+    "story-07-03-02": {
+      "feature": "feature-07-03",
+      "issueNumber": 87,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/87",
+      "title": "Highlight active menu item"
+    },
+    "story-02-02-02": {
+      "feature": "feature-02-02",
+      "issueNumber": 45,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/45",
+      "title": "Filter vendor-wise report by vendor"
+    },
+    "story-05-03-02": {
+      "feature": "feature-05-03",
+      "issueNumber": 68,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/68",
+      "title": "Drill down from hierarchy node to item details"
+    },
+    "story-07-02-02": {
+      "feature": "feature-07-02",
+      "issueNumber": 84,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/84",
+      "title": "Hide UI controls based on user role"
+    },
+    "story-06-02-02": {
+      "feature": "feature-06-02",
+      "issueNumber": 78,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/78",
+      "title": "Download usage data as Excel"
+    },
+    "story-06-01-02": {
+      "feature": "feature-06-01",
+      "issueNumber": 75,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/75",
+      "title": "Preview upload data before committing"
+    },
+    "story-05-04-02": {
+      "feature": "feature-05-04",
+      "issueNumber": 71,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/71",
+      "title": "Filter dashboard by date range"
+    },
+    "story-05-03-01": {
+      "feature": "feature-05-03",
+      "issueNumber": 67,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/67",
+      "title": "Generate hierarchy-based usage report"
+    },
+    "story-07-02-03": {
+      "feature": "feature-07-02",
+      "issueNumber": 85,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/85",
+      "title": "Display access denied message for unauthorized actions"
+    },
+    "story-01-01-04": {
+      "feature": "feature-01-01",
+      "issueNumber": 32,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/32",
+      "title": "Delete inventory item"
+    },
+    "story-06-01-01": {
+      "feature": "feature-06-01",
+      "issueNumber": 74,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/74",
+      "title": "Upload bulk data via CSV/Excel file"
+    },
+    "story-01-02-03": {
+      "feature": "feature-01-02",
+      "issueNumber": 35,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/35",
+      "title": "Edit hierarchy node"
+    },
+    "story-07-01-03": {
+      "feature": "feature-07-01",
+      "issueNumber": 82,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/82",
+      "title": "Handle authentication errors"
+    },
+    "story-01-03-02": {
+      "feature": "feature-01-03",
+      "issueNumber": 38,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/38",
+      "title": "View rate history"
+    },
+    "story-04-01-02": {
+      "feature": "feature-04-01",
+      "issueNumber": 54,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/54",
+      "title": "View and search usage records"
+    },
+    "story-03-02-01": {
+      "feature": "feature-03-02",
+      "issueNumber": 50,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/50",
+      "title": "Manage supervisors"
+    },
+    "story-04-03-02": {
+      "feature": "feature-04-03",
+      "issueNumber": 60,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/60",
+      "title": "View regional office usage summary"
+    },
+    "story-01-02-01": {
+      "feature": "feature-01-02",
+      "issueNumber": 33,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/33",
+      "title": "Create hierarchy node"
+    },
+    "story-05-03-03": {
+      "feature": "feature-05-03",
+      "issueNumber": 69,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/69",
+      "title": "Compare hierarchy nodes across time periods"
+    },
+    "story-03-01-01": {
+      "feature": "feature-03-01",
+      "issueNumber": 47,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/47",
+      "title": "Manage regional offices"
+    },
+    "story-01-01-03": {
+      "feature": "feature-01-01",
+      "issueNumber": 31,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/31",
+      "title": "Edit inventory item details"
+    },
+    "story-04-02-02": {
+      "feature": "feature-04-02",
+      "issueNumber": 58,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/58",
+      "title": "View branch usage summary"
+    },
+    "story-06-01-03": {
+      "feature": "feature-06-01",
+      "issueNumber": 76,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/76",
+      "title": "Download template file for bulk upload"
+    },
+    "story-01-03-03": {
+      "feature": "feature-01-03",
+      "issueNumber": 39,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/39",
+      "title": "Update rate effective period"
+    },
+    "story-05-01-01": {
+      "feature": "feature-05-01",
+      "issueNumber": 61,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/61",
+      "title": "Multi-select items using checkboxes"
+    },
+    "story-02-02-03": {
+      "feature": "feature-02-02",
+      "issueNumber": 46,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/46",
+      "title": "Drill down from vendor to item details"
+    },
+    "story-06-02-03": {
+      "feature": "feature-06-02",
+      "issueNumber": 79,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/79",
+      "title": "Export report as PDF"
+    },
+    "story-05-01-03": {
+      "feature": "feature-05-01",
+      "issueNumber": 63,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/63",
+      "title": "Multi-select vendors using checkboxes"
+    },
+    "story-07-01-02": {
+      "feature": "feature-07-01",
+      "issueNumber": 81,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/81",
+      "title": "Logout and clear session"
+    },
+    "story-07-03-03": {
+      "feature": "feature-07-03",
+      "issueNumber": 88,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/88",
+      "title": "Organize menu items into logical sections"
+    },
+    "story-05-02-03": {
+      "feature": "feature-05-02",
+      "issueNumber": 66,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/66",
+      "title": "Sort report columns"
+    },
+    "story-01-01-01": {
+      "feature": "feature-01-01",
+      "issueNumber": 29,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/29",
+      "title": "Create inventory item"
+    },
+    "story-07-01-01": {
+      "feature": "feature-07-01",
+      "issueNumber": 80,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/80",
+      "title": "Authenticate via IAM framework"
+    },
+    "story-02-01-03": {
+      "feature": "feature-02-01",
+      "issueNumber": 42,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/42",
+      "title": "Edit vendor details"
+    },
+    "story-05-04-01": {
+      "feature": "feature-05-04",
+      "issueNumber": 70,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/70",
+      "title": "Display dashboard with analytics widgets"
+    },
+    "story-06-02-01": {
+      "feature": "feature-06-02",
+      "issueNumber": 77,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/77",
+      "title": "Download usage data as CSV"
+    },
+    "story-04-03-01": {
+      "feature": "feature-04-03",
+      "issueNumber": 59,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/59",
+      "title": "Filter usage data by regional office"
+    },
+    "story-01-02-04": {
+      "feature": "feature-01-02",
+      "issueNumber": 36,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/36",
+      "title": "Delete hierarchy node"
+    },
+    "story-03-02-02": {
+      "feature": "feature-03-02",
+      "issueNumber": 51,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/51",
+      "title": "Assign premises to supervisor"
+    }
+  }
+}

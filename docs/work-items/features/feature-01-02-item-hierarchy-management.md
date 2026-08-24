@@ -5,7 +5,7 @@ type: feature
 epic: epic-01
 status: planned
 source: FR-004
-userStories: []
+userStories: [story-01-02-01, story-01-02-02, story-01-02-03, story-01-02-04]
 ---
 
 # Feature 01-02: Item Hierarchy Management

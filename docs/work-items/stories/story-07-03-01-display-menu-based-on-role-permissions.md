@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-020
 dependencies: []
-tasks: []
+tasks: [67-BACKEND-menu-permissions-api, 127-UNIT-TEST-menu-permissions-api, 187-FRONTEND-menu-permissions, 247-E2E-TEST-menu-permissions]
 ---
 
 # Story 07-03-01: Display menu based on role permissions

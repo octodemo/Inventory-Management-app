@@ -5,7 +5,7 @@ type: feature
 epic: epic-05
 status: planned
 source: FR-019
-userStories: []
+userStories: [story-05-04-01, story-05-04-02, story-05-04-03, story-05-04-04]
 ---
 
 # Feature 05-04: Dashboard with Analytics Widgets

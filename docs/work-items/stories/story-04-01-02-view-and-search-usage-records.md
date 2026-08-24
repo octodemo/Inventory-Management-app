@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-003
 dependencies: []
-tasks: []
+tasks: [35-BACKEND-usage-list-search-api, 95-UNIT-TEST-usage-list-search-api, 155-FRONTEND-usage-list-filters, 215-E2E-TEST-usage-list-and-filters]
 ---
 
 # Story 04-01-02: View and search usage records

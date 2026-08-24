@@ -5,7 +5,7 @@ type: feature
 epic: epic-01
 status: planned
 source: FR-005
-userStories: []
+userStories: [story-01-03-01, story-01-03-02, story-01-03-03]
 ---
 
 # Feature 01-03: Item Rate Management

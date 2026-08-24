@@ -5,7 +5,7 @@ type: feature
 epic: epic-07
 status: planned
 source: FR-027
-userStories: []
+userStories: [story-07-01-01, story-07-01-02, story-07-01-03]
 ---
 
 # Feature 07-01: IAM Framework Integration

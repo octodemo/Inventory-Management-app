@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-019
 dependencies: []
-tasks: []
+tasks: [51-BACKEND-dashboard-widgets-api, 111-UNIT-TEST-dashboard-widgets-api, 171-FRONTEND-dashboard-widgets, 231-E2E-TEST-dashboard-widgets]
 ---
 
 # Story 05-04-01: Display dashboard with analytics widgets

@@ -5,7 +5,7 @@ type: feature
 epic: epic-06
 status: planned
 source: FR-017, FR-018
-userStories: []
+userStories: [story-06-02-01, story-06-02-02, story-06-02-03]
 ---
 
 # Feature 06-02: Data Download & Export

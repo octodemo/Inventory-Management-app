@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-014
 dependencies: []
-tasks: []
+tasks: [47-BACKEND-report-column-sorting-api, 107-UNIT-TEST-report-column-sorting-api, 167-FRONTEND-report-column-sorting, 227-E2E-TEST-report-sorting]
 ---
 
 # Story 05-02-03: Sort report columns

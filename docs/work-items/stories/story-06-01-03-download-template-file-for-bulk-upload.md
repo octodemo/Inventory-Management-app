@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-016
 dependencies: []
-tasks: []
+tasks: [57-BACKEND-upload-template-api, 117-UNIT-TEST-upload-template-api, 177-FRONTEND-upload-template-download, 237-E2E-TEST-template-download]
 ---
 
 # Story 06-01-03: Download template file for bulk upload

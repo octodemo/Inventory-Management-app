@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-001
 dependencies: []
-tasks: []
+tasks: [13-BACKEND-inventory-delete-api, 73-UNIT-TEST-inventory-delete-api, 133-FRONTEND-inventory-delete-action, 193-E2E-TEST-inventory-item-deletion]
 ---
 
 # Story 01-01-04: Delete inventory item

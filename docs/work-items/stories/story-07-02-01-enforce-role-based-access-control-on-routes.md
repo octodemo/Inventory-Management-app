@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-024, FR-025
 dependencies: []
-tasks: []
+tasks: [64-BACKEND-rbac-route-protection-api, 124-UNIT-TEST-rbac-route-protection-api, 184-FRONTEND-rbac-route-guards, 244-E2E-TEST-rbac-route-guards]
 ---
 
 # Story 07-02-01: Enforce role-based access control on routes

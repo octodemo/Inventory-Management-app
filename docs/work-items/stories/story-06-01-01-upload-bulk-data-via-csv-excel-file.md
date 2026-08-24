@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-016
 dependencies: []
-tasks: []
+tasks: [55-BACKEND-bulk-upload-api, 115-UNIT-TEST-bulk-upload-api, 175-FRONTEND-bulk-upload-form, 235-E2E-TEST-bulk-upload]
 ---
 
 # Story 06-01-01: Upload bulk data via CSV/Excel file

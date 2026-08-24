@@ -5,7 +5,7 @@ type: feature
 epic: epic-05
 status: planned
 source: FR-011, FR-012, FR-013
-userStories: []
+userStories: [story-05-01-01, story-05-01-02, story-05-01-03]
 ---
 
 # Feature 05-01: Multi-Selection Filters

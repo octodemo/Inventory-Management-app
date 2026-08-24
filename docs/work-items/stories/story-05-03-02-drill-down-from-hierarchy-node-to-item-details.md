@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-023
 dependencies: []
-tasks: []
+tasks: [49-BACKEND-hierarchy-drill-down-api, 109-UNIT-TEST-hierarchy-drill-down-api, 169-FRONTEND-hierarchy-drill-down, 229-E2E-TEST-hierarchy-drill-down]
 ---
 
 # Story 05-03-02: Drill down from hierarchy node to item details

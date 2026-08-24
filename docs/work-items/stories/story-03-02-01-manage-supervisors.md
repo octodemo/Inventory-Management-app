@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-009
 dependencies: []
-tasks: []
+tasks: [31-BACKEND-supervisor-api, 91-UNIT-TEST-supervisor-api, 151-FRONTEND-supervisor-form, 211-E2E-TEST-supervisor-management]
 ---
 
 # Story 03-02-01: Manage supervisors

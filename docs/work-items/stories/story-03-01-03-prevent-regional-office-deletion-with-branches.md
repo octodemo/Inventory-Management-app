@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-007
 dependencies: []
-tasks: []
+tasks: [07-DATABASE-supervisor-model, 30-BACKEND-regional-office-delete-validation-api, 90-UNIT-TEST-regional-office-delete-validation-api, 150-FRONTEND-regional-office-delete-validation, 210-E2E-TEST-regional-office-deletion]
 ---
 
 # Story 03-01-03: Prevent regional office deletion with branches

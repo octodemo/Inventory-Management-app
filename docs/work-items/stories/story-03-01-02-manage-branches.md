@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-006
 dependencies: []
-tasks: []
+tasks: [29-BACKEND-branch-api, 89-UNIT-TEST-branch-api, 149-FRONTEND-branch-form, 209-E2E-TEST-branch-management]
 ---
 
 # Story 03-01-02: Manage branches

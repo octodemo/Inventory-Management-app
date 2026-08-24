@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-004
 dependencies: []
-tasks: []
+tasks: [02-DATABASE-item-hierarchy-model, 14-BACKEND-hierarchy-node-api, 74-UNIT-TEST-hierarchy-node-api, 134-FRONTEND-hierarchy-node-form, 194-E2E-TEST-hierarchy-node-creation]
 ---
 
 # Story 01-02-01: Create hierarchy node

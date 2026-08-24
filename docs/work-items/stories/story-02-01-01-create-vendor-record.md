@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-002
 dependencies: []
-tasks: []
+tasks: [21-BACKEND-vendor-api, 81-UNIT-TEST-vendor-api, 141-FRONTEND-vendor-form, 201-E2E-TEST-vendor-creation]
 ---
 
 # Story 02-01-01: Create vendor record

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-004
 dependencies: []
-tasks: []
+tasks: [15-BACKEND-hierarchy-tree-api, 75-UNIT-TEST-hierarchy-tree-api, 135-FRONTEND-hierarchy-tree-view, 195-E2E-TEST-hierarchy-tree-view]
 ---
 
 # Story 01-02-02: View hierarchy tree

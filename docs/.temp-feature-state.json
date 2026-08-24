@@ -1,0 +1,118 @@
+{
+  "features": {
+    "feature-05-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/20",
+      "title": "Multi-Selection Filters",
+      "epic": "epic-05",
+      "issueNumber": 20
+    },
+    "feature-02-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/13",
+      "title": "Vendor Master Management",
+      "epic": "epic-02",
+      "issueNumber": 13
+    },
+    "feature-05-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/22",
+      "title": "Hierarchy-Based Reporting",
+      "epic": "epic-05",
+      "issueNumber": 22
+    },
+    "feature-03-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/15",
+      "title": "Regional Office & Branch Management",
+      "epic": "epic-03",
+      "issueNumber": 15
+    },
+    "feature-03-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/16",
+      "title": "Supervisor & Premises Management",
+      "epic": "epic-03",
+      "issueNumber": 16
+    },
+    "feature-07-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/27",
+      "title": "Role-Based Access Control",
+      "epic": "epic-07",
+      "issueNumber": 27
+    },
+    "feature-01-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/11",
+      "title": "Item Hierarchy Management",
+      "epic": "epic-01",
+      "issueNumber": 11
+    },
+    "feature-01-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/12",
+      "title": "Item Rate Management",
+      "epic": "epic-01",
+      "issueNumber": 12
+    },
+    "feature-05-04": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/23",
+      "title": "Dashboard with Analytics Widgets",
+      "epic": "epic-05",
+      "issueNumber": 23
+    },
+    "feature-01-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/10",
+      "title": "Inventory Master Management",
+      "epic": "epic-01",
+      "issueNumber": 10
+    },
+    "feature-06-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/24",
+      "title": "Bulk Data Upload",
+      "epic": "epic-06",
+      "issueNumber": 24
+    },
+    "feature-07-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/26",
+      "title": "IAM Framework Integration",
+      "epic": "epic-07",
+      "issueNumber": 26
+    },
+    "feature-06-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/25",
+      "title": "Data Download & Export",
+      "epic": "epic-06",
+      "issueNumber": 25
+    },
+    "feature-07-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/28",
+      "title": "Menu-Based Navigation",
+      "epic": "epic-07",
+      "issueNumber": 28
+    },
+    "feature-04-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/18",
+      "title": "Branch-Level Usage Tracking",
+      "epic": "epic-04",
+      "issueNumber": 18
+    },
+    "feature-05-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/21",
+      "title": "Tabular Reports with Pagination",
+      "epic": "epic-05",
+      "issueNumber": 21
+    },
+    "feature-04-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/19",
+      "title": "Regional-Office-Level Usage Tracking",
+      "epic": "epic-04",
+      "issueNumber": 19
+    },
+    "feature-02-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/14",
+      "title": "Vendor-Wise Analysis Reports",
+      "epic": "epic-02",
+      "issueNumber": 14
+    },
+    "feature-04-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/17",
+      "title": "Usage Record Management",
+      "epic": "epic-04",
+      "issueNumber": 17
+    }
+  }
+}

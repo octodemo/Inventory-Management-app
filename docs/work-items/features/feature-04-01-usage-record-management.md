@@ -5,7 +5,7 @@ type: feature
 epic: epic-04
 status: planned
 source: FR-003
-userStories: []
+userStories: [story-04-01-01, story-04-01-02, story-04-01-03, story-04-01-04]
 ---
 
 # Feature 04-01: Usage Record Management

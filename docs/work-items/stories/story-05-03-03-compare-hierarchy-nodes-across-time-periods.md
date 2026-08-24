@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-023
 dependencies: []
-tasks: []
+tasks: [50-BACKEND-hierarchy-time-comparison-api, 110-UNIT-TEST-hierarchy-time-comparison-api, 170-FRONTEND-hierarchy-time-comparison, 230-E2E-TEST-time-comparison]
 ---
 
 # Story 05-03-03: Compare hierarchy nodes across time periods

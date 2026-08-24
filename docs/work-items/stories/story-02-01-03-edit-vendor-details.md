@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-002
 dependencies: []
-tasks: []
+tasks: [23-BACKEND-vendor-update-api, 83-UNIT-TEST-vendor-update-api, 143-FRONTEND-vendor-update-form, 203-E2E-TEST-vendor-update]
 ---
 
 # Story 02-01-03: Edit vendor details

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-001
 dependencies: []
-tasks: []
+tasks: [12-BACKEND-inventory-update-api, 72-UNIT-TEST-inventory-update-api, 132-FRONTEND-inventory-update-form, 192-E2E-TEST-inventory-item-update]
 ---
 
 # Story 01-01-03: Edit inventory item details

@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-020
 dependencies: []
-tasks: []
+tasks: [68-BACKEND-active-menu-state-api, 128-UNIT-TEST-active-menu-state-api, 188-FRONTEND-active-menu-state, 248-E2E-TEST-active-menu-state]
 ---
 
 # Story 07-03-02: Highlight active menu item

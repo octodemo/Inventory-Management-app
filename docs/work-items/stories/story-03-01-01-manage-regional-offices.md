@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-007
 dependencies: []
-tasks: []
+tasks: [06-DATABASE-branch-model, 28-BACKEND-regional-office-api, 88-UNIT-TEST-regional-office-api, 148-FRONTEND-regional-office-form, 208-E2E-TEST-regional-office-management]
 ---
 
 # Story 03-01-01: Manage regional offices

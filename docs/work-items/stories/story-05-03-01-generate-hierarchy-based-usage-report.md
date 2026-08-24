@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-023
 dependencies: []
-tasks: []
+tasks: [48-BACKEND-hierarchy-based-report-api, 108-UNIT-TEST-hierarchy-based-report-api, 168-FRONTEND-hierarchy-based-report, 228-E2E-TEST-hierarchy-report]
 ---
 
 # Story 05-03-01: Generate hierarchy-based usage report

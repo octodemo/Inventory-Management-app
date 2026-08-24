@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-008, FR-010
 dependencies: []
-tasks: []
+tasks: [32-BACKEND-premises-supervisor-assignment-api, 92-UNIT-TEST-premises-supervisor-assignment-api, 152-FRONTEND-premises-supervisor-assignment, 212-E2E-TEST-premises-assignment]
 ---
 
 # Story 03-02-02: Assign premises to supervisor

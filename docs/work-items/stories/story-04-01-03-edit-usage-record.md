@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-003
 dependencies: []
-tasks: []
+tasks: [36-BACKEND-usage-update-api, 96-UNIT-TEST-usage-update-api, 156-FRONTEND-usage-update-form, 216-E2E-TEST-usage-record-update]
 ---
 
 # Story 04-01-03: Edit usage record

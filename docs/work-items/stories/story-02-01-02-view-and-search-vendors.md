@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-002
 dependencies: []
-tasks: []
+tasks: [04-DATABASE-vendor-model, 22-BACKEND-vendor-list-search-api, 82-UNIT-TEST-vendor-list-search-api, 142-FRONTEND-vendor-list-search, 202-E2E-TEST-vendor-list-and-search]
 ---
 
 # Story 02-01-02: View and search vendors

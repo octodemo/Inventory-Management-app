@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-018
 dependencies: []
-tasks: []
+tasks: [60-BACKEND-pdf-export-api, 120-UNIT-TEST-pdf-export-api, 180-FRONTEND-pdf-export-button, 240-E2E-TEST-pdf-export]
 ---
 
 # Story 06-02-03: Export report as PDF

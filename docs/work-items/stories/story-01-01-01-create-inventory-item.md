@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-001
 dependencies: []
-tasks: []
+tasks: [01-DATABASE-inventory-item-model, 10-BACKEND-inventory-item-api, 70-UNIT-TEST-inventory-item-api, 130-FRONTEND-inventory-item-form, 190-E2E-TEST-inventory-item-creation]
 ---
 
 # Story 01-01-01: Create inventory item

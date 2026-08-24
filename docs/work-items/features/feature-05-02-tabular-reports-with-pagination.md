@@ -5,7 +5,7 @@ type: feature
 epic: epic-05
 status: planned
 source: FR-014
-userStories: []
+userStories: [story-05-02-01, story-05-02-02, story-05-02-03]
 ---
 
 # Feature 05-02: Tabular Reports with Pagination

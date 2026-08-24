@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-014
 dependencies: []
-tasks: []
+tasks: [46-BACKEND-report-pagination-api, 106-UNIT-TEST-report-pagination-api, 166-FRONTEND-report-pagination, 226-E2E-TEST-report-pagination]
 ---
 
 # Story 05-02-02: Navigate report pages using pagination controls

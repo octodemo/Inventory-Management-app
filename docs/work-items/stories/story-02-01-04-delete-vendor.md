@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-002
 dependencies: []
-tasks: []
+tasks: [24-BACKEND-vendor-delete-api, 84-UNIT-TEST-vendor-delete-api, 144-FRONTEND-vendor-delete-action, 204-E2E-TEST-vendor-deletion]
 ---
 
 # Story 02-01-04: Delete vendor

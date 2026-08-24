@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-012
 dependencies: []
-tasks: []
+tasks: [43-BACKEND-multi-select-branches-api, 103-UNIT-TEST-multi-select-branches-api, 163-FRONTEND-multi-select-branches-filter, 223-E2E-TEST-branch-filter]
 ---
 
 # Story 05-01-02: Multi-select branches using checkboxes

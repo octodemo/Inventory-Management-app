@@ -5,7 +5,7 @@ type: feature
 epic: epic-03
 status: planned
 source: FR-006, FR-007
-userStories: []
+userStories: [story-03-01-01, story-03-01-02, story-03-01-03]
 ---
 
 # Feature 03-01: Regional Office & Branch Management

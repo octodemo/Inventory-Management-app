@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-021
 dependencies: []
-tasks: []
+tasks: [39-BACKEND-branch-usage-summary-api, 99-UNIT-TEST-branch-usage-summary-api, 159-FRONTEND-branch-usage-summary, 219-E2E-TEST-branch-usage-summary]
 ---
 
 # Story 04-02-02: View branch usage summary

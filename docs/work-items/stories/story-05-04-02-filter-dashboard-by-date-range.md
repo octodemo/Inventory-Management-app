@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-019
 dependencies: []
-tasks: []
+tasks: [52-BACKEND-dashboard-date-filter-api, 112-UNIT-TEST-dashboard-date-filter-api, 172-FRONTEND-dashboard-date-filter, 232-E2E-TEST-dashboard-filter]
 ---
 
 # Story 05-04-02: Filter dashboard by date range

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-022
 dependencies: []
-tasks: []
+tasks: [40-BACKEND-regional-office-usage-filter-api, 100-UNIT-TEST-regional-office-usage-filter-api, 160-FRONTEND-regional-office-wise-report, 220-E2E-TEST-regional-office-report]
 ---
 
 # Story 04-03-01: Filter usage data by regional office

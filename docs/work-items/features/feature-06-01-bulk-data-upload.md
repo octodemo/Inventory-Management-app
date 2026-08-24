@@ -5,7 +5,7 @@ type: feature
 epic: epic-06
 status: planned
 source: FR-016
-userStories: []
+userStories: [story-06-01-01, story-06-01-02, story-06-01-03]
 ---
 
 # Feature 06-01: Bulk Data Upload

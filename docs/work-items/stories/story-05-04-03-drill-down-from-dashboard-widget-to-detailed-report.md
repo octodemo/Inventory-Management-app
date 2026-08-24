@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-019
 dependencies: []
-tasks: []
+tasks: [53-BACKEND-dashboard-drill-down-api, 113-UNIT-TEST-dashboard-drill-down-api, 173-FRONTEND-dashboard-drill-down, 233-E2E-TEST-dashboard-drill-down]
 ---
 
 # Story 05-04-03: Drill down from dashboard widget to detailed report

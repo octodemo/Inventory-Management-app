@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-001
 dependencies: []
-tasks: []
+tasks: [11-BACKEND-inventory-list-search-api, 71-UNIT-TEST-inventory-list-search-api, 131-FRONTEND-inventory-list-search, 191-E2E-TEST-inventory-list-and-search]
 ---
 
 # Story 01-01-02: View and search inventory items

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-021
 dependencies: []
-tasks: []
+tasks: [38-BACKEND-branch-usage-filter-api, 98-UNIT-TEST-branch-usage-filter-api, 158-FRONTEND-branch-wise-report, 218-E2E-TEST-branch-wise-report]
 ---
 
 # Story 04-02-01: Filter usage data by branch

@@ -5,7 +5,7 @@ type: feature
 epic: epic-07
 status: planned
 source: FR-024, FR-025, FR-026
-userStories: []
+userStories: [story-07-02-01, story-07-02-02, story-07-02-03]
 ---
 
 # Feature 07-02: Role-Based Access Control

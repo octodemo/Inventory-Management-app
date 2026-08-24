@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-017
 dependencies: []
-tasks: []
+tasks: [59-BACKEND-excel-export-api, 119-UNIT-TEST-excel-export-api, 179-FRONTEND-excel-export-button, 239-E2E-TEST-excel-export]
 ---
 
 # Story 06-02-02: Download usage data as Excel

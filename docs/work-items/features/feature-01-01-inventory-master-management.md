@@ -5,7 +5,7 @@ type: feature
 epic: epic-01
 status: planned
 source: FR-001
-userStories: []
+userStories: [story-01-01-01, story-01-01-02, story-01-01-03, story-01-01-04]
 ---
 
 # Feature 01-01: Inventory Master Management

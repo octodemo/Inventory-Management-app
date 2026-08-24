@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-013
 dependencies: []
-tasks: []
+tasks: [44-BACKEND-multi-select-vendors-api, 104-UNIT-TEST-multi-select-vendors-api, 164-FRONTEND-multi-select-vendors-filter, 224-E2E-TEST-vendor-filter]
 ---
 
 # Story 05-01-03: Multi-select vendors using checkboxes

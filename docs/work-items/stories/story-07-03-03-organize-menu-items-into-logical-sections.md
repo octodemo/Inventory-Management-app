@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-020
 dependencies: []
-tasks: []
+tasks: [69-BACKEND-menu-organization-api, 129-UNIT-TEST-menu-organization-api, 189-FRONTEND-menu-organization, 249-E2E-TEST-menu-organization]
 ---
 
 # Story 07-03-03: Organize menu items into logical sections

@@ -5,7 +5,7 @@ type: feature
 epic: epic-02
 status: planned
 source: FR-002
-userStories: []
+userStories: [story-02-01-01, story-02-01-02, story-02-01-03, story-02-01-04]
 ---
 
 # Feature 02-01: Vendor Master Management

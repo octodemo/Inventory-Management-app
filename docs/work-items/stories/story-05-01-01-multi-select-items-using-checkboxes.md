@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-011
 dependencies: []
-tasks: []
+tasks: [42-BACKEND-multi-select-items-api, 102-UNIT-TEST-multi-select-items-api, 162-FRONTEND-multi-select-items-filter, 222-E2E-TEST-item-filter]
 ---
 
 # Story 05-01-01: Multi-select items using checkboxes

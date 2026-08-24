@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-004
 dependencies: []
-tasks: []
+tasks: [17-BACKEND-hierarchy-delete-api, 77-UNIT-TEST-hierarchy-delete-api, 137-FRONTEND-hierarchy-delete-action, 197-E2E-TEST-hierarchy-node-deletion]
 ---
 
 # Story 01-02-04: Delete hierarchy node

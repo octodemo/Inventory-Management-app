@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-015
 dependencies: []
-tasks: []
+tasks: [05-DATABASE-regional-office-model, 26-BACKEND-vendor-filter-api, 86-UNIT-TEST-vendor-filter-api, 146-FRONTEND-vendor-wise-report-filters, 206-E2E-TEST-vendor-wise-report]
 ---
 
 # Story 02-02-02: Filter vendor-wise report by vendor

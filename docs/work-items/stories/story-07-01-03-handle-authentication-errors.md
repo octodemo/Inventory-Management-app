@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-027
 dependencies: []
-tasks: []
+tasks: [63-BACKEND-auth-error-handling-api, 123-UNIT-TEST-auth-error-handling-api, 183-FRONTEND-auth-error-display, 243-E2E-TEST-auth-errors]
 ---
 
 # Story 07-01-03: Handle authentication errors

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-027
 dependencies: []
-tasks: []
+tasks: [61-BACKEND-iam-authentication-api, 121-UNIT-TEST-iam-authentication-api, 181-FRONTEND-login-form, 241-E2E-TEST-login-authentication]
 ---
 
 # Story 07-01-01: Authenticate via IAM framework

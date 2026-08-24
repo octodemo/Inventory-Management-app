@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-005
 dependencies: []
-tasks: []
+tasks: [19-BACKEND-rate-history-api, 79-UNIT-TEST-rate-history-api, 139-FRONTEND-rate-history-view, 199-E2E-TEST-rate-history-view]
 ---
 
 # Story 01-03-02: View rate history

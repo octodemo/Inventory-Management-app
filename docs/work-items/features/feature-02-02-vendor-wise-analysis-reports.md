@@ -5,7 +5,7 @@ type: feature
 epic: epic-02
 status: planned
 source: FR-015
-userStories: []
+userStories: [story-02-02-01, story-02-02-02, story-02-02-03]
 ---
 
 # Feature 02-02: Vendor-Wise Analysis Reports

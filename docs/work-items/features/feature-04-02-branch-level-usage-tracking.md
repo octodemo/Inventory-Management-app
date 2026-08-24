@@ -5,7 +5,7 @@ type: feature
 epic: epic-04
 status: planned
 source: FR-021
-userStories: []
+userStories: [story-04-02-01, story-04-02-02]
 ---
 
 # Feature 04-02: Branch-Level Usage Tracking

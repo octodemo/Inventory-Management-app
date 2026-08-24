@@ -1,3 +1,65 @@
+# Stationery Inventory Management
+
+**Tech Stack:** TypeScript + Express + React + Vite + Prisma + SQLite + Jest + Playwright
+
+A hands-on Agentic SDLC workshop project for tracking and analyzing stationery inventory usage across 1,500+ microfinance branches.
+
+---
+
+## Quick Start
+
+### 1. Install Dependencies
+
+```bash
+# Install backend dependencies
+npm install
+
+# Install frontend dependencies
+cd src/frontend
+npm install
+cd ../..
+```
+
+### 2. Set Up the Database
+
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Run migrations (after models are added)
+npx prisma migrate dev
+
+# Seed the database (after seed data is added)
+npm run prisma:seed
+```
+
+### 3. Run the Application
+
+```bash
+# Terminal 1: Start backend server
+npm run dev:backend
+
+# Terminal 2: Start frontend dev server
+npm run dev:frontend
+```
+
+The application will be available at http://localhost:3000
+
+### 4. Run Tests
+
+```bash
+# Run unit tests
+npm test
+
+# Run E2E tests
+npm run test:e2e
+
+# View E2E test report
+npm run test:e2e:report
+```
+
+---
+
 # Agentic SDLC Workshop
 
 A hands-on workshop run with **multiple parallel teams of 5 or more** —

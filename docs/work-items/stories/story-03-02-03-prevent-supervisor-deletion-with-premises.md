@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-009, FR-010
 dependencies: []
-tasks: []
+tasks: [08-DATABASE-premises-model, 33-BACKEND-supervisor-delete-validation-api, 93-UNIT-TEST-supervisor-delete-validation-api, 153-FRONTEND-supervisor-delete-validation, 213-E2E-TEST-supervisor-deletion]
 ---
 
 # Story 03-02-03: Prevent supervisor deletion with premises

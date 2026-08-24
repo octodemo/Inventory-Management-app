@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-004
 dependencies: []
-tasks: []
+tasks: [16-BACKEND-hierarchy-update-api, 76-UNIT-TEST-hierarchy-update-api, 136-FRONTEND-hierarchy-update-form, 196-E2E-TEST-hierarchy-node-update]
 ---
 
 # Story 01-02-03: Edit hierarchy node

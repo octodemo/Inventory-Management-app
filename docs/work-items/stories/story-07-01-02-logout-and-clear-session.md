@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-027
 dependencies: []
-tasks: []
+tasks: [62-BACKEND-logout-api, 122-UNIT-TEST-logout-api, 182-FRONTEND-logout-action, 242-E2E-TEST-logout]
 ---
 
 # Story 07-01-02: Logout and clear session

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-014
 dependencies: []
-tasks: []
+tasks: [45-BACKEND-tabular-report-format-api, 105-UNIT-TEST-tabular-report-format-api, 165-FRONTEND-tabular-report-table, 225-E2E-TEST-tabular-report-format]
 ---
 
 # Story 05-02-01: Display reports in tabular format

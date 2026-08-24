@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-003
 dependencies: []
-tasks: []
+tasks: [34-BACKEND-usage-record-api, 94-UNIT-TEST-usage-record-api, 154-FRONTEND-usage-record-form, 214-E2E-TEST-usage-record-creation]
 ---
 
 # Story 04-01-01: Create usage record

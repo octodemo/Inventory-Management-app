@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-019
 dependencies: []
-tasks: []
+tasks: [54-BACKEND-dashboard-trend-visualization-api, 114-UNIT-TEST-dashboard-trend-visualization-api, 174-FRONTEND-dashboard-trend-chart, 234-E2E-TEST-trend-chart]
 ---
 
 # Story 05-04-04: Display trend visualization in dashboard widget

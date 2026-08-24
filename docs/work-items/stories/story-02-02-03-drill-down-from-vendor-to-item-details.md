@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-015
 dependencies: []
-tasks: []
+tasks: [27-BACKEND-vendor-drill-down-api, 87-UNIT-TEST-vendor-drill-down-api, 147-FRONTEND-vendor-wise-drill-down, 207-E2E-TEST-vendor-drill-down]
 ---
 
 # Story 02-02-03: Drill down from vendor to item details

@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-005
 dependencies: []
-tasks: []
+tasks: [20-BACKEND-rate-update-api, 80-UNIT-TEST-rate-update-api, 140-FRONTEND-rate-update-form, 200-E2E-TEST-item-rate-update]
 ---
 
 # Story 01-03-03: Update rate effective period

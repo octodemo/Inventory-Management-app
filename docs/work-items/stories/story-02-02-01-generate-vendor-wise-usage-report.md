@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-015
 dependencies: []
-tasks: []
+tasks: [25-BACKEND-vendor-usage-analysis-api, 85-UNIT-TEST-vendor-usage-analysis-api, 145-FRONTEND-vendor-usage-analysis, 205-E2E-TEST-vendor-usage-analysis]
 ---
 
 # Story 02-02-01: Generate vendor-wise usage report

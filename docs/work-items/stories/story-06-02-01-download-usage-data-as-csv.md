@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-017
 dependencies: []
-tasks: []
+tasks: [58-BACKEND-csv-export-api, 118-UNIT-TEST-csv-export-api, 178-FRONTEND-csv-export-button, 238-E2E-TEST-csv-export]
 ---
 
 # Story 06-02-01: Download usage data as CSV

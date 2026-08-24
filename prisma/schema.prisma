@@ -1,0 +1,13 @@
+// Prisma schema for Stationery Inventory Management
+// Database models will be added by implement-agent
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Models will be added here by implement-agent

@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-024, FR-025
 dependencies: []
-tasks: []
+tasks: [65-BACKEND-rbac-user-role-api, 125-UNIT-TEST-rbac-user-role-api, 185-FRONTEND-user-role-display, 245-E2E-TEST-role-display]
 ---
 
 # Story 07-02-02: Hide UI controls based on user role

@@ -5,7 +5,7 @@ type: feature
 epic: epic-07
 status: planned
 source: FR-020
-userStories: []
+userStories: [story-07-03-01, story-07-03-02, story-07-03-03]
 ---
 
 # Feature 07-03: Menu-Based Navigation

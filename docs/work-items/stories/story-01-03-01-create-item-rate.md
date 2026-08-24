@@ -8,7 +8,7 @@ status: ready
 priority: must-have
 source: FR-005
 dependencies: []
-tasks: []
+tasks: [03-DATABASE-item-rate-model, 18-BACKEND-item-rate-api, 78-UNIT-TEST-item-rate-api, 138-FRONTEND-item-rate-form, 198-E2E-TEST-item-rate-creation]
 ---
 
 # Story 01-03-01: Create item rate

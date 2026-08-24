@@ -8,7 +8,7 @@ status: ready
 priority: should-have
 source: FR-003
 dependencies: []
-tasks: []
+tasks: [09-DATABASE-usage-record-model, 37-BACKEND-usage-delete-admin-api, 97-UNIT-TEST-usage-delete-admin-api, 157-FRONTEND-usage-delete-admin, 217-E2E-TEST-usage-deletion-admin]
 ---
 
 # Story 04-01-04: Delete usage record (Admin only)
