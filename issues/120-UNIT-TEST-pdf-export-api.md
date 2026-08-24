@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-06-02-03
 feature: feature-06-02
 epic: epic-06
-status: ready
+status: done
 dependencies: [60-BACKEND-pdf-export-api]
 ---
 
