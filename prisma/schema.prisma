@@ -1,5 +1,4 @@
 // Prisma schema for Stationery Inventory Management
-// Database models will be added by implement-agent
 
 generator client {
   provider = "prisma-client-js"
@@ -10,4 +9,118 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Models will be added here by implement-agent
+// NOTE: SQLite connector does not support native Prisma enums, so UserRole
+// is persisted as a String constrained to "ADMIN" | "USER" in application code
+// (see src/types/user.ts).
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vendor {
+  id           Int             @id @default(autoincrement())
+  name         String
+  contactName  String?
+  contactEmail String?
+  contactPhone String?
+  address      String?
+  items        InventoryItem[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ItemHierarchy {
+  id        Int             @id @default(autoincrement())
+  name      String
+  parentId  Int?
+  parent    ItemHierarchy?  @relation("HierarchyNesting", fields: [parentId], references: [id])
+  children  ItemHierarchy[] @relation("HierarchyNesting")
+  items     InventoryItem[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model InventoryItem {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  vendorId     Int
+  vendor       Vendor        @relation(fields: [vendorId], references: [id])
+  hierarchyId  Int
+  hierarchy    ItemHierarchy @relation(fields: [hierarchyId], references: [id])
+  unit         String
+  rates        ItemRate[]
+  usageRecords UsageRecord[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ItemRate {
+  id            Int           @id @default(autoincrement())
+  itemId        Int
+  item          InventoryItem @relation(fields: [itemId], references: [id])
+  rate          Float
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model RegionalOffice {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String   @unique
+  address   String?
+  branches  Branch[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Branch {
+  id               Int            @id @default(autoincrement())
+  name             String
+  code             String         @unique
+  regionalOfficeId Int
+  regionalOffice   RegionalOffice @relation(fields: [regionalOfficeId], references: [id])
+  address          String?
+  usageRecords     UsageRecord[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Supervisor {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  phone     String?
+  premises  Premises[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Premises {
+  id           Int        @id @default(autoincrement())
+  name         String
+  address      String?
+  supervisorId Int
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model UsageRecord {
+  id        Int           @id @default(autoincrement())
+  itemId    Int
+  item      InventoryItem @relation(fields: [itemId], references: [id])
+  branchId  Int
+  branch    Branch        @relation(fields: [branchId], references: [id])
+  quantity  Float
+  usageDate DateTime
+  notes     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}

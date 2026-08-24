@@ -6,7 +6,7 @@ taskType: DATABASE
 userStory: story-01-02-01
 feature: feature-01-02
 epic: epic-01
-status: ready
+status: done
 dependencies: []
 ---
 

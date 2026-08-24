@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-02-03
 feature: feature-05-02
 epic: epic-05
-status: ready
+status: done
 dependencies: [47-BACKEND-report-column-sorting-api]
 ---
 

@@ -6,7 +6,7 @@ taskType: BACKEND
 userStory: story-05-03-02
 feature: feature-05-03
 epic: epic-05
-status: ready
+status: done
 dependencies: [02-DATABASE-item-hierarchy-model,01-DATABASE-inventory-item-model,09-DATABASE-usage-record-model]
 ---
 

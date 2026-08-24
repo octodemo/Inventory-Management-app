@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-04-03-02
 feature: feature-04-03
 epic: epic-04
-status: ready
+status: done
 dependencies: [41-BACKEND-regional-office-usage-summary-api]
 ---
 

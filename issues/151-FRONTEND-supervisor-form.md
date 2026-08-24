@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-03-02-01
 feature: feature-03-02
 epic: epic-03
-status: ready
+status: done
 dependencies: [31-BACKEND-supervisor-api]
 ---
 

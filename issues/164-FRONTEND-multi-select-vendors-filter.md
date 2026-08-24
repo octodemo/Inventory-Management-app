@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-01-03
 feature: feature-05-01
 epic: epic-05
-status: ready
+status: done
 dependencies: [44-BACKEND-multi-select-vendors-api]
 ---
 

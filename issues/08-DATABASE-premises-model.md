@@ -6,7 +6,7 @@ taskType: DATABASE
 userStory: story-03-02-02
 feature: feature-03-02
 epic: epic-03
-status: ready
+status: done
 dependencies: [07-DATABASE-supervisor-model]
 ---
 

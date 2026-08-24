@@ -6,7 +6,7 @@ taskType: DATABASE
 userStory: story-03-01-02
 feature: feature-03-01
 epic: epic-03
-status: ready
+status: done
 dependencies: [05-DATABASE-regional-office-model]
 ---
 

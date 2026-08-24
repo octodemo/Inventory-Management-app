@@ -6,7 +6,7 @@ taskType: BACKEND
 userStory: story-03-01-03
 feature: feature-03-01
 epic: epic-03
-status: ready
+status: done
 dependencies: [05-DATABASE-regional-office-model,06-DATABASE-branch-model]
 ---
 
