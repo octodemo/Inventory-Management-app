@@ -1,0 +1,2026 @@
+{
+  "summary": {
+    "featuresCreated": 19,
+    "storiesCreated": 60,
+    "failures": 0,
+    "totalCreated": 335,
+    "epicsCreated": 7,
+    "tasksCreated": 249
+  },
+  "syncDate": "2026-08-24T18:49:31.5050283+05:30",
+  "epics": {
+    "epic-07": {
+      "issueNumber": 9,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/9",
+      "title": "Epic 07: Access Control & Authentication"
+    },
+    "epic-01": {
+      "issueNumber": 3,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/3",
+      "title": "Epic 01: Inventory & Item Management"
+    },
+    "epic-02": {
+      "issueNumber": 4,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/4",
+      "title": "Epic 02: Vendor Management"
+    },
+    "epic-06": {
+      "issueNumber": 8,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/8",
+      "title": "Epic 06: Data Management & Integration"
+    },
+    "epic-04": {
+      "issueNumber": 6,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/6",
+      "title": "Epic 04: Usage Tracking & Recording"
+    },
+    "epic-05": {
+      "issueNumber": 7,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/7",
+      "title": "Epic 05: Reporting & Analytics"
+    },
+    "epic-03": {
+      "issueNumber": 5,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/5",
+      "title": "Epic 03: Organizational Structure Management"
+    }
+  },
+  "failures": [],
+  "repository": "Inventory-Management-app",
+  "features": {
+    "feature-05-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/20",
+      "title": "Multi-Selection Filters",
+      "epic": "epic-05",
+      "issueNumber": 20
+    },
+    "feature-02-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/13",
+      "title": "Vendor Master Management",
+      "epic": "epic-02",
+      "issueNumber": 13
+    },
+    "feature-05-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/22",
+      "title": "Hierarchy-Based Reporting",
+      "epic": "epic-05",
+      "issueNumber": 22
+    },
+    "feature-03-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/15",
+      "title": "Regional Office & Branch Management",
+      "epic": "epic-03",
+      "issueNumber": 15
+    },
+    "feature-03-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/16",
+      "title": "Supervisor & Premises Management",
+      "epic": "epic-03",
+      "issueNumber": 16
+    },
+    "feature-07-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/27",
+      "title": "Role-Based Access Control",
+      "epic": "epic-07",
+      "issueNumber": 27
+    },
+    "feature-01-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/11",
+      "title": "Item Hierarchy Management",
+      "epic": "epic-01",
+      "issueNumber": 11
+    },
+    "feature-01-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/12",
+      "title": "Item Rate Management",
+      "epic": "epic-01",
+      "issueNumber": 12
+    },
+    "feature-05-04": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/23",
+      "title": "Dashboard with Analytics Widgets",
+      "epic": "epic-05",
+      "issueNumber": 23
+    },
+    "feature-01-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/10",
+      "title": "Inventory Master Management",
+      "epic": "epic-01",
+      "issueNumber": 10
+    },
+    "feature-06-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/24",
+      "title": "Bulk Data Upload",
+      "epic": "epic-06",
+      "issueNumber": 24
+    },
+    "feature-07-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/26",
+      "title": "IAM Framework Integration",
+      "epic": "epic-07",
+      "issueNumber": 26
+    },
+    "feature-06-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/25",
+      "title": "Data Download & Export",
+      "epic": "epic-06",
+      "issueNumber": 25
+    },
+    "feature-07-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/28",
+      "title": "Menu-Based Navigation",
+      "epic": "epic-07",
+      "issueNumber": 28
+    },
+    "feature-04-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/18",
+      "title": "Branch-Level Usage Tracking",
+      "epic": "epic-04",
+      "issueNumber": 18
+    },
+    "feature-05-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/21",
+      "title": "Tabular Reports with Pagination",
+      "epic": "epic-05",
+      "issueNumber": 21
+    },
+    "feature-04-03": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/19",
+      "title": "Regional-Office-Level Usage Tracking",
+      "epic": "epic-04",
+      "issueNumber": 19
+    },
+    "feature-02-02": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/14",
+      "title": "Vendor-Wise Analysis Reports",
+      "epic": "epic-02",
+      "issueNumber": 14
+    },
+    "feature-04-01": {
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/17",
+      "title": "Usage Record Management",
+      "epic": "epic-04",
+      "issueNumber": 17
+    }
+  },
+  "projectNumber": null,
+  "organization": "octodemo",
+  "stories": {
+    "story-02-01-02": {
+      "feature": "feature-02-01",
+      "issueNumber": 41,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/41",
+      "title": "View and search vendors"
+    },
+    "story-04-02-01": {
+      "feature": "feature-04-02",
+      "issueNumber": 57,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/57",
+      "title": "Filter usage data by branch"
+    },
+    "story-01-01-02": {
+      "feature": "feature-01-01",
+      "issueNumber": 30,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/30",
+      "title": "View and search inventory items"
+    },
+    "story-02-01-04": {
+      "feature": "feature-02-01",
+      "issueNumber": 43,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/43",
+      "title": "Delete vendor"
+    },
+    "story-05-01-02": {
+      "feature": "feature-05-01",
+      "issueNumber": 62,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/62",
+      "title": "Multi-select branches using checkboxes"
+    },
+    "story-01-03-01": {
+      "feature": "feature-01-03",
+      "issueNumber": 37,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/37",
+      "title": "Create item rate"
+    },
+    "story-02-01-01": {
+      "feature": "feature-02-01",
+      "issueNumber": 40,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/40",
+      "title": "Create vendor record"
+    },
+    "story-03-02-03": {
+      "feature": "feature-03-02",
+      "issueNumber": 52,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/52",
+      "title": "Prevent supervisor deletion with premises"
+    },
+    "story-04-01-04": {
+      "feature": "feature-04-01",
+      "issueNumber": 56,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/56",
+      "title": "Delete usage record (Admin only)"
+    },
+    "story-04-01-01": {
+      "feature": "feature-04-01",
+      "issueNumber": 53,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/53",
+      "title": "Create usage record"
+    },
+    "story-05-02-01": {
+      "feature": "feature-05-02",
+      "issueNumber": 64,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/64",
+      "title": "Display reports in tabular format"
+    },
+    "story-05-04-03": {
+      "feature": "feature-05-04",
+      "issueNumber": 72,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/72",
+      "title": "Drill down from dashboard widget to detailed report"
+    },
+    "story-05-02-02": {
+      "feature": "feature-05-02",
+      "issueNumber": 65,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/65",
+      "title": "Navigate report pages using pagination controls"
+    },
+    "story-04-01-03": {
+      "feature": "feature-04-01",
+      "issueNumber": 55,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/55",
+      "title": "Edit usage record"
+    },
+    "story-05-04-04": {
+      "feature": "feature-05-04",
+      "issueNumber": 73,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/73",
+      "title": "Display trend visualization in dashboard widget"
+    },
+    "story-07-03-01": {
+      "feature": "feature-07-03",
+      "issueNumber": 86,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/86",
+      "title": "Display menu based on role permissions"
+    },
+    "story-03-01-03": {
+      "feature": "feature-03-01",
+      "issueNumber": 49,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/49",
+      "title": "Prevent regional office deletion with branches"
+    },
+    "story-07-02-01": {
+      "feature": "feature-07-02",
+      "issueNumber": 83,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/83",
+      "title": "Enforce role-based access control on routes"
+    },
+    "story-01-02-02": {
+      "feature": "feature-01-02",
+      "issueNumber": 34,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/34",
+      "title": "View hierarchy tree"
+    },
+    "story-02-02-01": {
+      "feature": "feature-02-02",
+      "issueNumber": 44,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/44",
+      "title": "Generate vendor-wise usage report"
+    },
+    "story-03-01-02": {
+      "feature": "feature-03-01",
+      "issueNumber": 48,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/48",
+      "title": "Manage branches"
+    },
+    "story-07-03-02": {
+      "feature": "feature-07-03",
+      "issueNumber": 87,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/87",
+      "title": "Highlight active menu item"
+    },
+    "story-02-02-02": {
+      "feature": "feature-02-02",
+      "issueNumber": 45,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/45",
+      "title": "Filter vendor-wise report by vendor"
+    },
+    "story-05-03-02": {
+      "feature": "feature-05-03",
+      "issueNumber": 68,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/68",
+      "title": "Drill down from hierarchy node to item details"
+    },
+    "story-07-02-02": {
+      "feature": "feature-07-02",
+      "issueNumber": 84,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/84",
+      "title": "Hide UI controls based on user role"
+    },
+    "story-06-02-02": {
+      "feature": "feature-06-02",
+      "issueNumber": 78,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/78",
+      "title": "Download usage data as Excel"
+    },
+    "story-06-01-02": {
+      "feature": "feature-06-01",
+      "issueNumber": 75,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/75",
+      "title": "Preview upload data before committing"
+    },
+    "story-05-04-02": {
+      "feature": "feature-05-04",
+      "issueNumber": 71,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/71",
+      "title": "Filter dashboard by date range"
+    },
+    "story-05-03-01": {
+      "feature": "feature-05-03",
+      "issueNumber": 67,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/67",
+      "title": "Generate hierarchy-based usage report"
+    },
+    "story-07-02-03": {
+      "feature": "feature-07-02",
+      "issueNumber": 85,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/85",
+      "title": "Display access denied message for unauthorized actions"
+    },
+    "story-01-01-04": {
+      "feature": "feature-01-01",
+      "issueNumber": 32,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/32",
+      "title": "Delete inventory item"
+    },
+    "story-06-01-01": {
+      "feature": "feature-06-01",
+      "issueNumber": 74,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/74",
+      "title": "Upload bulk data via CSV/Excel file"
+    },
+    "story-01-02-03": {
+      "feature": "feature-01-02",
+      "issueNumber": 35,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/35",
+      "title": "Edit hierarchy node"
+    },
+    "story-07-01-03": {
+      "feature": "feature-07-01",
+      "issueNumber": 82,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/82",
+      "title": "Handle authentication errors"
+    },
+    "story-01-03-02": {
+      "feature": "feature-01-03",
+      "issueNumber": 38,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/38",
+      "title": "View rate history"
+    },
+    "story-04-01-02": {
+      "feature": "feature-04-01",
+      "issueNumber": 54,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/54",
+      "title": "View and search usage records"
+    },
+    "story-03-02-01": {
+      "feature": "feature-03-02",
+      "issueNumber": 50,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/50",
+      "title": "Manage supervisors"
+    },
+    "story-04-03-02": {
+      "feature": "feature-04-03",
+      "issueNumber": 60,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/60",
+      "title": "View regional office usage summary"
+    },
+    "story-01-02-01": {
+      "feature": "feature-01-02",
+      "issueNumber": 33,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/33",
+      "title": "Create hierarchy node"
+    },
+    "story-05-03-03": {
+      "feature": "feature-05-03",
+      "issueNumber": 69,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/69",
+      "title": "Compare hierarchy nodes across time periods"
+    },
+    "story-03-01-01": {
+      "feature": "feature-03-01",
+      "issueNumber": 47,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/47",
+      "title": "Manage regional offices"
+    },
+    "story-01-01-03": {
+      "feature": "feature-01-01",
+      "issueNumber": 31,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/31",
+      "title": "Edit inventory item details"
+    },
+    "story-04-02-02": {
+      "feature": "feature-04-02",
+      "issueNumber": 58,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/58",
+      "title": "View branch usage summary"
+    },
+    "story-06-01-03": {
+      "feature": "feature-06-01",
+      "issueNumber": 76,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/76",
+      "title": "Download template file for bulk upload"
+    },
+    "story-01-03-03": {
+      "feature": "feature-01-03",
+      "issueNumber": 39,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/39",
+      "title": "Update rate effective period"
+    },
+    "story-05-01-01": {
+      "feature": "feature-05-01",
+      "issueNumber": 61,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/61",
+      "title": "Multi-select items using checkboxes"
+    },
+    "story-02-02-03": {
+      "feature": "feature-02-02",
+      "issueNumber": 46,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/46",
+      "title": "Drill down from vendor to item details"
+    },
+    "story-06-02-03": {
+      "feature": "feature-06-02",
+      "issueNumber": 79,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/79",
+      "title": "Export report as PDF"
+    },
+    "story-05-01-03": {
+      "feature": "feature-05-01",
+      "issueNumber": 63,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/63",
+      "title": "Multi-select vendors using checkboxes"
+    },
+    "story-07-01-02": {
+      "feature": "feature-07-01",
+      "issueNumber": 81,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/81",
+      "title": "Logout and clear session"
+    },
+    "story-07-03-03": {
+      "feature": "feature-07-03",
+      "issueNumber": 88,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/88",
+      "title": "Organize menu items into logical sections"
+    },
+    "story-05-02-03": {
+      "feature": "feature-05-02",
+      "issueNumber": 66,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/66",
+      "title": "Sort report columns"
+    },
+    "story-01-01-01": {
+      "feature": "feature-01-01",
+      "issueNumber": 29,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/29",
+      "title": "Create inventory item"
+    },
+    "story-07-01-01": {
+      "feature": "feature-07-01",
+      "issueNumber": 80,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/80",
+      "title": "Authenticate via IAM framework"
+    },
+    "story-02-01-03": {
+      "feature": "feature-02-01",
+      "issueNumber": 42,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/42",
+      "title": "Edit vendor details"
+    },
+    "story-05-04-01": {
+      "feature": "feature-05-04",
+      "issueNumber": 70,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/70",
+      "title": "Display dashboard with analytics widgets"
+    },
+    "story-06-02-01": {
+      "feature": "feature-06-02",
+      "issueNumber": 77,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/77",
+      "title": "Download usage data as CSV"
+    },
+    "story-04-03-01": {
+      "feature": "feature-04-03",
+      "issueNumber": 59,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/59",
+      "title": "Filter usage data by regional office"
+    },
+    "story-01-02-04": {
+      "feature": "feature-01-02",
+      "issueNumber": 36,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/36",
+      "title": "Delete hierarchy node"
+    },
+    "story-03-02-02": {
+      "feature": "feature-03-02",
+      "issueNumber": 51,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/51",
+      "title": "Assign premises to supervisor"
+    }
+  },
+  "tasks": {
+    "151-FRONTEND-supervisor-form": {
+      "title": "[FRONTEND] Supervisor Form",
+      "userStory": "story-03-02-01",
+      "issueNumber": 155,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/155"
+    },
+    "168-FRONTEND-hierarchy-based-report": {
+      "title": "[FRONTEND] Hierarchy-Based Report",
+      "userStory": "story-05-03-01",
+      "issueNumber": 173,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/173"
+    },
+    "243-E2E-TEST-auth-errors": {
+      "title": "[E2E-TEST] Auth Errors",
+      "userStory": "story-07-01-03",
+      "issueNumber": 256,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/256"
+    },
+    "18-BACKEND-item-rate-api": {
+      "title": "[BACKEND] Item Rate API",
+      "userStory": "story-01-03-01",
+      "issueNumber": 186,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/186"
+    },
+    "123-UNIT-TEST-auth-error-handling-api": {
+      "title": "[UNIT-TEST] Auth Error Handling API Test",
+      "userStory": "story-07-01-03",
+      "issueNumber": 124,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/124"
+    },
+    "176-FRONTEND-upload-preview": {
+      "title": "[FRONTEND] Upload Preview",
+      "userStory": "story-06-01-02",
+      "issueNumber": 182,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/182"
+    },
+    "22-BACKEND-vendor-list-search-api": {
+      "title": "[BACKEND] Vendor List and Search API",
+      "userStory": "story-02-01-02",
+      "issueNumber": 230,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/230"
+    },
+    "249-E2E-TEST-menu-organization": {
+      "title": "[E2E-TEST] Menu Organization",
+      "userStory": "story-07-03-03",
+      "issueNumber": 262,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/262"
+    },
+    "140-FRONTEND-rate-update-form": {
+      "title": "[FRONTEND] Rate Update Form",
+      "userStory": "story-01-03-03",
+      "issueNumber": 143,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/143"
+    },
+    "205-E2E-TEST-vendor-usage-analysis": {
+      "title": "[E2E-TEST] Vendor Usage Analysis",
+      "userStory": "story-02-02-01",
+      "issueNumber": 214,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/214"
+    },
+    "173-FRONTEND-dashboard-drill-down": {
+      "title": "[FRONTEND] Dashboard Drill-Down",
+      "userStory": "story-05-04-03",
+      "issueNumber": 179,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/179"
+    },
+    "83-UNIT-TEST-vendor-update-api": {
+      "title": "[UNIT-TEST] Vendor Update API Test",
+      "userStory": "story-02-01-03",
+      "issueNumber": 321,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/321"
+    },
+    "33-BACKEND-supervisor-delete-validation-api": {
+      "title": "[BACKEND] Supervisor Delete Validation API",
+      "userStory": "story-03-02-03",
+      "issueNumber": 271,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/271"
+    },
+    "35-BACKEND-usage-list-search-api": {
+      "title": "[BACKEND] Usage List and Search API",
+      "userStory": "story-04-01-02",
+      "issueNumber": 273,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/273"
+    },
+    "60-BACKEND-pdf-export-api": {
+      "title": "[BACKEND] PDF Export API",
+      "userStory": "story-06-02-03",
+      "issueNumber": 298,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/298"
+    },
+    "192-E2E-TEST-inventory-item-update": {
+      "title": "[E2E-TEST] Inventory Item Update",
+      "userStory": "story-01-01-03",
+      "issueNumber": 200,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/200"
+    },
+    "38-BACKEND-branch-usage-filter-api": {
+      "title": "[BACKEND] Branch Usage Filter API",
+      "userStory": "story-04-02-01",
+      "issueNumber": 276,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/276"
+    },
+    "94-UNIT-TEST-usage-record-api": {
+      "title": "[UNIT-TEST] Usage Record API Test",
+      "userStory": "story-04-01-01",
+      "issueNumber": 332,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/332"
+    },
+    "156-FRONTEND-usage-update-form": {
+      "title": "[FRONTEND] Usage Update Form",
+      "userStory": "story-04-01-03",
+      "issueNumber": 160,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/160"
+    },
+    "164-FRONTEND-multi-select-vendors-filter": {
+      "title": "[FRONTEND] Multi-Select Vendors Filter",
+      "userStory": "story-05-01-03",
+      "issueNumber": 169,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/169"
+    },
+    "203-E2E-TEST-vendor-update": {
+      "title": "[E2E-TEST] Vendor Update",
+      "userStory": "story-02-01-03",
+      "issueNumber": 212,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/212"
+    },
+    "130-FRONTEND-inventory-item-form": {
+      "title": "[FRONTEND] Inventory Item Form",
+      "userStory": "story-01-01-01",
+      "issueNumber": 132,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/132"
+    },
+    "73-UNIT-TEST-inventory-delete-api": {
+      "title": "[UNIT-TEST] Inventory Delete API Test",
+      "userStory": "story-01-01-04",
+      "issueNumber": 311,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/311"
+    },
+    "208-E2E-TEST-regional-office-management": {
+      "title": "[E2E-TEST] Regional Office Management",
+      "userStory": "story-03-01-01",
+      "issueNumber": 217,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/217"
+    },
+    "146-FRONTEND-vendor-wise-report-filters": {
+      "title": "[FRONTEND] Vendor-Wise Report Filters",
+      "userStory": "story-02-02-02",
+      "issueNumber": 149,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/149"
+    },
+    "232-E2E-TEST-dashboard-filter": {
+      "title": "[E2E-TEST] Dashboard Filter",
+      "userStory": "story-05-04-02",
+      "issueNumber": 244,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/244"
+    },
+    "136-FRONTEND-hierarchy-update-form": {
+      "title": "[FRONTEND] Hierarchy Update Form",
+      "userStory": "story-01-02-03",
+      "issueNumber": 138,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/138"
+    },
+    "24-BACKEND-vendor-delete-api": {
+      "title": "[BACKEND] Vendor Delete API",
+      "userStory": "story-02-01-04",
+      "issueNumber": 252,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/252"
+    },
+    "105-UNIT-TEST-tabular-report-format-api": {
+      "title": "[UNIT-TEST] Tabular Report Format API Test",
+      "userStory": "story-05-02-01",
+      "issueNumber": 104,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/104"
+    },
+    "88-UNIT-TEST-regional-office-api": {
+      "title": "[UNIT-TEST] Regional Office API Test",
+      "userStory": "story-03-01-01",
+      "issueNumber": 326,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/326"
+    },
+    "52-BACKEND-dashboard-date-filter-api": {
+      "title": "[BACKEND] Dashboard Date Filter API",
+      "userStory": "story-05-04-02",
+      "issueNumber": 290,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/290"
+    },
+    "183-FRONTEND-auth-error-display": {
+      "title": "[FRONTEND] Auth Error Display",
+      "userStory": "story-07-01-03",
+      "issueNumber": 190,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/190"
+    },
+    "244-E2E-TEST-rbac-route-guards": {
+      "title": "[E2E-TEST] RBAC Route Guards",
+      "userStory": "story-07-02-01",
+      "issueNumber": 257,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/257"
+    },
+    "218-E2E-TEST-branch-wise-report": {
+      "title": "[E2E-TEST] Branch-Wise Report",
+      "userStory": "story-04-02-01",
+      "issueNumber": 228,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/228"
+    },
+    "210-E2E-TEST-regional-office-deletion": {
+      "title": "[E2E-TEST] Regional Office Deletion",
+      "userStory": "story-03-01-03",
+      "issueNumber": 220,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/220"
+    },
+    "172-FRONTEND-dashboard-date-filter": {
+      "title": "[FRONTEND] Dashboard Date Filter",
+      "userStory": "story-05-04-02",
+      "issueNumber": 178,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/178"
+    },
+    "106-UNIT-TEST-report-pagination-api": {
+      "title": "[UNIT-TEST] Report Pagination API Test",
+      "userStory": "story-05-02-02",
+      "issueNumber": 105,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/105"
+    },
+    "81-UNIT-TEST-vendor-api": {
+      "title": "[UNIT-TEST] Vendor API Test",
+      "userStory": "story-02-01-01",
+      "issueNumber": 319,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/319"
+    },
+    "133-FRONTEND-inventory-delete-action": {
+      "title": "[FRONTEND] Inventory Delete Action",
+      "userStory": "story-01-01-04",
+      "issueNumber": 135,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/135"
+    },
+    "113-UNIT-TEST-dashboard-drill-down-api": {
+      "title": "[UNIT-TEST] Dashboard Drill-Down API Test",
+      "userStory": "story-05-04-03",
+      "issueNumber": 113,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/113"
+    },
+    "220-E2E-TEST-regional-office-report": {
+      "title": "[E2E-TEST] Regional Office Report",
+      "userStory": "story-04-03-01",
+      "issueNumber": 231,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/231"
+    },
+    "227-E2E-TEST-report-sorting": {
+      "title": "[E2E-TEST] Report Sorting",
+      "userStory": "story-05-02-03",
+      "issueNumber": 238,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/238"
+    },
+    "214-E2E-TEST-usage-record-creation": {
+      "title": "[E2E-TEST] Usage Record Creation",
+      "userStory": "story-04-01-01",
+      "issueNumber": 224,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/224"
+    },
+    "163-FRONTEND-multi-select-branches-filter": {
+      "title": "[FRONTEND] Multi-Select Branches Filter",
+      "userStory": "story-05-01-02",
+      "issueNumber": 168,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/168"
+    },
+    "101-UNIT-TEST-regional-office-usage-summary-api": {
+      "title": "[UNIT-TEST] Regional Office Usage Summary API Test",
+      "userStory": "story-04-03-02",
+      "issueNumber": 100,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/100"
+    },
+    "23-BACKEND-vendor-update-api": {
+      "title": "[BACKEND] Vendor Update API",
+      "userStory": "story-02-01-03",
+      "issueNumber": 241,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/241"
+    },
+    "179-FRONTEND-excel-export-button": {
+      "title": "[FRONTEND] Excel Export Button",
+      "userStory": "story-06-02-02",
+      "issueNumber": 185,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/185"
+    },
+    "37-BACKEND-usage-delete-admin-api": {
+      "title": "[BACKEND] Usage Delete Admin API",
+      "userStory": "story-04-01-04",
+      "issueNumber": 275,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/275"
+    },
+    "184-FRONTEND-rbac-route-guards": {
+      "title": "[FRONTEND] RBAC Route Guards",
+      "userStory": "story-07-02-01",
+      "issueNumber": 191,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/191"
+    },
+    "174-FRONTEND-dashboard-trend-chart": {
+      "title": "[FRONTEND] Dashboard Trend Chart",
+      "userStory": "story-05-04-04",
+      "issueNumber": 180,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/180"
+    },
+    "147-FRONTEND-vendor-wise-drill-down": {
+      "title": "[FRONTEND] Vendor-Wise Drill-Down",
+      "userStory": "story-02-02-03",
+      "issueNumber": 150,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/150"
+    },
+    "74-UNIT-TEST-hierarchy-node-api": {
+      "title": "[UNIT-TEST] Hierarchy Node API Test",
+      "userStory": "story-01-02-01",
+      "issueNumber": 312,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/312"
+    },
+    "17-BACKEND-hierarchy-delete-api": {
+      "title": "[BACKEND] Hierarchy Delete API",
+      "userStory": "story-01-02-04",
+      "issueNumber": 175,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/175"
+    },
+    "122-UNIT-TEST-logout-api": {
+      "title": "[UNIT-TEST] Logout API Test",
+      "userStory": "story-07-01-02",
+      "issueNumber": 123,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/123"
+    },
+    "212-E2E-TEST-premises-assignment": {
+      "title": "[E2E-TEST] Premises Assignment",
+      "userStory": "story-03-02-02",
+      "issueNumber": 222,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/222"
+    },
+    "225-E2E-TEST-tabular-report-format": {
+      "title": "[E2E-TEST] Tabular Report Format",
+      "userStory": "story-05-02-01",
+      "issueNumber": 236,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/236"
+    },
+    "32-BACKEND-premises-supervisor-assignment-api": {
+      "title": "[BACKEND] Premises Supervisor Assignment API",
+      "userStory": "story-03-02-02",
+      "issueNumber": 270,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/270"
+    },
+    "207-E2E-TEST-vendor-drill-down": {
+      "title": "[E2E-TEST] Vendor Drill-Down",
+      "userStory": "story-02-02-03",
+      "issueNumber": 216,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/216"
+    },
+    "175-FRONTEND-bulk-upload-form": {
+      "title": "[FRONTEND] Bulk Upload Form",
+      "userStory": "story-06-01-01",
+      "issueNumber": 181,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/181"
+    },
+    "34-BACKEND-usage-record-api": {
+      "title": "[BACKEND] Usage Record API",
+      "userStory": "story-04-01-01",
+      "issueNumber": 272,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/272"
+    },
+    "188-FRONTEND-active-menu-state": {
+      "title": "[FRONTEND] Active Menu State",
+      "userStory": "story-07-03-02",
+      "issueNumber": 195,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/195"
+    },
+    "245-E2E-TEST-role-display": {
+      "title": "[E2E-TEST] Role Display",
+      "userStory": "story-07-02-02",
+      "issueNumber": 258,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/258"
+    },
+    "180-FRONTEND-pdf-export-button": {
+      "title": "[FRONTEND] PDF Export Button",
+      "userStory": "story-06-02-03",
+      "issueNumber": 187,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/187"
+    },
+    "201-E2E-TEST-vendor-creation": {
+      "title": "[E2E-TEST] Vendor Creation",
+      "userStory": "story-02-01-01",
+      "issueNumber": 210,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/210"
+    },
+    "06-DATABASE-branch-model": {
+      "title": "[DATABASE] Branch Model",
+      "userStory": "story-03-01-02",
+      "issueNumber": 94,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/94"
+    },
+    "121-UNIT-TEST-iam-authentication-api": {
+      "title": "[UNIT-TEST] IAM Authentication API Test",
+      "userStory": "story-07-01-01",
+      "issueNumber": 122,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/122"
+    },
+    "116-UNIT-TEST-upload-preview-api": {
+      "title": "[UNIT-TEST] Upload Preview API Test",
+      "userStory": "story-06-01-02",
+      "issueNumber": 116,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/116"
+    },
+    "161-FRONTEND-regional-office-usage-summary": {
+      "title": "[FRONTEND] Regional Office Usage Summary",
+      "userStory": "story-04-03-02",
+      "issueNumber": 166,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/166"
+    },
+    "67-BACKEND-menu-permissions-api": {
+      "title": "[BACKEND] Menu Permissions API",
+      "userStory": "story-07-03-01",
+      "issueNumber": 305,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/305"
+    },
+    "235-E2E-TEST-bulk-upload": {
+      "title": "[E2E-TEST] Bulk Upload",
+      "userStory": "story-06-01-01",
+      "issueNumber": 247,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/247"
+    },
+    "237-E2E-TEST-template-download": {
+      "title": "[E2E-TEST] Template Download",
+      "userStory": "story-06-01-03",
+      "issueNumber": 249,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/249"
+    },
+    "96-UNIT-TEST-usage-update-api": {
+      "title": "[UNIT-TEST] Usage Update API Test",
+      "userStory": "story-04-01-03",
+      "issueNumber": 334,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/334"
+    },
+    "150-FRONTEND-regional-office-delete-validation": {
+      "title": "[FRONTEND] Regional Office Delete Validation",
+      "userStory": "story-03-01-03",
+      "issueNumber": 154,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/154"
+    },
+    "194-E2E-TEST-hierarchy-node-creation": {
+      "title": "[E2E-TEST] Hierarchy Node Creation",
+      "userStory": "story-01-02-01",
+      "issueNumber": 202,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/202"
+    },
+    "119-UNIT-TEST-excel-export-api": {
+      "title": "[UNIT-TEST] Excel Export API Test",
+      "userStory": "story-06-02-02",
+      "issueNumber": 119,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/119"
+    },
+    "61-BACKEND-iam-authentication-api": {
+      "title": "[BACKEND] IAM Authentication API",
+      "userStory": "story-07-01-01",
+      "issueNumber": 299,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/299"
+    },
+    "103-UNIT-TEST-multi-select-branches-api": {
+      "title": "[UNIT-TEST] Multi-Select Branches API Test",
+      "userStory": "story-05-01-02",
+      "issueNumber": 102,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/102"
+    },
+    "51-BACKEND-dashboard-widgets-api": {
+      "title": "[BACKEND] Dashboard Widgets API",
+      "userStory": "story-05-04-01",
+      "issueNumber": 289,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/289"
+    },
+    "69-BACKEND-menu-organization-api": {
+      "title": "[BACKEND] Menu Organization API",
+      "userStory": "story-07-03-03",
+      "issueNumber": 307,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/307"
+    },
+    "186-FRONTEND-rbac-access-denied": {
+      "title": "[FRONTEND] RBAC Access Denied",
+      "userStory": "story-07-02-03",
+      "issueNumber": 193,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/193"
+    },
+    "65-BACKEND-rbac-user-role-api": {
+      "title": "[BACKEND] RBAC User Role API",
+      "userStory": "story-07-02-02",
+      "issueNumber": 303,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/303"
+    },
+    "217-E2E-TEST-usage-deletion-admin": {
+      "title": "[E2E-TEST] Usage Deletion Admin",
+      "userStory": "story-04-01-04",
+      "issueNumber": 227,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/227"
+    },
+    "193-E2E-TEST-inventory-item-deletion": {
+      "title": "[E2E-TEST] Inventory Item Deletion",
+      "userStory": "story-01-01-04",
+      "issueNumber": 201,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/201"
+    },
+    "178-FRONTEND-csv-export-button": {
+      "title": "[FRONTEND] CSV Export Button",
+      "userStory": "story-06-02-01",
+      "issueNumber": 184,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/184"
+    },
+    "216-E2E-TEST-usage-record-update": {
+      "title": "[E2E-TEST] Usage Record Update",
+      "userStory": "story-04-01-03",
+      "issueNumber": 226,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/226"
+    },
+    "240-E2E-TEST-pdf-export": {
+      "title": "[E2E-TEST] PDF Export",
+      "userStory": "story-06-02-03",
+      "issueNumber": 253,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/253"
+    },
+    "45-BACKEND-tabular-report-format-api": {
+      "title": "[BACKEND] Tabular Report Format API",
+      "userStory": "story-05-02-01",
+      "issueNumber": 283,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/283"
+    },
+    "26-BACKEND-vendor-filter-api": {
+      "title": "[BACKEND] Vendor Filter API",
+      "userStory": "story-02-02-02",
+      "issueNumber": 264,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/264"
+    },
+    "189-FRONTEND-menu-organization": {
+      "title": "[FRONTEND] Menu Organization",
+      "userStory": "story-07-03-03",
+      "issueNumber": 196,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/196"
+    },
+    "42-BACKEND-multi-select-items-api": {
+      "title": "[BACKEND] Multi-Select Items API",
+      "userStory": "story-05-01-01",
+      "issueNumber": 280,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/280"
+    },
+    "117-UNIT-TEST-upload-template-api": {
+      "title": "[UNIT-TEST] Upload Template API Test",
+      "userStory": "story-06-01-03",
+      "issueNumber": 117,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/117"
+    },
+    "228-E2E-TEST-hierarchy-report": {
+      "title": "[E2E-TEST] Hierarchy Report",
+      "userStory": "story-05-03-01",
+      "issueNumber": 239,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/239"
+    },
+    "199-E2E-TEST-rate-history-view": {
+      "title": "[E2E-TEST] Rate History View",
+      "userStory": "story-01-03-02",
+      "issueNumber": 207,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/207"
+    },
+    "118-UNIT-TEST-csv-export-api": {
+      "title": "[UNIT-TEST] CSV Export API Test",
+      "userStory": "story-06-02-01",
+      "issueNumber": 118,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/118"
+    },
+    "125-UNIT-TEST-rbac-user-role-api": {
+      "title": "[UNIT-TEST] RBAC User Role API Test",
+      "userStory": "story-07-02-02",
+      "issueNumber": 126,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/126"
+    },
+    "48-BACKEND-hierarchy-based-report-api": {
+      "title": "[BACKEND] Hierarchy-Based Report API",
+      "userStory": "story-05-03-01",
+      "issueNumber": 286,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/286"
+    },
+    "84-UNIT-TEST-vendor-delete-api": {
+      "title": "[UNIT-TEST] Vendor Delete API Test",
+      "userStory": "story-02-01-04",
+      "issueNumber": 322,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/322"
+    },
+    "132-FRONTEND-inventory-update-form": {
+      "title": "[FRONTEND] Inventory Update Form",
+      "userStory": "story-01-01-03",
+      "issueNumber": 134,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/134"
+    },
+    "57-BACKEND-upload-template-api": {
+      "title": "[BACKEND] Upload Template API",
+      "userStory": "story-06-01-03",
+      "issueNumber": 295,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/295"
+    },
+    "215-E2E-TEST-usage-list-and-filters": {
+      "title": "[E2E-TEST] Usage List and Filters",
+      "userStory": "story-04-01-02",
+      "issueNumber": 225,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/225"
+    },
+    "47-BACKEND-report-column-sorting-api": {
+      "title": "[BACKEND] Report Column Sorting API",
+      "userStory": "story-05-02-03",
+      "issueNumber": 285,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/285"
+    },
+    "200-E2E-TEST-item-rate-update": {
+      "title": "[E2E-TEST] Item Rate Update",
+      "userStory": "story-01-03-03",
+      "issueNumber": 209,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/209"
+    },
+    "55-BACKEND-bulk-upload-api": {
+      "title": "[BACKEND] Bulk Upload API",
+      "userStory": "story-06-01-01",
+      "issueNumber": 293,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/293"
+    },
+    "111-UNIT-TEST-dashboard-widgets-api": {
+      "title": "[UNIT-TEST] Dashboard Widgets API Test",
+      "userStory": "story-05-04-01",
+      "issueNumber": 111,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/111"
+    },
+    "126-UNIT-TEST-rbac-access-denied-api": {
+      "title": "[UNIT-TEST] RBAC Access Denied API Test",
+      "userStory": "story-07-02-03",
+      "issueNumber": 127,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/127"
+    },
+    "107-UNIT-TEST-report-column-sorting-api": {
+      "title": "[UNIT-TEST] Report Column Sorting API Test",
+      "userStory": "story-05-02-03",
+      "issueNumber": 106,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/106"
+    },
+    "167-FRONTEND-report-column-sorting": {
+      "title": "[FRONTEND] Report Column Sorting",
+      "userStory": "story-05-02-03",
+      "issueNumber": 172,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/172"
+    },
+    "05-DATABASE-regional-office-model": {
+      "title": "[DATABASE] RegionalOffice Model",
+      "userStory": "story-03-01-01",
+      "issueNumber": 93,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/93"
+    },
+    "138-FRONTEND-item-rate-form": {
+      "title": "[FRONTEND] Item Rate Form",
+      "userStory": "story-01-03-01",
+      "issueNumber": 140,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/140"
+    },
+    "98-UNIT-TEST-branch-usage-filter-api": {
+      "title": "[UNIT-TEST] Branch Usage Filter API Test",
+      "userStory": "story-04-02-01",
+      "issueNumber": 336,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/336"
+    },
+    "36-BACKEND-usage-update-api": {
+      "title": "[BACKEND] Usage Update API",
+      "userStory": "story-04-01-03",
+      "issueNumber": 274,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/274"
+    },
+    "71-UNIT-TEST-inventory-list-search-api": {
+      "title": "[UNIT-TEST] Inventory List and Search API Test",
+      "userStory": "story-01-01-02",
+      "issueNumber": 309,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/309"
+    },
+    "152-FRONTEND-premises-supervisor-assignment": {
+      "title": "[FRONTEND] Premises Supervisor Assignment",
+      "userStory": "story-03-02-02",
+      "issueNumber": 156,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/156"
+    },
+    "204-E2E-TEST-vendor-deletion": {
+      "title": "[E2E-TEST] Vendor Deletion",
+      "userStory": "story-02-01-04",
+      "issueNumber": 213,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/213"
+    },
+    "154-FRONTEND-usage-record-form": {
+      "title": "[FRONTEND] Usage Record Form",
+      "userStory": "story-04-01-01",
+      "issueNumber": 158,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/158"
+    },
+    "135-FRONTEND-hierarchy-tree-view": {
+      "title": "[FRONTEND] Hierarchy Tree View",
+      "userStory": "story-01-02-02",
+      "issueNumber": 137,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/137"
+    },
+    "08-DATABASE-premises-model": {
+      "title": "[DATABASE] Premises Model",
+      "userStory": "story-03-02-02",
+      "issueNumber": 96,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/96"
+    },
+    "142-FRONTEND-vendor-list-search": {
+      "title": "[FRONTEND] Vendor List and Search",
+      "userStory": "story-02-01-02",
+      "issueNumber": 145,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/145"
+    },
+    "196-E2E-TEST-hierarchy-node-update": {
+      "title": "[E2E-TEST] Hierarchy Node Update",
+      "userStory": "story-01-02-03",
+      "issueNumber": 204,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/204"
+    },
+    "248-E2E-TEST-active-menu-state": {
+      "title": "[E2E-TEST] Active Menu State",
+      "userStory": "story-07-03-02",
+      "issueNumber": 261,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/261"
+    },
+    "90-UNIT-TEST-regional-office-delete-validation-api": {
+      "title": "[UNIT-TEST] Regional Office Delete Validation API Test",
+      "userStory": "story-03-01-03",
+      "issueNumber": 328,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/328"
+    },
+    "31-BACKEND-supervisor-api": {
+      "title": "[BACKEND] Supervisor API",
+      "userStory": "story-03-02-01",
+      "issueNumber": 269,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/269"
+    },
+    "25-BACKEND-vendor-usage-analysis-api": {
+      "title": "[BACKEND] Vendor Usage Analysis API",
+      "userStory": "story-02-02-01",
+      "issueNumber": 263,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/263"
+    },
+    "68-BACKEND-active-menu-state-api": {
+      "title": "[BACKEND] Active Menu State API",
+      "userStory": "story-07-03-02",
+      "issueNumber": 306,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/306"
+    },
+    "46-BACKEND-report-pagination-api": {
+      "title": "[BACKEND] Report Pagination API",
+      "userStory": "story-05-02-02",
+      "issueNumber": 284,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/284"
+    },
+    "59-BACKEND-excel-export-api": {
+      "title": "[BACKEND] Excel Export API",
+      "userStory": "story-06-02-02",
+      "issueNumber": 297,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/297"
+    },
+    "229-E2E-TEST-hierarchy-drill-down": {
+      "title": "[E2E-TEST] Hierarchy Drill-Down",
+      "userStory": "story-05-03-02",
+      "issueNumber": 240,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/240"
+    },
+    "108-UNIT-TEST-hierarchy-based-report-api": {
+      "title": "[UNIT-TEST] Hierarchy-Based Report API Test",
+      "userStory": "story-05-03-01",
+      "issueNumber": 107,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/107"
+    },
+    "58-BACKEND-csv-export-api": {
+      "title": "[BACKEND] CSV Export API",
+      "userStory": "story-06-02-01",
+      "issueNumber": 296,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/296"
+    },
+    "19-BACKEND-rate-history-api": {
+      "title": "[BACKEND] Rate History API",
+      "userStory": "story-01-03-02",
+      "issueNumber": 197,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/197"
+    },
+    "149-FRONTEND-branch-form": {
+      "title": "[FRONTEND] Branch Form",
+      "userStory": "story-03-01-02",
+      "issueNumber": 152,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/152"
+    },
+    "97-UNIT-TEST-usage-delete-admin-api": {
+      "title": "[UNIT-TEST] Usage Delete Admin API Test",
+      "userStory": "story-04-01-04",
+      "issueNumber": 335,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/335"
+    },
+    "92-UNIT-TEST-premises-supervisor-assignment-api": {
+      "title": "[UNIT-TEST] Premises Supervisor Assignment API Test",
+      "userStory": "story-03-02-02",
+      "issueNumber": 330,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/330"
+    },
+    "202-E2E-TEST-vendor-list-and-search": {
+      "title": "[E2E-TEST] Vendor List and Search",
+      "userStory": "story-02-01-02",
+      "issueNumber": 211,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/211"
+    },
+    "11-BACKEND-inventory-list-search-api": {
+      "title": "[BACKEND] Inventory List and Search API",
+      "userStory": "story-01-01-02",
+      "issueNumber": 109,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/109"
+    },
+    "30-BACKEND-regional-office-delete-validation-api": {
+      "title": "[BACKEND] Regional Office Delete Validation API",
+      "userStory": "story-03-01-03",
+      "issueNumber": 268,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/268"
+    },
+    "226-E2E-TEST-report-pagination": {
+      "title": "[E2E-TEST] Report Pagination",
+      "userStory": "story-05-02-02",
+      "issueNumber": 237,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/237"
+    },
+    "222-E2E-TEST-item-filter": {
+      "title": "[E2E-TEST] Item Filter",
+      "userStory": "story-05-01-01",
+      "issueNumber": 233,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/233"
+    },
+    "76-UNIT-TEST-hierarchy-update-api": {
+      "title": "[UNIT-TEST] Hierarchy Update API Test",
+      "userStory": "story-01-02-03",
+      "issueNumber": 314,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/314"
+    },
+    "221-E2E-TEST-regional-office-summary": {
+      "title": "[E2E-TEST] Regional Office Summary",
+      "userStory": "story-04-03-02",
+      "issueNumber": 232,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/232"
+    },
+    "234-E2E-TEST-trend-chart": {
+      "title": "[E2E-TEST] Trend Chart",
+      "userStory": "story-05-04-04",
+      "issueNumber": 246,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/246"
+    },
+    "181-FRONTEND-login-form": {
+      "title": "[FRONTEND] Login Form",
+      "userStory": "story-07-01-01",
+      "issueNumber": 188,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/188"
+    },
+    "07-DATABASE-supervisor-model": {
+      "title": "[DATABASE] Supervisor Model",
+      "userStory": "story-03-02-01",
+      "issueNumber": 95,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/95"
+    },
+    "160-FRONTEND-regional-office-wise-report": {
+      "title": "[FRONTEND] Regional Office-Wise Report",
+      "userStory": "story-04-03-01",
+      "issueNumber": 165,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/165"
+    },
+    "166-FRONTEND-report-pagination": {
+      "title": "[FRONTEND] Report Pagination",
+      "userStory": "story-05-02-02",
+      "issueNumber": 171,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/171"
+    },
+    "29-BACKEND-branch-api": {
+      "title": "[BACKEND] Branch API",
+      "userStory": "story-03-01-02",
+      "issueNumber": 267,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/267"
+    },
+    "20-BACKEND-rate-update-api": {
+      "title": "[BACKEND] Rate Update API",
+      "userStory": "story-01-03-03",
+      "issueNumber": 208,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/208"
+    },
+    "131-FRONTEND-inventory-list-search": {
+      "title": "[FRONTEND] Inventory List and Search",
+      "userStory": "story-01-01-02",
+      "issueNumber": 133,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/133"
+    },
+    "141-FRONTEND-vendor-form": {
+      "title": "[FRONTEND] Vendor Form",
+      "userStory": "story-02-01-01",
+      "issueNumber": 144,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/144"
+    },
+    "159-FRONTEND-branch-usage-summary": {
+      "title": "[FRONTEND] Branch Usage Summary",
+      "userStory": "story-04-02-02",
+      "issueNumber": 163,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/163"
+    },
+    "04-DATABASE-vendor-model": {
+      "title": "[DATABASE] Vendor Model",
+      "userStory": "story-02-01-01",
+      "issueNumber": 92,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/92"
+    },
+    "165-FRONTEND-tabular-report-table": {
+      "title": "[FRONTEND] Tabular Report Table",
+      "userStory": "story-05-02-01",
+      "issueNumber": 170,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/170"
+    },
+    "64-BACKEND-rbac-route-protection-api": {
+      "title": "[BACKEND] RBAC Route Protection API",
+      "userStory": "story-07-02-01",
+      "issueNumber": 302,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/302"
+    },
+    "91-UNIT-TEST-supervisor-api": {
+      "title": "[UNIT-TEST] Supervisor API Test",
+      "userStory": "story-03-02-01",
+      "issueNumber": 329,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/329"
+    },
+    "137-FRONTEND-hierarchy-delete-action": {
+      "title": "[FRONTEND] Hierarchy Delete Action",
+      "userStory": "story-01-02-04",
+      "issueNumber": 139,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/139"
+    },
+    "10-BACKEND-inventory-item-api": {
+      "title": "[BACKEND] Inventory Item API",
+      "userStory": "story-01-01-01",
+      "issueNumber": 98,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/98"
+    },
+    "209-E2E-TEST-branch-management": {
+      "title": "[E2E-TEST] Branch Management",
+      "userStory": "story-03-01-02",
+      "issueNumber": 218,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/218"
+    },
+    "162-FRONTEND-multi-select-items-filter": {
+      "title": "[FRONTEND] Multi-Select Items Filter",
+      "userStory": "story-05-01-01",
+      "issueNumber": 167,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/167"
+    },
+    "15-BACKEND-hierarchy-tree-api": {
+      "title": "[BACKEND] Hierarchy Tree API",
+      "userStory": "story-01-02-02",
+      "issueNumber": 153,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/153"
+    },
+    "78-UNIT-TEST-item-rate-api": {
+      "title": "[UNIT-TEST] Item Rate API Test",
+      "userStory": "story-01-03-01",
+      "issueNumber": 316,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/316"
+    },
+    "79-UNIT-TEST-rate-history-api": {
+      "title": "[UNIT-TEST] Rate History API Test",
+      "userStory": "story-01-03-02",
+      "issueNumber": 317,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/317"
+    },
+    "80-UNIT-TEST-rate-update-api": {
+      "title": "[UNIT-TEST] Rate Update API Test",
+      "userStory": "story-01-03-03",
+      "issueNumber": 318,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/318"
+    },
+    "155-FRONTEND-usage-list-filters": {
+      "title": "[FRONTEND] Usage List and Filters",
+      "userStory": "story-04-01-02",
+      "issueNumber": 159,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/159"
+    },
+    "139-FRONTEND-rate-history-view": {
+      "title": "[FRONTEND] Rate History View",
+      "userStory": "story-01-03-02",
+      "issueNumber": 141,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/141"
+    },
+    "86-UNIT-TEST-vendor-filter-api": {
+      "title": "[UNIT-TEST] Vendor Filter API Test",
+      "userStory": "story-02-02-02",
+      "issueNumber": 324,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/324"
+    },
+    "185-FRONTEND-user-role-display": {
+      "title": "[FRONTEND] User Role Display",
+      "userStory": "story-07-02-02",
+      "issueNumber": 192,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/192"
+    },
+    "70-UNIT-TEST-inventory-item-api": {
+      "title": "[UNIT-TEST] Inventory Item API Test",
+      "userStory": "story-01-01-01",
+      "issueNumber": 308,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/308"
+    },
+    "236-E2E-TEST-upload-preview": {
+      "title": "[E2E-TEST] Upload Preview",
+      "userStory": "story-06-01-02",
+      "issueNumber": 248,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/248"
+    },
+    "54-BACKEND-dashboard-trend-visualization-api": {
+      "title": "[BACKEND] Dashboard Trend Visualization API",
+      "userStory": "story-05-04-04",
+      "issueNumber": 292,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/292"
+    },
+    "09-DATABASE-usage-record-model": {
+      "title": "[DATABASE] UsageRecord Model",
+      "userStory": "story-04-01-01",
+      "issueNumber": 97,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/97"
+    },
+    "177-FRONTEND-upload-template-download": {
+      "title": "[FRONTEND] Upload Template Download",
+      "userStory": "story-06-01-03",
+      "issueNumber": 183,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/183"
+    },
+    "145-FRONTEND-vendor-usage-analysis": {
+      "title": "[FRONTEND] Vendor Usage Analysis",
+      "userStory": "story-02-02-01",
+      "issueNumber": 148,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/148"
+    },
+    "143-FRONTEND-vendor-update-form": {
+      "title": "[FRONTEND] Vendor Update Form",
+      "userStory": "story-02-01-03",
+      "issueNumber": 146,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/146"
+    },
+    "62-BACKEND-logout-api": {
+      "title": "[BACKEND] Logout API",
+      "userStory": "story-07-01-02",
+      "issueNumber": 300,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/300"
+    },
+    "231-E2E-TEST-dashboard-widgets": {
+      "title": "[E2E-TEST] Dashboard Widgets",
+      "userStory": "story-05-04-01",
+      "issueNumber": 243,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/243"
+    },
+    "43-BACKEND-multi-select-branches-api": {
+      "title": "[BACKEND] Multi-Select Branches API",
+      "userStory": "story-05-01-02",
+      "issueNumber": 281,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/281"
+    },
+    "195-E2E-TEST-hierarchy-tree-view": {
+      "title": "[E2E-TEST] Hierarchy Tree View",
+      "userStory": "story-01-02-02",
+      "issueNumber": 203,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/203"
+    },
+    "239-E2E-TEST-excel-export": {
+      "title": "[E2E-TEST] Excel Export",
+      "userStory": "story-06-02-02",
+      "issueNumber": 251,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/251"
+    },
+    "198-E2E-TEST-item-rate-creation": {
+      "title": "[E2E-TEST] Item Rate Creation",
+      "userStory": "story-01-03-01",
+      "issueNumber": 206,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/206"
+    },
+    "241-E2E-TEST-login-authentication": {
+      "title": "[E2E-TEST] Login Authentication",
+      "userStory": "story-07-01-01",
+      "issueNumber": 254,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/254"
+    },
+    "63-BACKEND-auth-error-handling-api": {
+      "title": "[BACKEND] Auth Error Handling API",
+      "userStory": "story-07-01-03",
+      "issueNumber": 301,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/301"
+    },
+    "104-UNIT-TEST-multi-select-vendors-api": {
+      "title": "[UNIT-TEST] Multi-Select Vendors API Test",
+      "userStory": "story-05-01-03",
+      "issueNumber": 103,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/103"
+    },
+    "223-E2E-TEST-branch-filter": {
+      "title": "[E2E-TEST] Branch Filter",
+      "userStory": "story-05-01-02",
+      "issueNumber": 234,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/234"
+    },
+    "112-UNIT-TEST-dashboard-date-filter-api": {
+      "title": "[UNIT-TEST] Dashboard Date Filter API Test",
+      "userStory": "story-05-04-02",
+      "issueNumber": 112,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/112"
+    },
+    "110-UNIT-TEST-hierarchy-time-comparison-api": {
+      "title": "[UNIT-TEST] Hierarchy Time Comparison API Test",
+      "userStory": "story-05-03-03",
+      "issueNumber": 110,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/110"
+    },
+    "21-BACKEND-vendor-api": {
+      "title": "[BACKEND] Vendor API",
+      "userStory": "story-02-01-01",
+      "issueNumber": 219,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/219"
+    },
+    "213-E2E-TEST-supervisor-deletion": {
+      "title": "[E2E-TEST] Supervisor Deletion",
+      "userStory": "story-03-02-03",
+      "issueNumber": 223,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/223"
+    },
+    "95-UNIT-TEST-usage-list-search-api": {
+      "title": "[UNIT-TEST] Usage List and Search API Test",
+      "userStory": "story-04-01-02",
+      "issueNumber": 333,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/333"
+    },
+    "115-UNIT-TEST-bulk-upload-api": {
+      "title": "[UNIT-TEST] Bulk Upload API Test",
+      "userStory": "story-06-01-01",
+      "issueNumber": 115,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/115"
+    },
+    "56-BACKEND-upload-preview-api": {
+      "title": "[BACKEND] Upload Preview API",
+      "userStory": "story-06-01-02",
+      "issueNumber": 294,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/294"
+    },
+    "114-UNIT-TEST-dashboard-trend-visualization-api": {
+      "title": "[UNIT-TEST] Dashboard Trend Visualization API Test",
+      "userStory": "story-05-04-04",
+      "issueNumber": 114,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/114"
+    },
+    "53-BACKEND-dashboard-drill-down-api": {
+      "title": "[BACKEND] Dashboard Drill-Down API",
+      "userStory": "story-05-04-03",
+      "issueNumber": 291,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/291"
+    },
+    "66-BACKEND-rbac-access-denied-api": {
+      "title": "[BACKEND] RBAC Access Denied API",
+      "userStory": "story-07-02-03",
+      "issueNumber": 304,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/304"
+    },
+    "14-BACKEND-hierarchy-node-api": {
+      "title": "[BACKEND] Hierarchy Node API",
+      "userStory": "story-01-02-01",
+      "issueNumber": 142,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/142"
+    },
+    "238-E2E-TEST-csv-export": {
+      "title": "[E2E-TEST] CSV Export",
+      "userStory": "story-06-02-01",
+      "issueNumber": 250,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/250"
+    },
+    "77-UNIT-TEST-hierarchy-delete-api": {
+      "title": "[UNIT-TEST] Hierarchy Delete API Test",
+      "userStory": "story-01-02-04",
+      "issueNumber": 315,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/315"
+    },
+    "171-FRONTEND-dashboard-widgets": {
+      "title": "[FRONTEND] Dashboard Widgets",
+      "userStory": "story-05-04-01",
+      "issueNumber": 177,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/177"
+    },
+    "211-E2E-TEST-supervisor-management": {
+      "title": "[E2E-TEST] Supervisor Management",
+      "userStory": "story-03-02-01",
+      "issueNumber": 221,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/221"
+    },
+    "148-FRONTEND-regional-office-form": {
+      "title": "[FRONTEND] Regional Office Form",
+      "userStory": "story-03-01-01",
+      "issueNumber": 151,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/151"
+    },
+    "197-E2E-TEST-hierarchy-node-deletion": {
+      "title": "[E2E-TEST] Hierarchy Node Deletion",
+      "userStory": "story-01-02-04",
+      "issueNumber": 205,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/205"
+    },
+    "182-FRONTEND-logout-action": {
+      "title": "[FRONTEND] Logout Action",
+      "userStory": "story-07-01-02",
+      "issueNumber": 189,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/189"
+    },
+    "99-UNIT-TEST-branch-usage-summary-api": {
+      "title": "[UNIT-TEST] Branch Usage Summary API Test",
+      "userStory": "story-04-02-02",
+      "issueNumber": 337,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/337"
+    },
+    "03-DATABASE-item-rate-model": {
+      "title": "[DATABASE] ItemRate Model",
+      "userStory": "story-01-03-01",
+      "issueNumber": 91,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/91"
+    },
+    "12-BACKEND-inventory-update-api": {
+      "title": "[BACKEND] Inventory Update API",
+      "userStory": "story-01-01-03",
+      "issueNumber": 120,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/120"
+    },
+    "27-BACKEND-vendor-drill-down-api": {
+      "title": "[BACKEND] Vendor Drill-Down API",
+      "userStory": "story-02-02-03",
+      "issueNumber": 265,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/265"
+    },
+    "129-UNIT-TEST-menu-organization-api": {
+      "title": "[UNIT-TEST] Menu Organization API Test",
+      "userStory": "story-07-03-03",
+      "issueNumber": 130,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/130"
+    },
+    "41-BACKEND-regional-office-usage-summary-api": {
+      "title": "[BACKEND] Regional Office Usage Summary API",
+      "userStory": "story-04-03-02",
+      "issueNumber": 279,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/279"
+    },
+    "39-BACKEND-branch-usage-summary-api": {
+      "title": "[BACKEND] Branch Usage Summary API",
+      "userStory": "story-04-02-02",
+      "issueNumber": 277,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/277"
+    },
+    "89-UNIT-TEST-branch-api": {
+      "title": "[UNIT-TEST] Branch API Test",
+      "userStory": "story-03-01-02",
+      "issueNumber": 327,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/327"
+    },
+    "85-UNIT-TEST-vendor-usage-analysis-api": {
+      "title": "[UNIT-TEST] Vendor Usage Analysis API Test",
+      "userStory": "story-02-02-01",
+      "issueNumber": 323,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/323"
+    },
+    "230-E2E-TEST-time-comparison": {
+      "title": "[E2E-TEST] Time Comparison",
+      "userStory": "story-05-03-03",
+      "issueNumber": 242,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/242"
+    },
+    "82-UNIT-TEST-vendor-list-search-api": {
+      "title": "[UNIT-TEST] Vendor List and Search API Test",
+      "userStory": "story-02-01-02",
+      "issueNumber": 320,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/320"
+    },
+    "49-BACKEND-hierarchy-drill-down-api": {
+      "title": "[BACKEND] Hierarchy Drill-Down API",
+      "userStory": "story-05-03-02",
+      "issueNumber": 287,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/287"
+    },
+    "247-E2E-TEST-menu-permissions": {
+      "title": "[E2E-TEST] Menu Permissions",
+      "userStory": "story-07-03-01",
+      "issueNumber": 260,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/260"
+    },
+    "219-E2E-TEST-branch-usage-summary": {
+      "title": "[E2E-TEST] Branch Usage Summary",
+      "userStory": "story-04-02-02",
+      "issueNumber": 229,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/229"
+    },
+    "40-BACKEND-regional-office-usage-filter-api": {
+      "title": "[BACKEND] Regional Office Usage Filter API",
+      "userStory": "story-04-03-01",
+      "issueNumber": 278,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/278"
+    },
+    "127-UNIT-TEST-menu-permissions-api": {
+      "title": "[UNIT-TEST] Menu Permissions API Test",
+      "userStory": "story-07-03-01",
+      "issueNumber": 128,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/128"
+    },
+    "100-UNIT-TEST-regional-office-usage-filter-api": {
+      "title": "[UNIT-TEST] Regional Office Usage Filter API Test",
+      "userStory": "story-04-03-01",
+      "issueNumber": 99,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/99"
+    },
+    "75-UNIT-TEST-hierarchy-tree-api": {
+      "title": "[UNIT-TEST] Hierarchy Tree API Test",
+      "userStory": "story-01-02-02",
+      "issueNumber": 313,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/313"
+    },
+    "190-E2E-TEST-inventory-item-creation": {
+      "title": "[E2E-TEST] Inventory Item Creation",
+      "userStory": "story-01-01-01",
+      "issueNumber": 198,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/198"
+    },
+    "187-FRONTEND-menu-permissions": {
+      "title": "[FRONTEND] Menu Permissions",
+      "userStory": "story-07-03-01",
+      "issueNumber": 194,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/194"
+    },
+    "246-E2E-TEST-access-denied": {
+      "title": "[E2E-TEST] Access Denied",
+      "userStory": "story-07-02-03",
+      "issueNumber": 259,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/259"
+    },
+    "109-UNIT-TEST-hierarchy-drill-down-api": {
+      "title": "[UNIT-TEST] Hierarchy Drill-Down API Test",
+      "userStory": "story-05-03-02",
+      "issueNumber": 108,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/108"
+    },
+    "02-DATABASE-item-hierarchy-model": {
+      "title": "[DATABASE] ItemHierarchy Model",
+      "userStory": "story-01-02-01",
+      "issueNumber": 90,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/90"
+    },
+    "224-E2E-TEST-vendor-filter": {
+      "title": "[E2E-TEST] Vendor Filter",
+      "userStory": "story-05-01-03",
+      "issueNumber": 235,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/235"
+    },
+    "87-UNIT-TEST-vendor-drill-down-api": {
+      "title": "[UNIT-TEST] Vendor Drill-Down API Test",
+      "userStory": "story-02-02-03",
+      "issueNumber": 325,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/325"
+    },
+    "242-E2E-TEST-logout": {
+      "title": "[E2E-TEST] Logout",
+      "userStory": "story-07-01-02",
+      "issueNumber": 255,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/255"
+    },
+    "13-BACKEND-inventory-delete-api": {
+      "title": "[BACKEND] Inventory Delete API",
+      "userStory": "story-01-01-04",
+      "issueNumber": 131,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/131"
+    },
+    "102-UNIT-TEST-multi-select-items-api": {
+      "title": "[UNIT-TEST] Multi-Select Items API Test",
+      "userStory": "story-05-01-01",
+      "issueNumber": 101,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/101"
+    },
+    "93-UNIT-TEST-supervisor-delete-validation-api": {
+      "title": "[UNIT-TEST] Supervisor Delete Validation API Test",
+      "userStory": "story-03-02-03",
+      "issueNumber": 331,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/331"
+    },
+    "01-DATABASE-inventory-item-model": {
+      "title": "[DATABASE] InventoryItem Model",
+      "userStory": "story-01-01-01",
+      "issueNumber": 89,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/89"
+    },
+    "169-FRONTEND-hierarchy-drill-down": {
+      "title": "[FRONTEND] Hierarchy Drill-Down",
+      "userStory": "story-05-03-02",
+      "issueNumber": 174,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/174"
+    },
+    "124-UNIT-TEST-rbac-route-protection-api": {
+      "title": "[UNIT-TEST] RBAC Route Protection API Test",
+      "userStory": "story-07-02-01",
+      "issueNumber": 125,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/125"
+    },
+    "44-BACKEND-multi-select-vendors-api": {
+      "title": "[BACKEND] Multi-Select Vendors API",
+      "userStory": "story-05-01-03",
+      "issueNumber": 282,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/282"
+    },
+    "233-E2E-TEST-dashboard-drill-down": {
+      "title": "[E2E-TEST] Dashboard Drill-Down",
+      "userStory": "story-05-04-03",
+      "issueNumber": 245,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/245"
+    },
+    "50-BACKEND-hierarchy-time-comparison-api": {
+      "title": "[BACKEND] Hierarchy Time Comparison API",
+      "userStory": "story-05-03-03",
+      "issueNumber": 288,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/288"
+    },
+    "120-UNIT-TEST-pdf-export-api": {
+      "title": "[UNIT-TEST] PDF Export API Test",
+      "userStory": "story-06-02-03",
+      "issueNumber": 121,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/121"
+    },
+    "206-E2E-TEST-vendor-wise-report": {
+      "title": "[E2E-TEST] Vendor-Wise Report",
+      "userStory": "story-02-02-02",
+      "issueNumber": 215,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/215"
+    },
+    "28-BACKEND-regional-office-api": {
+      "title": "[BACKEND] Regional Office API",
+      "userStory": "story-03-01-01",
+      "issueNumber": 266,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/266"
+    },
+    "72-UNIT-TEST-inventory-update-api": {
+      "title": "[UNIT-TEST] Inventory Update API Test",
+      "userStory": "story-01-01-03",
+      "issueNumber": 310,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/310"
+    },
+    "170-FRONTEND-hierarchy-time-comparison": {
+      "title": "[FRONTEND] Hierarchy Time Comparison",
+      "userStory": "story-05-03-03",
+      "issueNumber": 176,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/176"
+    },
+    "144-FRONTEND-vendor-delete-action": {
+      "title": "[FRONTEND] Vendor Delete Action",
+      "userStory": "story-02-01-04",
+      "issueNumber": 147,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/147"
+    },
+    "158-FRONTEND-branch-wise-report": {
+      "title": "[FRONTEND] Branch-Wise Report",
+      "userStory": "story-04-02-01",
+      "issueNumber": 162,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/162"
+    },
+    "16-BACKEND-hierarchy-update-api": {
+      "title": "[BACKEND] Hierarchy Update API",
+      "userStory": "story-01-02-03",
+      "issueNumber": 164,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/164"
+    },
+    "157-FRONTEND-usage-delete-admin": {
+      "title": "[FRONTEND] Usage Delete Admin",
+      "userStory": "story-04-01-04",
+      "issueNumber": 161,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/161"
+    },
+    "191-E2E-TEST-inventory-list-and-search": {
+      "title": "[E2E-TEST] Inventory List and Search",
+      "userStory": "story-01-01-02",
+      "issueNumber": 199,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/199"
+    },
+    "153-FRONTEND-supervisor-delete-validation": {
+      "title": "[FRONTEND] Supervisor Delete Validation",
+      "userStory": "story-03-02-03",
+      "issueNumber": 157,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/157"
+    },
+    "134-FRONTEND-hierarchy-node-form": {
+      "title": "[FRONTEND] Hierarchy Node Form",
+      "userStory": "story-01-02-01",
+      "issueNumber": 136,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/136"
+    },
+    "128-UNIT-TEST-active-menu-state-api": {
+      "title": "[UNIT-TEST] Active Menu State API Test",
+      "userStory": "story-07-03-02",
+      "issueNumber": 129,
+      "issueUrl": "https://github.com/octodemo/Inventory-Management-app/issues/129"
+    }
+  }
+}
