@@ -1,0 +1,10 @@
+{
+  "organization": "octodemo",
+  "repository": "Inventory-Management-app",
+  "projectNumber": null,
+  "issueLinks": {
+    "enabled": true,
+    "brdUrl": "https://github.com/octodemo/Inventory-Management-app/blob/main/docs/requirements/BRD.md",
+    "designDocUrl": "https://github.com/octodemo/Inventory-Management-app/blob/main/docs/design/design-doc.md"
+  }
+}

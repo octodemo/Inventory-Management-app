@@ -265,24 +265,110 @@ git push
 
 ---
 
-### **⏱️ [35-40 min] Phase 4: GitHub Issues (Manual)**
+### **⏱️ [35-40 min] Phase 4: GitHub Issues (Automated)**
 
-**Skip automation — create 3 issues manually on github.com (faster!)**
+**Agent:** `github-issues-agent`
 
-1. Go to `github.com/<your-org>/workshop-demo/issues`
-2. Click **New Issue**
-3. **Title:** `[DATABASE] Product model`
-4. **Body:** Copy from `issues/01-DATABASE-product-model.md`
-5. **Labels:** Add `task`, `database`
-6. Click **Create issue**
-7. **Repeat** for:
-   - `[BACKEND] Product API` (labels: `task`, `backend`)
-   - `[FRONTEND] Product list` (labels: `task`, `frontend`)
+**Prerequisites:**
+1. **Configure GitHub sync:** Edit `docs/github-sync-config.json`:
+   ```json
+   {
+     "organization": "your-github-org",
+     "repository": "workshop-demo",
+     "projectNumber": null,
+     "issueLinks": {
+       "enabled": true,
+       "brdUrl": "https://github.com/your-org/workshop-demo/blob/main/docs/requirements/BRD.md",
+       "designDocUrl": "https://github.com/your-org/workshop-demo/blob/main/docs/design/design-doc.md"
+     }
+   }
+   ```
+   Replace `your-github-org` with your actual GitHub organization or username.
 
-**✅ DEMO MOMENT 3:** Show the 3 GitHub Issues  
-👉 "These are our implementation tasks — AI generated the breakdown!"
+2. **Ensure BRD and design doc are pushed** (already done earlier):
+   ```powershell
+   git status  # Should show "nothing to commit, working tree clean"
+   ```
+
+3. **Set up GitHub labels** (run ONCE per repo):
+   ```powershell
+   bash scripts/setup-github-project.sh
+   ```
+
+**What to do:**
+
+1. **Select `github-issues-agent`** from Agent dropdown
+2. **Type:** `sync work items to GitHub Issues`
+3. **Press Enter**
+
+**What Copilot does:**
+- Reads all Epic, Story, and Task files
+- Creates GitHub Issues with correct labels:
+  - Epics → `epic`
+  - Stories → `user-story`, `{priority}`
+  - Tasks → `task`, `{taskType}` (database, backend, frontend, e2e-test)
+- Links child issues to parents via **tasklists** in parent bodies
+- Includes markdown links to BRD (in Epics/Features) and design doc (in Stories)
+- Saves sync state to `docs/github-sync-state.json` (prevents duplicates)
+
+**Expected output:**
+```
+✅ Created Epic #1: Inventory Management
+✅ Created User Story #2: Manage Products
+✅ Created User Story #3: Track Stock Movements
+✅ Created Task #4: [DATABASE] Product model
+✅ Created Task #5: [BACKEND] Product API
+✅ Created Task #6: [FRONTEND] Product list
+✅ Created Task #7: [E2E] Product tests
+... (12+ issues total)
+
+🔗 View issues: https://github.com/your-org/workshop-demo/issues
+```
+
+**Commit sync state:**
+```powershell
+git add docs/github-sync-config.json docs/github-sync-state.json
+git commit -m "Sync work items to GitHub Issues"
+git push
+```
+
+**✅ DEMO MOMENT 3:** Open GitHub Issues in browser  
+👉 Show **12+ auto-created issues** with correct labels  
+👉 Open Epic #1 → show **tasklist of child Stories**  
+👉 Open Story #2 → show **tasklist of child Tasks** and link to design doc  
+👉 "AI generated the entire backlog hierarchy in seconds!"
 
 **Duration:** 5 minutes
+
+---
+
+#### **⏱️ [Optional] Phase 4b: GitHub Projects Integration**
+
+**Skip this if you don't have a GitHub Project set up — it's purely optional for tracking Effort and Sprint fields.**
+
+If you created a GitHub Project with custom fields (Type, Priority, Task Type, Effort, Sprint):
+
+1. Get your project number from the project URL:  
+   `https://github.com/orgs/{org}/projects/{NUMBER}` or `https://github.com/users/{username}/projects/{NUMBER}`
+
+2. Update `docs/github-sync-config.json`:
+   ```json
+   {
+     "organization": "your-github-org",
+     "repository": "workshop-demo",
+     "projectNumber": 1,
+     "issueLinks": { ... }
+   }
+   ```
+
+3. **After effort estimation and sprint planning** (later in the workshop), re-run:
+   ```
+   @github-issues-agent sync effort and sprint to GitHub Project
+   ```
+
+   This is the **2nd pass** — it updates Effort and Sprint fields on existing issues without creating duplicates.
+
+**Duration:** N/A (deferred until after estimation/sprint planning)
 
 ---
 
