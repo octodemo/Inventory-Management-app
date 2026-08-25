@@ -12,6 +12,7 @@ import vendorsRouter from './routes/vendors.js'
 import { createAuthRouter } from './routes/authRoutes'
 import { createCatalogRouter } from './routes/catalogRoutes'
 import { createMenuRouter } from './routes/menuRoutes'
+import { createUploadExportRouter } from './routes/uploadExportRoutes'
 import { createUserRouter } from './routes/userRoutes'
 import { createDashboardRouter } from './routes/dashboardRoutes'
 import { AuthService } from './services/authService'
@@ -73,6 +74,10 @@ export const createApp = (dependencies: AppDependencies): Express => {
   app.use(
     '/api/users',
     createUserRouter({ userRepository, authenticate, authorizeAdmin: requireAdmin() }),
+  )
+  app.use(
+    '/api',
+    createUploadExportRouter({ authenticate, authorizeAdmin: requireAdmin() }),
   )
   if (dashboardService) {
     app.use(
