@@ -2,23 +2,6 @@ import { prisma } from '../lib/prisma.js'
 import { ApiError } from '../utils/apiError.js'
 
 /**
- * Minimal read-only listing of vendors, used to populate the vendor dropdown
- * in the Reports UI multi-select filter (story-05-01-03).
- *
- * NOTE: Full Vendor CRUD is owned by 21/22/23/24-BACKEND-vendor-*-api, which
- * are outside this batch's scope.
- *
- * @param limit - Maximum number of vendors to return.
- */
-export async function listVendorsMinimal(limit = 200) {
-  return prisma.vendor.findMany({
-    take: limit,
-    orderBy: { name: 'asc' },
-    select: { id: true, name: true },
-  })
-}
-
-/**
  * Builds the vendor-wise usage analysis report for a single vendor
  * (FR-015): vendor details, a per-item breakdown with usage by branch, and
  * the vendor's total usage quantity across all its items.

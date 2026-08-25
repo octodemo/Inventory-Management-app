@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-01-03-03
 feature: feature-01-03
 epic: epic-01
-status: ready
+status: done
 dependencies: [20-BACKEND-rate-update-api]
 ---
 

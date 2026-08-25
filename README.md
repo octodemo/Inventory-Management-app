@@ -52,9 +52,9 @@ same URL, so the app can be demonstrated from the backend alone.
 
 Authentication goes through the IAM framework integration
 (`POST /api/auth/login`) and issues an httpOnly session cookie. The seeded
-accounts are created from the environment variables in `.env`
-(`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` and `SEED_USER_EMAIL` /
-`SEED_USER_PASSWORD`) — no credentials are hardcoded in the source.
+accounts are created only when the environment provides
+`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` and `SEED_USER_EMAIL` /
+`SEED_USER_PASSWORD`; configure local values before running the seed command.
 
 | Role | Capabilities |
 |------|--------------|

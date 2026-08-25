@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-01-01-01
 feature: feature-01-01
 epic: epic-01
-status: ready
+status: done
 dependencies: [10-BACKEND-inventory-item-api]
 ---
 

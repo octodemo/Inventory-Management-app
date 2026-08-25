@@ -1,6 +1,8 @@
 import express from 'express'
-import { join, resolve } from 'node:path'
+import { DashboardService, PrismaDashboardDataSource } from './services/dashboardService'
 import { PrismaClient } from '@prisma/client'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createApp } from './app'
 import { createRateLimiter } from './middleware/rateLimit'
 import { loadAuthConfig } from './config/authConfig'
@@ -17,20 +19,24 @@ const prisma = new PrismaClient()
 const userRepository = new PrismaUserRepository(prisma)
 
 const app = createApp({
+  catalogClient: prisma,
   iamClient: new DatabaseIamClient(userRepository),
   tokenService,
   sessionStore,
   userRepository,
   sessionTtlSeconds: authConfig.sessionTtlSeconds,
+  dashboardService: new DashboardService(new PrismaDashboardDataSource(prisma)),
 })
 
 // Serve the built frontend when it is available, with SPA history fallback
-const frontendDist = resolve('src/frontend/dist')
+const frontendDist = resolve(dirname(fileURLToPath(import.meta.url)), 'frontend/dist')
 app.use(express.static(frontendDist))
 app.get('*', createRateLimiter({ windowMs: 60_000, max: 600 }), (_req, res) => {
   res.sendFile(join(frontendDist, 'index.html'))
 })
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`)
+  })
+}

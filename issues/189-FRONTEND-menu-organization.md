@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-07-03-03
 feature: feature-07-03
 epic: epic-07
-status: ready
+status: done
 dependencies: [69-BACKEND-menu-organization-api]
 ---
 

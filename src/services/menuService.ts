@@ -67,6 +67,8 @@ const MENU_DEFINITION: MenuSection[] = [
     requiredRole: 'ADMIN',
     items: [
       { id: 'vendors', label: 'Vendor Management', path: '/vendors', requiredRole: 'ADMIN' },
+      { id: 'hierarchies', label: 'Item Hierarchy', path: '/hierarchies', requiredRole: 'ADMIN' },
+      { id: 'rates', label: 'Item Rates', path: '/rates', requiredRole: 'ADMIN' },
       { id: 'users', label: 'User Management', path: '/users', requiredRole: 'ADMIN' },
       { id: 'upload', label: 'Bulk Upload', path: '/upload', requiredRole: 'ADMIN' },
     ],

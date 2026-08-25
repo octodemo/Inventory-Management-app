@@ -8,6 +8,15 @@
 
 const API_BASE = '/api'
 
+/** Aggregated analytics returned by `GET /api/dashboard`. */
+export interface DashboardData {
+  totalUsage: { currentMonth: number; previousMonth: number; changePercent: number }
+  topItems: Array<{ itemId: number; itemName: string; quantity: number }>
+  topVendors: Array<{ vendorId: number; vendorName: string; totalValue: number }>
+  regionalBreakdown: Array<{ regionalOfficeId: number; regionalOfficeName: string; quantity: number }>
+  usageTrend: Array<{ month: string; totalQuantity: number }>
+}
+
 /** Standard API error shape returned by the Express backend. */
 export interface ApiErrorBody {
   message: string
@@ -344,8 +353,9 @@ export function getVendorUsageAnalysis(vendorId: number) {
 
 // ---------------------------------------------------------------------------
 // Minimal lookups (Items, Vendors, Hierarchies) — used only to populate
-// dropdowns/filters. Full CRUD for these entities belongs to other,
-// out-of-scope tasks (see src/routes/inventory.ts, vendors.ts, hierarchies.ts).
+// dropdowns/filters. They read from the inventory catalogue endpoints
+// (`/api/inventory`, `/api/vendors`, `/api/hierarchies`), which are the
+// canonical CRUD APIs for these entities.
 // ---------------------------------------------------------------------------
 
 export interface InventoryItemLookup {
@@ -367,19 +377,36 @@ export interface HierarchyLookup {
   parentId: number | null
 }
 
+/** Largest page size accepted by the catalogue list endpoints. */
+const LOOKUP_PAGE_SIZE = 100
+
 /** Fetches a minimal list of inventory items for dropdowns/filters. */
 export function listInventoryItemsLookup() {
-  return request<{ data: InventoryItemLookup[] }>('/inventory')
+  return request<{ data: InventoryItemLookup[] }>(`/inventory?limit=${LOOKUP_PAGE_SIZE}`)
 }
 
 /** Fetches a minimal list of vendors for dropdowns/filters. */
 export function listVendorsLookup() {
-  return request<{ data: VendorLookup[] }>('/vendors')
+  return request<{ data: VendorLookup[] }>(`/vendors?limit=${LOOKUP_PAGE_SIZE}`)
+}
+
+/** Hierarchy node as returned by `GET /api/hierarchies`, which nests children. */
+interface HierarchyTreeNode extends HierarchyLookup {
+  children?: HierarchyTreeNode[]
+}
+
+/** Flattens the nested hierarchy tree into a lookup list. */
+function flattenHierarchyTree(nodes: HierarchyTreeNode[]): HierarchyLookup[] {
+  return nodes.flatMap(({ id, name, parentId, children }) => [
+    { id, name, parentId },
+    ...flattenHierarchyTree(children ?? []),
+  ])
 }
 
 /** Fetches a minimal list of item hierarchy nodes for dropdowns/filters. */
-export function listHierarchiesLookup() {
-  return request<{ data: HierarchyLookup[] }>('/hierarchies')
+export async function listHierarchiesLookup() {
+  const tree = await request<HierarchyTreeNode[]>('/hierarchies')
+  return { data: flattenHierarchyTree(tree) }
 }
 
 // ---------------------------------------------------------------------------
@@ -506,4 +533,18 @@ export const fetchCurrentUser = async (): Promise<AuthenticatedUser> => {
 export const fetchMenu = async (): Promise<MenuSection[]> => {
   const body = await apiFetch<{ sections: MenuSection[] }>('/api/menu/items')
   return body.sections
+}
+
+/**
+ * Fetches dashboard analytics for an optional inclusive date range.
+ *
+ * @param startDate - Inclusive ISO date for the beginning of the period.
+ * @param endDate - Inclusive ISO date for the end of the period.
+ * @returns Dashboard usage analytics.
+ */
+export const getDashboard = async (startDate?: string, endDate?: string): Promise<DashboardData> => {
+  const query = new URLSearchParams()
+  if (startDate) query.set('startDate', startDate)
+  if (endDate) query.set('endDate', endDate)
+  return apiFetch<DashboardData>(`/api/dashboard${query.size ? `?${query}` : ''}`)
 }

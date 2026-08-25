@@ -6,7 +6,7 @@ taskType: BACKEND
 userStory: story-01-03-02
 feature: feature-01-03
 epic: epic-01
-status: ready
+status: done
 dependencies: [03-DATABASE-item-rate-model]
 ---
 
