@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-04-04
 feature: feature-05-04
 epic: epic-05
-status: ready
+status: done
 dependencies: [54-BACKEND-dashboard-trend-visualization-api]
 ---
 

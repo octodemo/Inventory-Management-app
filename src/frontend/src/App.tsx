@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import { AccessDeniedPage } from './pages/AccessDeniedPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { DetailPage } from './pages/DetailPage'
 import { HierarchyPage } from './pages/HierarchyPage'
 import { InventoryPage } from './pages/InventoryPage'
 import { LoginPage } from './pages/LoginPage'
@@ -14,8 +15,6 @@ import { VendorsPage } from './pages/VendorsPage'
 /**
  * Application root wiring authentication, role based route guards and the
  * navigation shell.
- *
- * @returns The application element.
  */
 function App() {
   return (
@@ -39,6 +38,26 @@ function App() {
               <ProtectedRoute allowedRoles={['ADMIN']}>
                 <Layout>
                   <UsersPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/usage"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DetailPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DetailPage />
                 </Layout>
               </ProtectedRoute>
             }
@@ -93,6 +112,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>

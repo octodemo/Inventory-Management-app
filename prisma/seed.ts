@@ -43,6 +43,9 @@ async function seedUsers() {
 async function main() {
   console.log('Seeding database...')
 
+  await prisma.usageRecord.deleteMany()
+  await prisma.branch.deleteMany()
+  await prisma.regionalOffice.deleteMany()
   await prisma.itemRate.deleteMany()
   await prisma.inventoryItem.deleteMany()
   const existingHierarchies = await prisma.itemHierarchy.findMany({ orderBy: { id: 'desc' } })
@@ -90,6 +93,23 @@ async function main() {
       { itemId: items[4].id, rate: 150, effectiveFrom: new Date('2026-01-01') },
       { itemId: items[5].id, rate: 45, effectiveFrom: new Date('2026-01-01') },
     ],
+  })
+
+  const [north, south] = await Promise.all([
+    prisma.regionalOffice.create({ data: { name: 'North Regional Office', code: 'NORTH' } }),
+    prisma.regionalOffice.create({ data: { name: 'South Regional Office', code: 'SOUTH' } }),
+  ])
+  const [northBranch, southBranch] = await Promise.all([
+    prisma.branch.create({ data: { name: 'Delhi Central Branch', code: 'DCB-001', regionalOfficeId: north.id } }),
+    prisma.branch.create({ data: { name: 'Bangalore Main Branch', code: 'BMB-001', regionalOfficeId: south.id } }),
+  ])
+  const months = ['2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08']
+  await prisma.usageRecord.createMany({
+    data: months.flatMap((month, index) => [
+      { itemId: items[0].id, branchId: northBranch.id, quantity: 150 + index * 10, usageDate: new Date(`${month}-10`) },
+      { itemId: items[2].id, branchId: southBranch.id, quantity: 30 + index * 5, usageDate: new Date(`${month}-15`) },
+      { itemId: items[5].id, branchId: northBranch.id, quantity: 50 + index * 3, usageDate: new Date(`${month}-20`) },
+    ]),
   })
 
   await seedUsers()

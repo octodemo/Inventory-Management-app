@@ -1,3 +1,11 @@
+export interface DashboardData {
+  totalUsage: { currentMonth: number; previousMonth: number; changePercent: number }
+  topItems: Array<{ itemId: number; itemName: string; quantity: number }>
+  topVendors: Array<{ vendorId: number; vendorName: string; totalValue: number }>
+  regionalBreakdown: Array<{ regionalOfficeId: number; regionalOfficeName: string; quantity: number }>
+  usageTrend: Array<{ month: string; totalQuantity: number }>
+}
+
 /**
  * API service module.
  *
@@ -126,4 +134,18 @@ export const fetchCurrentUser = async (): Promise<AuthenticatedUser> => {
 export const fetchMenu = async (): Promise<MenuSection[]> => {
   const body = await apiFetch<{ sections: MenuSection[] }>('/api/menu/items')
   return body.sections
+}
+
+/**
+ * Fetches dashboard analytics for an optional inclusive date range.
+ *
+ * @param startDate - Inclusive ISO date for the beginning of the period.
+ * @param endDate - Inclusive ISO date for the end of the period.
+ * @returns Dashboard usage analytics.
+ */
+export const getDashboard = async (startDate?: string, endDate?: string): Promise<DashboardData> => {
+  const query = new URLSearchParams()
+  if (startDate) query.set('startDate', startDate)
+  if (endDate) query.set('endDate', endDate)
+  return apiFetch<DashboardData>(`/api/dashboard${query.size ? `?${query}` : ''}`)
 }
