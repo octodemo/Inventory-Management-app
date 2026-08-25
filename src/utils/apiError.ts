@@ -1,15 +1,31 @@
 import { Response } from 'express'
 
 /**
- * Standard API error shape used across all routes, as defined in
- * workshop-stack.md (`api_error_format`) and docs/design/design-doc.md
- * (section 3 — API Contracts).
+ * Standard API error payload helpers.
+ *
+ * The shape is defined by `api_error_format` in workshop-stack.md:
+ * `{ message: string, status: number, timestamp: string }`.
  */
+
+/** Standard error response body returned by every API route. */
 export interface ApiErrorBody {
   message: string
   status: number
   timestamp: string
 }
+
+/**
+ * Builds a standard API error body.
+ *
+ * @param message - Human readable error message.
+ * @param status - HTTP status code associated with the error.
+ * @returns The error payload in the standard format.
+ */
+export const buildApiError = (message: string, status: number): ApiErrorBody => ({
+  message,
+  status,
+  timestamp: new Date().toISOString(),
+})
 
 /**
  * Error class used to signal a business-rule or validation failure that
@@ -26,21 +42,6 @@ export class ApiError extends Error {
 }
 
 /**
- * Builds the standard API error response body.
- *
- * @param status - HTTP status code for the error.
- * @param message - Human-readable error message.
- * @returns The error payload in the shape `{ message, status, timestamp }`.
- */
-export function buildApiError(status: number, message: string): ApiErrorBody {
-  return {
-    message,
-    status,
-    timestamp: new Date().toISOString(),
-  }
-}
-
-/**
  * Sends a standard-format error response and ends the request.
  *
  * @param res - Express response object.
@@ -48,7 +49,7 @@ export function buildApiError(status: number, message: string): ApiErrorBody {
  * @param message - Human-readable error message.
  */
 export function sendApiError(res: Response, status: number, message: string): void {
-  res.status(status).json(buildApiError(status, message))
+  res.status(status).json(buildApiError(message, status))
 }
 
 /**

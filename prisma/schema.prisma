@@ -12,13 +12,18 @@ datasource db {
 // NOTE: SQLite connector does not support native Prisma enums, so UserRole
 // is persisted as a String constrained to "ADMIN" | "USER" in application code
 // (see src/types/user.ts).
+/// Application user mirrored from the organisation's IAM framework.
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  /// ADMIN or USER — stored as text because SQLite does not support enums;
+  /// values are constrained by the `UserRole` type in src/types/auth.ts.
+  role         String
+  /// Scrypt hash (`salt:hash`) of the credential synchronised from IAM.
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Vendor {

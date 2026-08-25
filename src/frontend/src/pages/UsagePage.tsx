@@ -24,7 +24,7 @@ import {
  * data-testid values per docs/design/design-doc.md: `usage-page`, `usage-table`.
  */
 export function UsagePage() {
-  const { role } = useAuth()
+  const { hasRole } = useAuth()
   const [records, setRecords] = useState<UsageRecord[]>([])
   const [items, setItems] = useState<InventoryItemLookup[]>([])
   const [branches, setBranches] = useState<Branch[]>([])
@@ -220,7 +220,7 @@ export function UsagePage() {
         <>
           <UsageTable
             records={records}
-            isAdmin={role === 'ADMIN'}
+            isAdmin={hasRole('ADMIN')}
             deleteError={deleteError}
             onEdit={handleEdit}
             onDelete={handleDelete}

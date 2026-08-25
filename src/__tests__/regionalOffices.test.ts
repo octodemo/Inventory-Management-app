@@ -7,6 +7,23 @@
  */
 import { createMockRequest, createMockResponse, getRouteHandlers, invokeRoute } from '../testSupport/routeHarness.js'
 
+// The route's `authenticate`/`authorize` middleware is now the real
+// IAM-integrated implementation (src/middleware/auth.ts), which requires a
+// valid signed session token. These tests exercise route/service logic in
+// isolation, so the middleware is mocked to simulate an authenticated ADMIN
+// caller by default; individual tests can override `req.user` via
+// `createMockRequest({ user: {...} })` if a different role is needed.
+jest.mock('../middleware/auth.js', () => ({
+  authenticate: (req: any, _res: any, next: () => void) => {
+    req.user = req.user ?? { id: 1, email: 'test-admin@test.local', name: 'Test Admin', role: 'ADMIN' }
+    next()
+  },
+  authorize:
+    (..._roles: string[]) =>
+    (_req: any, _res: any, next: () => void) => next(),
+  requireAdmin: () => (_req: any, _res: any, next: () => void) => next(),
+}))
+
 jest.mock('../lib/prisma.js', () => ({
   prisma: {
     regionalOffice: {

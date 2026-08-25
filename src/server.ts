@@ -1,30 +1,35 @@
 import express from 'express'
-import branchesRouter from './routes/branches.js'
-import hierarchiesRouter from './routes/hierarchies.js'
-import inventoryRouter from './routes/inventory.js'
-import premisesRouter from './routes/premises.js'
-import regionalOfficesRouter from './routes/regionalOffices.js'
-import reportsRouter from './routes/reports.js'
-import supervisorsRouter from './routes/supervisors.js'
-import usageRouter from './routes/usage.js'
-import vendorsRouter from './routes/vendors.js'
+import { join, resolve } from 'node:path'
+import { PrismaClient } from '@prisma/client'
+import { createApp } from './app'
+import { createRateLimiter } from './middleware/rateLimit'
+import { loadAuthConfig } from './config/authConfig'
+import { sessionStore, tokenService } from './middleware/auth.js'
+import { DatabaseIamClient } from './services/iamClient'
+import { PrismaUserRepository } from './services/userRepository'
 
-const app = express()
+process.loadEnvFile?.('.env')
+
 const PORT = process.env.PORT || 3000
 
-// Middleware
-app.use(express.json())
+const authConfig = loadAuthConfig()
+const prisma = new PrismaClient()
+const userRepository = new PrismaUserRepository(prisma)
 
-// Routes will be registered here by implement-agent
-app.use('/api/regional-offices', regionalOfficesRouter)
-app.use('/api/branches', branchesRouter)
-app.use('/api/supervisors', supervisorsRouter)
-app.use('/api/premises', premisesRouter)
-app.use('/api/usage', usageRouter)
-app.use('/api/reports', reportsRouter)
-app.use('/api/vendors', vendorsRouter)
-app.use('/api/inventory', inventoryRouter)
-app.use('/api/hierarchies', hierarchiesRouter)
+const app = createApp({
+  iamClient: new DatabaseIamClient(userRepository),
+  tokenService,
+  sessionStore,
+  userRepository,
+  sessionTtlSeconds: authConfig.sessionTtlSeconds,
+})
+
+// Serve the built frontend when it is available, with SPA history fallback
+const frontendDist = resolve('src/frontend/dist')
+app.use(express.static(frontendDist))
+app.get('*', createRateLimiter({ windowMs: 60_000, max: 600 }), (_req, res) => {
+  res.sendFile(join(frontendDist, 'index.html'))
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
