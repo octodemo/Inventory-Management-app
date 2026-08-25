@@ -43,6 +43,9 @@ model InventoryItem {
   usageRecords UsageRecord[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+
+  @@index([vendorId])
+  @@index([hierarchyId])
 }
 
 model ItemRate {
@@ -54,6 +57,8 @@ model ItemRate {
   effectiveTo   DateTime?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+  @@index([itemId, effectiveFrom])
 }
 
 model RegionalOffice {

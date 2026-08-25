@@ -9,7 +9,7 @@ interface MenuItem {
 }
 
 const sections: Array<{ label: string; items: MenuItem[] }> = [
-  { label: 'Inventory', items: [{ label: 'Items', path: '/items' }, { label: 'Hierarchy', path: '/hierarchy' }, { label: 'Rates', path: '/rates' }] },
+  { label: 'Inventory', items: [{ label: 'Items', path: '/inventory' }, { label: 'Hierarchy', path: '/hierarchies', adminOnly: true }, { label: 'Rates', path: '/rates', adminOnly: true }] },
   { label: 'Vendors', items: [{ label: 'Vendor List', path: '/vendors', adminOnly: true }] },
   { label: 'Usage', items: [{ label: 'Usage Records', path: '/usage' }, { label: 'Reports', path: '/reports' }] },
   {

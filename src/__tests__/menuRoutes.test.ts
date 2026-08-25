@@ -55,7 +55,13 @@ describe('GET /api/menu/items', () => {
     expect(sections.map((section) => section.id)).toContain('admin')
     const adminSection = sections.find((section) => section.id === 'admin')!
     expect(adminSection.label).toBe('Admin')
-    expect(adminSection.items.map((item) => item.id)).toEqual(['vendors', 'users', 'upload'])
+    expect(adminSection.items.map((item) => item.id)).toEqual([
+      'vendors',
+      'hierarchies',
+      'rates',
+      'users',
+      'upload',
+    ])
     expect(adminSection.items.every((item) => Boolean(item.id) && Boolean(item.path))).toBe(true)
   })
 

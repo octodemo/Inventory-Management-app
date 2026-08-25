@@ -3,10 +3,12 @@ import { createAuthenticate } from './middleware/auth'
 import { createRateLimiter } from './middleware/rateLimit'
 import { requireAdmin } from './middleware/rbac'
 import { createAuthRouter } from './routes/authRoutes'
+import { createCatalogRouter } from './routes/catalogRoutes'
 import { createMenuRouter } from './routes/menuRoutes'
 import { createUserRouter } from './routes/userRoutes'
 import { createDashboardRouter } from './routes/dashboardRoutes'
 import { AuthService } from './services/authService'
+import type { CatalogPrisma } from './services/catalogService'
 import type { IamClient } from './services/iamClient'
 import { MenuService } from './services/menuService'
 import type { DashboardService } from './services/dashboardService'
@@ -17,6 +19,7 @@ import { buildApiError } from './utils/apiError'
 
 /** Collaborators required to build the Express application. */
 export interface AppDependencies {
+  catalogClient?: CatalogPrisma
   iamClient: IamClient
   tokenService: TokenService
   sessionStore: SessionStore
@@ -39,6 +42,7 @@ export interface AppDependencies {
 export const createApp = (dependencies: AppDependencies): Express => {
   const {
     iamClient,
+    catalogClient,
     tokenService,
     sessionStore,
     userRepository,
@@ -69,6 +73,12 @@ export const createApp = (dependencies: AppDependencies): Express => {
       createRateLimiter({ windowMs: 60_000, max: 600 }),
       authenticate,
       createDashboardRouter(dashboardService),
+    )
+  }
+  if (catalogClient) {
+    app.use(
+      '/api',
+      createCatalogRouter({ client: catalogClient, authenticate, authorizeAdmin: requireAdmin() }),
     )
   }
 
