@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-01-02-04
 feature: feature-01-02
 epic: epic-01
-status: ready
+status: done
 dependencies: [17-BACKEND-hierarchy-delete-api]
 ---
 

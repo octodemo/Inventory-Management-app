@@ -18,6 +18,7 @@ const prisma = new PrismaClient()
 const userRepository = new PrismaUserRepository(prisma)
 
 const app = createApp({
+  catalogClient: prisma,
   iamClient: new DatabaseIamClient(userRepository),
   tokenService: new JwtTokenService({
     secret: authConfig.jwtSecret,

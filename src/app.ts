@@ -2,9 +2,11 @@ import express, { Express, NextFunction, Request, Response } from 'express'
 import { createAuthenticate } from './middleware/auth'
 import { requireAdmin } from './middleware/rbac'
 import { createAuthRouter } from './routes/authRoutes'
+import { createCatalogRouter } from './routes/catalogRoutes'
 import { createMenuRouter } from './routes/menuRoutes'
 import { createUserRouter } from './routes/userRoutes'
 import { AuthService } from './services/authService'
+import type { CatalogPrisma } from './services/catalogService'
 import type { IamClient } from './services/iamClient'
 import { MenuService } from './services/menuService'
 import type { SessionStore } from './services/sessionStore'
@@ -14,6 +16,7 @@ import { buildApiError } from './utils/apiError'
 
 /** Collaborators required to build the Express application. */
 export interface AppDependencies {
+  catalogClient?: CatalogPrisma
   iamClient: IamClient
   tokenService: TokenService
   sessionStore: SessionStore
@@ -35,6 +38,7 @@ export interface AppDependencies {
 export const createApp = (dependencies: AppDependencies): Express => {
   const {
     iamClient,
+    catalogClient,
     tokenService,
     sessionStore,
     userRepository,
@@ -54,6 +58,12 @@ export const createApp = (dependencies: AppDependencies): Express => {
     '/api/users',
     createUserRouter({ userRepository, authenticate, authorizeAdmin: requireAdmin() }),
   )
+  if (catalogClient) {
+    app.use(
+      '/api',
+      createCatalogRouter({ client: catalogClient, authenticate, authorizeAdmin: requireAdmin() }),
+    )
+  }
 
   app.use('/api', (_req: Request, res: Response) => {
     res.status(404).json(buildApiError('Not found', 404))
