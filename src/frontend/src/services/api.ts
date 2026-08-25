@@ -6,6 +6,9 @@
 // Authentication and menu API access (login/logout/fetchCurrentUser/fetchMenu)
 // use {@link apiFetch} instead, which sends the session cookie.
 
+import { hierarchyApi, inventoryApi, vendorApi } from './catalogApi'
+import type { Hierarchy } from './catalogApi'
+
 const API_BASE = '/api'
 
 /** Aggregated analytics returned by `GET /api/dashboard`. */
@@ -377,26 +380,28 @@ export interface HierarchyLookup {
   parentId: number | null
 }
 
-/** Largest page size accepted by the catalogue list endpoints. */
-const LOOKUP_PAGE_SIZE = 100
-
 /** Fetches a minimal list of inventory items for dropdowns/filters. */
-export function listInventoryItemsLookup() {
-  return request<{ data: InventoryItemLookup[] }>(`/inventory?limit=${LOOKUP_PAGE_SIZE}`)
+export async function listInventoryItemsLookup() {
+  const items = await inventoryApi.listAll()
+  return {
+    data: items.map(({ id, name, unit, vendorId, hierarchyId }) => ({
+      id,
+      name,
+      unit,
+      vendorId,
+      hierarchyId,
+    })),
+  }
 }
 
 /** Fetches a minimal list of vendors for dropdowns/filters. */
-export function listVendorsLookup() {
-  return request<{ data: VendorLookup[] }>(`/vendors?limit=${LOOKUP_PAGE_SIZE}`)
+export async function listVendorsLookup() {
+  const vendors = await vendorApi.listAll()
+  return { data: vendors.map(({ id, name }) => ({ id, name })) }
 }
 
-/** Hierarchy node as returned by `GET /api/hierarchies`, which nests children. */
-interface HierarchyTreeNode extends HierarchyLookup {
-  children?: HierarchyTreeNode[]
-}
-
-/** Flattens the nested hierarchy tree into a lookup list. */
-function flattenHierarchyTree(nodes: HierarchyTreeNode[]): HierarchyLookup[] {
+/** Flattens the nested hierarchy tree returned by the catalogue API. */
+function flattenHierarchyTree(nodes: Hierarchy[]): HierarchyLookup[] {
   return nodes.flatMap(({ id, name, parentId, children }) => [
     { id, name, parentId },
     ...flattenHierarchyTree(children ?? []),
@@ -405,8 +410,7 @@ function flattenHierarchyTree(nodes: HierarchyTreeNode[]): HierarchyLookup[] {
 
 /** Fetches a minimal list of item hierarchy nodes for dropdowns/filters. */
 export async function listHierarchiesLookup() {
-  const tree = await request<HierarchyTreeNode[]>('/hierarchies')
-  return { data: flattenHierarchyTree(tree) }
+  return { data: flattenHierarchyTree(await hierarchyApi.tree()) }
 }
 
 // ---------------------------------------------------------------------------
