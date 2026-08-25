@@ -1,5 +1,13 @@
 import type { ChangeEventHandler } from 'react'
 import { useMemo, useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { AuthProvider } from './context/AuthContext'
+import { AccessDeniedPage } from './pages/AccessDeniedPage'
+import { DashboardPage } from './pages/DashboardPage'
+import { LoginPage } from './pages/LoginPage'
+import { UsersPage } from './pages/UsersPage'
 import {
   confirmBulkUpload,
   downloadExport,
@@ -10,7 +18,12 @@ import {
 
 const ALLOWED_EXTENSIONS = new Set(['csv', 'xls', 'xlsx'])
 
-function App() {
+interface UploadExportPageProps {
+  showUpload?: boolean
+  showExports?: boolean
+}
+
+function UploadExportPage({ showUpload = false, showExports = false }: UploadExportPageProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [uploadType, setUploadType] = useState('usage')
   const [preview, setPreview] = useState<UploadPreviewResponse | null>(null)
@@ -112,7 +125,7 @@ function App() {
     <div>
       <h1>Stationery Inventory Management</h1>
 
-      <section data-testid="upload-page">
+      {showUpload && <section data-testid="upload-page">
         <h2>Bulk Upload</h2>
 
         <label htmlFor="upload-type">Upload Type</label>
@@ -190,9 +203,9 @@ function App() {
             </tbody>
           </table>
         )}
-      </section>
+      </section>}
 
-      <section data-testid="reports-page">
+      {showExports && <section data-testid="reports-page">
         <h2>Exports</h2>
         <div data-testid="export-buttons">
           <button type="button" data-testid="export-csv" onClick={() => onExport('csv')} disabled={isLoading}>
@@ -210,10 +223,79 @@ function App() {
             Export PDF
           </button>
         </div>
-      </section>
+      </section>}
 
       {message && <p>{message}</p>}
     </div>
+  )
+}
+
+/**
+ * Application root wiring authentication, role based route guards and the
+ * navigation shell.
+ *
+ * @returns The application element.
+ */
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DashboardPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/*"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <UploadExportPage showExports />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/upload"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <Layout>
+                  <UploadExportPage showUpload />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <Layout>
+                  <UsersPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/access-denied"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <AccessDeniedPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 

@@ -1,5 +1,4 @@
-import { Router } from 'express'
-import { authenticate } from '../middleware/auth'
+import { RequestHandler, Router } from 'express'
 import {
   uploadMiddleware,
   bulkUploadHandler,
@@ -10,14 +9,30 @@ import {
   exportPdfHandler,
 } from '../services/uploadExportService'
 
-const uploadExportRouter = Router()
+export interface UploadExportRouterDependencies {
+  authenticate: RequestHandler
+  authorizeAdmin: RequestHandler
+}
 
-uploadExportRouter.post('/upload/bulk', authenticate, uploadMiddleware.single('file'), bulkUploadHandler)
-uploadExportRouter.post('/upload/confirm', authenticate, confirmUploadHandler)
-uploadExportRouter.get('/upload/template', authenticate, uploadTemplateHandler)
+export const createUploadExportRouter = ({
+  authenticate,
+  authorizeAdmin,
+}: UploadExportRouterDependencies): Router => {
+  const uploadExportRouter = Router()
 
-uploadExportRouter.get('/export/csv', authenticate, exportCsvHandler)
-uploadExportRouter.get('/export/excel', authenticate, exportExcelHandler)
-uploadExportRouter.get('/export/pdf', authenticate, exportPdfHandler)
+  uploadExportRouter.post(
+    '/upload/bulk',
+    authenticate,
+    authorizeAdmin,
+    uploadMiddleware.single('file'),
+    bulkUploadHandler,
+  )
+  uploadExportRouter.post('/upload/confirm', authenticate, authorizeAdmin, confirmUploadHandler)
+  uploadExportRouter.get('/upload/template', authenticate, authorizeAdmin, uploadTemplateHandler)
 
-export default uploadExportRouter
+  uploadExportRouter.get('/export/csv', authenticate, exportCsvHandler)
+  uploadExportRouter.get('/export/excel', authenticate, exportExcelHandler)
+  uploadExportRouter.get('/export/pdf', authenticate, exportPdfHandler)
+
+  return uploadExportRouter
+}
