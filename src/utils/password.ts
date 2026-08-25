@@ -35,7 +35,7 @@ export const verifyPassword = async (password: string, storedHash: string): Prom
   }
 
   const expectedKey = Buffer.from(keyHex, 'hex')
-  const derivedKey = await scryptAsync(password, Buffer.from(saltHex, 'hex'), expectedKey.length)
+  const derivedKey = await scryptAsync(password, Buffer.from(saltHex, 'hex'), KEY_LENGTH)
 
   return expectedKey.length === derivedKey.length && timingSafeEqual(expectedKey, derivedKey)
 }
