@@ -14,7 +14,7 @@ export function DetailPage() {
       <dl>
         {[...query.entries()].map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}
       </dl>
-      <Link to={`/?${query.toString()}`}>Back to Dashboard</Link>
+      <Link to={`/dashboard?${query.toString()}`}>Back to Dashboard</Link>
     </main>
   )
 }

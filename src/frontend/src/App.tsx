@@ -1,28 +1,77 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import { AccessDeniedMessage } from './components/AccessDeniedMessage'
-import { NavigationMenu, UserRole } from './components/NavigationMenu'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { AuthProvider } from './context/AuthContext'
+import { AccessDeniedPage } from './pages/AccessDeniedPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { DetailPage } from './pages/DetailPage'
-
-const role = (sessionStorage.getItem('userRole') === 'ADMIN' ? 'ADMIN' : 'USER') as UserRole
+import { LoginPage } from './pages/LoginPage'
+import { UsersPage } from './pages/UsersPage'
 
 /**
- * Hosts application navigation and feature routes.
+ * Application root wiring authentication, role based route guards and the
+ * navigation shell.
  */
 function App() {
   return (
     <BrowserRouter>
-      <div className="app-shell">
-        <NavigationMenu role={role} />
+      <AuthProvider>
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/usage" element={<DetailPage />} />
-          <Route path="/reports" element={<DetailPage />} />
-          <Route path="/access-denied" element={<AccessDeniedMessage />} />
-          <Route path="*" element={<DetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DashboardPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <Layout>
+                  <UsersPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/usage"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DetailPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <DetailPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/access-denied"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <AccessDeniedPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
-      </div>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

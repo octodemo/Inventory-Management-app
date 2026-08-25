@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { DashboardData, getDashboard } from '../services/api'
-import { AccessDeniedMessage } from '../components/AccessDeniedMessage'
+import { RoleAwareButton } from '../components/RoleGate'
+import { useAuth } from '../context/AuthContext'
 
 const currentRange = () => {
   const today = new Date()
@@ -23,6 +24,7 @@ export function DashboardPage() {
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   useEffect(() => {
     sessionStorage.setItem('dashboard-date-range', JSON.stringify(range))
@@ -41,12 +43,17 @@ export function DashboardPage() {
   }
   const query = new URLSearchParams(range).toString()
 
-  if (error?.toLowerCase().includes('permission')) return <AccessDeniedMessage />
-
   return (
     <main data-testid="dashboard-page">
       <header className="page-header">
-        <div><h1>Dashboard</h1><p>Stationery usage insights</p></div>
+        <div>
+          <h1>Dashboard</h1>
+          <p data-testid="dashboard-greeting">Welcome, {user?.name}</p>
+          <p>Stationery usage insights</p>
+          <RoleAwareButton allowedRoles={['ADMIN']} testId="dashboard-admin-action">
+            Manage masters
+          </RoleAwareButton>
+        </div>
         <div className="date-filter" data-testid="dashboard-date-filter">
           <label>From <input data-testid="filter-start-date" type="date" value={range.startDate} onChange={(event) => updateRange('startDate', event.target.value)} /></label>
           <label>To <input data-testid="filter-end-date" type="date" value={range.endDate} onChange={(event) => updateRange('endDate', event.target.value)} /></label>
