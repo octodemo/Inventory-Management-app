@@ -38,30 +38,48 @@ type StoredPreview = {
   createdAt: number
 }
 
+type UsageRecordExport = {
+  item: { name: string }
+  branch: { name: string }
+  quantity: number
+  usageDate: Date
+  notes: string | null
+}
+
+type NameLookupRepository = {
+  findMany: (args: { where: { name: { in: string[] } } }) => Promise<Array<{ id: number; name: string }>>
+}
+
 const PREVIEW_TTL_MS = 15 * 60 * 1000
 
 export interface UploadExportDependencies {
   usageRecordRepository: {
-    createMany: (args: { data: ValidUsageRow[] }) => Promise<{ count: number }>
+    createMany: (args: { data: Prisma.UsageRecordCreateManyInput[] }) => Promise<{ count: number }>
     findMany: (args: {
       where?: Prisma.UsageRecordWhereInput
       orderBy?: Prisma.UsageRecordOrderByWithRelationInput
-    }) => Promise<
-      Array<{
-        itemName: string
-        branchName: string
-        quantity: number
-        usageDate: Date
-        notes: string | null
-      }>
-    >
+    }) => Promise<UsageRecordExport[]>
   }
+  itemRepository: NameLookupRepository
+  branchRepository: NameLookupRepository
   previewStore: Map<string, StoredPreview>
   idGenerator: () => string
 }
 
 const defaultDependencies: UploadExportDependencies = {
-  usageRecordRepository: prisma.usageRecord,
+  usageRecordRepository: {
+    createMany: (args) => prisma.usageRecord.createMany(args),
+    findMany: (args) =>
+      prisma.usageRecord.findMany({
+        ...args,
+        include: {
+          item: { select: { name: true } },
+          branch: { select: { name: true } },
+        },
+      }),
+  },
+  itemRepository: prisma.inventoryItem,
+  branchRepository: prisma.branch,
   previewStore: new Map<string, StoredPreview>(),
   idGenerator: () => randomUUID(),
 }
@@ -213,11 +231,11 @@ function buildUsageFilters(query: Request['query']): Prisma.UsageRecordWhereInpu
   const where: Prisma.UsageRecordWhereInput = {}
 
   if (typeof query.itemName === 'string' && query.itemName.trim()) {
-    where.itemName = { contains: query.itemName.trim() }
+    where.item = { name: { contains: query.itemName.trim() } }
   }
 
   if (typeof query.branchName === 'string' && query.branchName.trim()) {
-    where.branchName = { contains: query.branchName.trim() }
+    where.branch = { name: { contains: query.branchName.trim() } }
   }
 
   if (typeof query.startDate === 'string' || typeof query.endDate === 'string') {
@@ -245,12 +263,12 @@ function buildUsageFilters(query: Request['query']): Prisma.UsageRecordWhereInpu
   return where
 }
 
-function toCsv(rows: Awaited<ReturnType<UploadExportDependencies['usageRecordRepository']['findMany']>>): string {
+function toCsv(rows: UsageRecordExport[]): string {
   const header = ['itemName', 'branchName', 'quantity', 'usageDate', 'notes']
   const body = rows.map((row) =>
     [
-      escapeCsvValue(row.itemName),
-      escapeCsvValue(row.branchName),
+      escapeCsvValue(row.item.name),
+      escapeCsvValue(row.branch.name),
       escapeCsvValue(row.quantity),
       escapeCsvValue(row.usageDate.toISOString()),
       escapeCsvValue(row.notes),
@@ -260,7 +278,7 @@ function toCsv(rows: Awaited<ReturnType<UploadExportDependencies['usageRecordRep
   return [header.join(','), ...body].join('\n')
 }
 
-async function toExcel(rows: Awaited<ReturnType<UploadExportDependencies['usageRecordRepository']['findMany']>>): Promise<Buffer> {
+async function toExcel(rows: UsageRecordExport[]): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook()
   const worksheet = workbook.addWorksheet('UsageData')
 
@@ -274,8 +292,8 @@ async function toExcel(rows: Awaited<ReturnType<UploadExportDependencies['usageR
 
   rows.forEach((row) => {
     worksheet.addRow({
-      itemName: row.itemName,
-      branchName: row.branchName,
+      itemName: row.item.name,
+      branchName: row.branch.name,
       quantity: row.quantity,
       usageDate: row.usageDate.toISOString(),
       notes: row.notes ?? '',
@@ -286,7 +304,7 @@ async function toExcel(rows: Awaited<ReturnType<UploadExportDependencies['usageR
   return Buffer.from(output)
 }
 
-async function toPdf(rows: Awaited<ReturnType<UploadExportDependencies['usageRecordRepository']['findMany']>>): Promise<Buffer> {
+async function toPdf(rows: UsageRecordExport[]): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ margin: 40, size: 'A4' })
     const buffers: Buffer[] = []
@@ -308,8 +326,8 @@ async function toPdf(rows: Awaited<ReturnType<UploadExportDependencies['usageRec
     rows.forEach((row) => {
       doc.text(
         [
-          row.itemName,
-          row.branchName,
+          row.item.name,
+          row.branch.name,
           String(row.quantity),
           row.usageDate.toISOString().slice(0, 10),
         ].join(' | '),
@@ -418,7 +436,33 @@ export function createUploadExportHandlers(dependencies: UploadExportDependencie
     }
 
     try {
-      const result = await dependencies.usageRecordRepository.createMany({ data: preview.validRows })
+      const [items, branches] = await Promise.all([
+        dependencies.itemRepository.findMany({
+          where: { name: { in: [...new Set(preview.validRows.map((row) => row.itemName))] } },
+        }),
+        dependencies.branchRepository.findMany({
+          where: { name: { in: [...new Set(preview.validRows.map((row) => row.branchName))] } },
+        }),
+      ])
+      const itemIds = new Map(items.map((item) => [item.name, item.id]))
+      const branchIds = new Map(branches.map((branch) => [branch.name, branch.id]))
+      const data = preview.validRows.map((row) => {
+        const itemId = itemIds.get(row.itemName)
+        const branchId = branchIds.get(row.branchName)
+
+        if (!itemId || !branchId) {
+          throw new Error(`Unknown inventory item or branch in preview row: ${row.itemName}, ${row.branchName}`)
+        }
+
+        return {
+          itemId,
+          branchId,
+          quantity: row.quantity,
+          usageDate: row.usageDate,
+          ...(row.notes ? { notes: row.notes } : {}),
+        }
+      })
+      const result = await dependencies.usageRecordRepository.createMany({ data })
       dependencies.previewStore.delete(previewId)
 
       res.status(200).json({

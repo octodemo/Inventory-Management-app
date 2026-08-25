@@ -42,6 +42,8 @@ describe('upload/export API handlers', () => {
         createMany,
         findMany: jest.fn(),
       },
+      itemRepository: { findMany: jest.fn() },
+      branchRepository: { findMany: jest.fn() },
       previewStore,
       idGenerator: () => 'preview-1',
     })
@@ -95,6 +97,8 @@ describe('upload/export API handlers', () => {
         createMany,
         findMany: jest.fn(),
       },
+      itemRepository: { findMany: jest.fn().mockResolvedValue([{ id: 1, name: 'Pen' }]) },
+      branchRepository: { findMany: jest.fn().mockResolvedValue([{ id: 2, name: 'Branch A' }]) },
       previewStore,
       idGenerator: () => 'unused',
     })
@@ -109,8 +113,8 @@ describe('upload/export API handlers', () => {
     expect(createMany).toHaveBeenCalledWith({
       data: [
         {
-          itemName: 'Pen',
-          branchName: 'Branch A',
+          itemId: 1,
+          branchId: 2,
           quantity: 12,
           usageDate: new Date('2026-08-01T00:00:00.000Z'),
         },
@@ -128,6 +132,8 @@ describe('upload/export API handlers', () => {
         createMany: jest.fn(),
         findMany: jest.fn(),
       },
+      itemRepository: { findMany: jest.fn() },
+      branchRepository: { findMany: jest.fn() },
       previewStore: new Map(),
       idGenerator: () => 'unused',
     })
@@ -149,8 +155,8 @@ describe('upload/export API handlers', () => {
   it('exports filtered usage data as CSV', async () => {
     const findMany = jest.fn().mockResolvedValue([
       {
-        itemName: 'Pen',
-        branchName: 'Branch A',
+        item: { name: 'Pen' },
+        branch: { name: 'Branch A' },
         quantity: 5,
         usageDate: new Date('2026-08-02T00:00:00.000Z'),
         notes: 'Weekly issue',
@@ -162,6 +168,8 @@ describe('upload/export API handlers', () => {
         createMany: jest.fn(),
         findMany,
       },
+      itemRepository: { findMany: jest.fn() },
+      branchRepository: { findMany: jest.fn() },
       previewStore: new Map(),
       idGenerator: () => 'unused',
     })
@@ -176,8 +184,8 @@ describe('upload/export API handlers', () => {
     expect(findMany).toHaveBeenCalledWith(
       expect.objectContaining({
         where: expect.objectContaining({
-          itemName: { contains: 'Pen' },
-          branchName: { contains: 'Branch' },
+          item: { name: { contains: 'Pen' } },
+          branch: { name: { contains: 'Branch' } },
         }),
       }),
     )
@@ -192,6 +200,8 @@ describe('upload/export API handlers', () => {
         createMany: jest.fn(),
         findMany: jest.fn().mockResolvedValue([]),
       },
+      itemRepository: { findMany: jest.fn() },
+      branchRepository: { findMany: jest.fn() },
       previewStore: new Map(),
       idGenerator: () => 'unused',
     })
@@ -215,6 +225,8 @@ describe('upload/export API handlers', () => {
         createMany: jest.fn(),
         findMany: jest.fn().mockResolvedValue([]),
       },
+      itemRepository: { findMany: jest.fn() },
+      branchRepository: { findMany: jest.fn() },
       previewStore: new Map(),
       idGenerator: () => 'unused',
     })
