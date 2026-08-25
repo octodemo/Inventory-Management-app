@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 export interface Vendor {
   id: number
   name: string

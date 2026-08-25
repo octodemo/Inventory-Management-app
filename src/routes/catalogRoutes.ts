@@ -1,6 +1,5 @@
-import { Router, type NextFunction, type Request, type Response } from 'express'
+import { Router, type NextFunction, type Request, type RequestHandler, type Response } from 'express'
 import { PrismaClient } from '@prisma/client'
-import { authenticate, authorize } from '../middleware/auth'
 import {
   CatalogError,
   type CatalogPrisma,
@@ -11,6 +10,13 @@ import {
 } from '../services/catalogService'
 
 type Handler = (request: Request, response: Response) => Promise<void>
+
+/** Dependencies required to create the catalogue router. */
+export interface CatalogRouterDependencies {
+  authenticate: RequestHandler
+  authorizeAdmin: RequestHandler
+  client?: CatalogPrisma
+}
 
 /** Wraps async Express handlers and serialises domain failures consistently. */
 const asyncHandler = (handler: Handler) => (request: Request, response: Response, next: NextFunction) => {
@@ -23,16 +29,22 @@ const noContent = (action: (id: string) => Promise<void>) => asyncHandler(async 
 })
 
 /**
- * Creates all inventory catalogue routes.  Accepting the Prisma dependency
- * allows an application composition root (or a test) to supply its own client.
+ * Creates all inventory catalogue routes.
+ *
+ * @param dependencies - Injected persistence and access-control dependencies.
+ * @returns The configured catalogue router.
  */
-export function createCatalogRouter(client: CatalogPrisma = new PrismaClient() as unknown as CatalogPrisma) {
+export function createCatalogRouter({
+  authenticate,
+  authorizeAdmin,
+  client = new PrismaClient() as unknown as CatalogPrisma,
+}: CatalogRouterDependencies) {
   const router = Router()
   const inventory = new InventoryService(client)
   const vendors = new VendorService(client)
   const hierarchies = new HierarchyService(client)
   const rates = new RateService(client)
-  const adminOnly = [authenticate, authorize('ADMIN')]
+  const adminOnly = [authenticate, authorizeAdmin]
 
   router.get('/inventory', authenticate, asyncHandler(async (request, response) => {
     response.json(await inventory.list(request.query))

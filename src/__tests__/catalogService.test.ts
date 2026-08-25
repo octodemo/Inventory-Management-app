@@ -27,7 +27,7 @@ const prisma = (): CatalogPrisma => ({
 describe('InventoryService', () => {
   it('requires all mandatory fields before creating an item', async () => {
     await expect(new InventoryService(prisma()).create({ name: 'Pen' }))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ message: 'vendorId must be a positive integer', status: 400 }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ message: 'vendorId must be a positive integer', status: 400 }))
   })
 
   it('returns a conflict when a usage-record foreign key prevents deletion', async () => {
@@ -36,7 +36,7 @@ describe('InventoryService', () => {
     ;(client.inventoryItem.delete as jest.Mock).mockRejectedValue({ code: 'P2003' })
 
     await expect(new InventoryService(client).delete(4))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ status: 409 }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ status: 409 }))
   })
 
   it('includes vendor and hierarchy details in an item list', async () => {
@@ -59,7 +59,7 @@ describe('HierarchyService', () => {
       .mockResolvedValueOnce({ id: 1, parentId: null })
 
     await expect(new HierarchyService(client).create({ name: 'Too deep', parentId: 4 }))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ status: 400, message: 'Maximum hierarchy nesting depth of 4 exceeded' }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ status: 400, message: 'Maximum hierarchy nesting depth of 4 exceeded' }))
   })
 
   it('creates a nested tree from flat hierarchy records', async () => {
@@ -82,7 +82,7 @@ describe('RateService', () => {
     ;(client.itemRate.findFirst as jest.Mock).mockResolvedValue({ id: 3 })
 
     await expect(new RateService(client).create({ itemId: 1, rate: 10, effectiveFrom: '2026-06-01', effectiveTo: '2026-12-01' }))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ status: 400, message: 'Rate effective dates overlap an existing rate for this item' }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ status: 400, message: 'Rate effective dates overlap an existing rate for this item' }))
   })
 
   it('allows contiguous, non-overlapping rate ranges', async () => {
@@ -99,7 +99,7 @@ describe('RateService', () => {
 describe('VendorService', () => {
   it('validates vendor contact email format', async () => {
     await expect(new VendorService(prisma()).create({ name: 'Vendor A', contactEmail: 'invalid' }))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ message: 'contactEmail must be a valid email address', status: 400 }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ message: 'contactEmail must be a valid email address', status: 400 }))
   })
 
   it('blocks deleting a vendor assigned to an inventory item', async () => {
@@ -108,6 +108,6 @@ describe('VendorService', () => {
     ;(client.inventoryItem.count as jest.Mock).mockResolvedValue(1)
 
     await expect(new VendorService(client).delete(1))
-      .rejects.toEqual(expect.objectContaining<CatalogError>({ status: 409 }))
+      .rejects.toEqual(expect.objectContaining<Partial<CatalogError>>({ status: 409 }))
   })
 })
