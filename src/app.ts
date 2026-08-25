@@ -1,5 +1,6 @@
 import express, { Express, NextFunction, Request, Response } from 'express'
 import { createAuthenticate } from './middleware/auth'
+import { createRateLimiter } from './middleware/rateLimit'
 import { requireAdmin } from './middleware/rbac'
 import { createAuthRouter } from './routes/authRoutes'
 import { createMenuRouter } from './routes/menuRoutes'
@@ -52,14 +53,23 @@ export const createApp = (dependencies: AppDependencies): Express => {
   const authenticate = createAuthenticate({ tokenService, sessionStore })
   const authService = new AuthService({ iamClient, tokenService, sessionStore })
 
-  app.use('/api/auth', createAuthRouter({ authService, authenticate, sessionTtlSeconds }))
+  app.use(
+    '/api/auth',
+    createRateLimiter({ windowMs: 60_000, max: 10 }),
+    createAuthRouter({ authService, authenticate, sessionTtlSeconds }),
+  )
   app.use('/api/menu', createMenuRouter({ menuService, authenticate }))
   app.use(
     '/api/users',
     createUserRouter({ userRepository, authenticate, authorizeAdmin: requireAdmin() }),
   )
   if (dashboardService) {
-    app.use('/api/dashboard', authenticate, createDashboardRouter(dashboardService))
+    app.use(
+      '/api/dashboard',
+      createRateLimiter({ windowMs: 60_000, max: 600 }),
+      authenticate,
+      createDashboardRouter(dashboardService),
+    )
   }
 
   app.use('/api', (_req: Request, res: Response) => {
