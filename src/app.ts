@@ -2,6 +2,13 @@ import express, { Express, NextFunction, Request, Response } from 'express'
 import { createAuthenticate } from './middleware/auth'
 import { createRateLimiter } from './middleware/rateLimit'
 import { requireAdmin } from './middleware/rbac'
+import branchesRouter from './routes/branches.js'
+import premisesRouter from './routes/premises.js'
+import regionalOfficesRouter from './routes/regionalOffices.js'
+import reportsRouter from './routes/reports.js'
+import supervisorsRouter from './routes/supervisors.js'
+import usageRouter from './routes/usage.js'
+import vendorsRouter from './routes/vendors.js'
 import { createAuthRouter } from './routes/authRoutes'
 import { createCatalogRouter } from './routes/catalogRoutes'
 import { createMenuRouter } from './routes/menuRoutes'
@@ -81,6 +88,17 @@ export const createApp = (dependencies: AppDependencies): Express => {
       createCatalogRouter({ client: catalogClient, authenticate, authorizeAdmin: requireAdmin() }),
     )
   }
+
+  // Feature Area 3 — organizational master data, usage tracking, and reporting.
+  // These routers import the shared `authenticate`/`authorize` middleware from
+  // `middleware/auth.js` directly rather than through dependency injection.
+  app.use('/api/regional-offices', regionalOfficesRouter)
+  app.use('/api/branches', branchesRouter)
+  app.use('/api/supervisors', supervisorsRouter)
+  app.use('/api/premises', premisesRouter)
+  app.use('/api/usage', usageRouter)
+  app.use('/api/reports', reportsRouter)
+  app.use('/api/vendors', vendorsRouter)
 
   app.use('/api', (_req: Request, res: Response) => {
     res.status(404).json(buildApiError('Not found', 404))

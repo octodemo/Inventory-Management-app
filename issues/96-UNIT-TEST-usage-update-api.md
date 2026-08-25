@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-04-01-03
 feature: feature-04-01
 epic: epic-04
-status: ready
+status: done
 dependencies: [36-BACKEND-usage-update-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [36-BACKEND-usage-update-api]
 Write Jest unit tests for PUT /api/usage/:id and GET /api/usage/:id endpoints covering updates and validation.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies PUT /api/usage/:id updates usage record and returns 200 OK
-- [ ] Unit test verifies PUT /api/usage/:id returns 400 Bad Request when required fields are invalid
+- [x] Unit test verifies PUT /api/usage/:id updates usage record and returns 200 OK
+- [x] Unit test verifies PUT /api/usage/:id returns 400 Bad Request when required fields are invalid

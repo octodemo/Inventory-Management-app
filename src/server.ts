@@ -6,9 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { createApp } from './app'
 import { createRateLimiter } from './middleware/rateLimit'
 import { loadAuthConfig } from './config/authConfig'
+import { sessionStore, tokenService } from './middleware/auth.js'
 import { DatabaseIamClient } from './services/iamClient'
-import { InMemorySessionStore } from './services/sessionStore'
-import { JwtTokenService } from './services/tokenService'
 import { PrismaUserRepository } from './services/userRepository'
 
 process.loadEnvFile?.('.env')
@@ -22,11 +21,8 @@ const userRepository = new PrismaUserRepository(prisma)
 const app = createApp({
   catalogClient: prisma,
   iamClient: new DatabaseIamClient(userRepository),
-  tokenService: new JwtTokenService({
-    secret: authConfig.jwtSecret,
-    ttlSeconds: authConfig.sessionTtlSeconds,
-  }),
-  sessionStore: new InMemorySessionStore(),
+  tokenService,
+  sessionStore,
   userRepository,
   sessionTtlSeconds: authConfig.sessionTtlSeconds,
   dashboardService: new DashboardService(new PrismaDashboardDataSource(prisma)),

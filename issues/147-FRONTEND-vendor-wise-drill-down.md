@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-02-02-03
 feature: feature-02-02
 epic: epic-02
-status: ready
+status: done
 dependencies: [27-BACKEND-vendor-drill-down-api]
 ---
 

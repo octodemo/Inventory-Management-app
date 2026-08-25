@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-01-02
 feature: feature-05-01
 epic: epic-05
-status: ready
+status: done
 dependencies: [43-BACKEND-multi-select-branches-api]
 ---
 

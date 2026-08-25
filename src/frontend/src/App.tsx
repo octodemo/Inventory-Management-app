@@ -3,13 +3,19 @@ import { Layout } from './components/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import { AccessDeniedPage } from './pages/AccessDeniedPage'
+import { BranchesPage } from './pages/BranchesPage'
 import { DashboardPage } from './pages/DashboardPage'
-import { DetailPage } from './pages/DetailPage'
 import { HierarchyPage } from './pages/HierarchyPage'
 import { InventoryPage } from './pages/InventoryPage'
 import { LoginPage } from './pages/LoginPage'
+import { PremisesPage } from './pages/PremisesPage'
 import { RatesPage } from './pages/RatesPage'
+import { RegionalOfficesPage } from './pages/RegionalOfficesPage'
+import { ReportsPage } from './pages/ReportsPage'
+import { SupervisorsPage } from './pages/SupervisorsPage'
+import { UsagePage } from './pages/UsagePage'
 import { UsersPage } from './pages/UsersPage'
+import { VendorUsageAnalysisPage } from './pages/VendorUsageAnalysisPage'
 import { VendorsPage } from './pages/VendorsPage'
 
 /**
@@ -43,11 +49,51 @@ function App() {
             }
           />
           <Route
+            path="/regional-offices"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <RegionalOfficesPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/branches"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <BranchesPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/supervisors"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <SupervisorsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/premises"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <PremisesPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/usage"
             element={
               <ProtectedRoute>
                 <Layout>
-                  <DetailPage />
+                  <UsagePage />
                 </Layout>
               </ProtectedRoute>
             }
@@ -57,7 +103,27 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  <DetailPage />
+                  <ReportsPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vendors/usage-analysis"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <VendorUsageAnalysisPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vendors/:vendorId/usage-analysis"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <VendorUsageAnalysisPage />
                 </Layout>
               </ProtectedRoute>
             }

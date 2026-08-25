@@ -6,7 +6,7 @@ taskType: DATABASE
 userStory: story-04-01-01
 feature: feature-04-01
 epic: epic-04
-status: ready
+status: done
 dependencies: [01-DATABASE-inventory-item-model, 06-DATABASE-branch-model]
 ---
 

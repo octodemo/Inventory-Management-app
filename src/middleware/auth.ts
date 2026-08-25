@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express'
+import { loadAuthConfig } from '../config/authConfig'
 import type { SessionStore } from '../services/sessionStore'
+import { InMemorySessionStore } from '../services/sessionStore'
 import type { TokenService } from '../services/tokenService'
+import { JwtTokenService } from '../services/tokenService'
 import { buildApiError } from '../utils/apiError'
 import { extractSessionToken } from '../utils/sessionToken'
 
@@ -56,3 +59,30 @@ export const createAuthenticate = ({
     next()
   }
 }
+
+const authConfig = loadAuthConfig()
+
+/**
+ * Shared token service used to sign and verify session tokens across the
+ * whole application (login, logout, and every authenticated route).
+ */
+export const tokenService: TokenService = new JwtTokenService({
+  secret: authConfig.jwtSecret,
+  ttlSeconds: authConfig.sessionTtlSeconds,
+})
+
+/**
+ * Shared session store used to track revoked tokens across the whole
+ * application. A single instance is required so that a token revoked by
+ * logout is rejected by every route that uses {@link authenticate}.
+ */
+export const sessionStore: SessionStore = new InMemorySessionStore()
+
+/**
+ * Application-wide authentication middleware, built from the shared token
+ * service and session store above. Business routes (regional offices,
+ * branches, usage records, reports, etc.) import this directly; the IAM
+ * auth routes are wired up explicitly via {@link createAuthenticate} in
+ * `src/app.ts` so they can be exercised in isolation in tests.
+ */
+export const authenticate: RequestHandler = createAuthenticate({ tokenService, sessionStore })

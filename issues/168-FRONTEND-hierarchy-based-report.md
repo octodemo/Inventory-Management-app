@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-03-01
 feature: feature-05-03
 epic: epic-05
-status: ready
+status: done
 dependencies: [48-BACKEND-hierarchy-based-report-api]
 ---
 

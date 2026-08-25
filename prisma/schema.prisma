@@ -1,3 +1,5 @@
+// Prisma schema for Stationery Inventory Management
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,6 +7,23 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+// NOTE: SQLite connector does not support native Prisma enums, so UserRole
+// is persisted as a String constrained to "ADMIN" | "USER" in application code
+// (see src/types/user.ts).
+/// Application user mirrored from the organisation's IAM framework.
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  /// ADMIN or USER — stored as text because SQLite does not support enums;
+  /// values are constrained by the `UserRole` type in src/types/auth.ts.
+  role         String
+  /// Scrypt hash (`salt:hash`) of the credential synchronised from IAM.
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Vendor {
@@ -83,6 +102,26 @@ model Branch {
   updatedAt        DateTime       @updatedAt
 }
 
+model Supervisor {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  phone     String?
+  premises  Premises[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Premises {
+  id           Int        @id @default(autoincrement())
+  name         String
+  address      String?
+  supervisorId Int
+  supervisor   Supervisor @relation(fields: [supervisorId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
 model UsageRecord {
   id        Int           @id @default(autoincrement())
   itemId    Int
@@ -94,18 +133,4 @@ model UsageRecord {
   notes     String?
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-}
-
-/// Application user mirrored from the organisation's IAM framework.
-model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  name         String
-  /// ADMIN or USER — stored as text because SQLite does not support enums;
-  /// values are constrained by the `UserRole` type in src/types/auth.ts.
-  role         String
-  /// Scrypt hash (`salt:hash`) of the credential synchronised from IAM.
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 }

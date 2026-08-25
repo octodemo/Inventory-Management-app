@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-03-01-01
 feature: feature-03-01
 epic: epic-03
-status: ready
+status: done
 dependencies: [28-BACKEND-regional-office-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [28-BACKEND-regional-office-api]
 Write Jest unit tests for Regional Office CRUD endpoints covering creation, retrieval, and unique code validation.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies POST /api/regional-offices creates regional office with unique code and returns 201 Created
-- [ ] Unit test verifies GET /api/regional-offices returns paginated list with branch counts
+- [x] Unit test verifies POST /api/regional-offices creates regional office with unique code and returns 201 Created
+- [x] Unit test verifies GET /api/regional-offices returns paginated list with branch counts

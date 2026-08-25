@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-03-01-02
 feature: feature-03-01
 epic: epic-03
-status: ready
+status: done
 dependencies: [29-BACKEND-branch-api]
 ---
 
