@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-05-04-03
 feature: feature-05-04
 epic: epic-05
-status: ready
+status: done
 dependencies: [53-BACKEND-dashboard-drill-down-api]
 ---
 

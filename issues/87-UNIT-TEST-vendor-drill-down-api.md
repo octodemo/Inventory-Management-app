@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-02-02-03
 feature: feature-02-02
 epic: epic-02
-status: ready
+status: done
 dependencies: [27-BACKEND-vendor-drill-down-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [27-BACKEND-vendor-drill-down-api]
 Write Jest unit tests for vendor-wise report drill-down functionality covering item-level details within vendor data.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies vendor-wise report response includes items array for each vendor with correct structure
-- [ ] Unit test verifies drill-down response allows filtering to specific items within a vendor
+- [x] Unit test verifies vendor-wise report response includes items array for each vendor with correct structure
+- [x] Unit test verifies drill-down response allows filtering to specific items within a vendor

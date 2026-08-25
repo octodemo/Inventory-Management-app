@@ -6,7 +6,7 @@ taskType: BACKEND
 userStory: story-03-02-03
 feature: feature-03-02
 epic: epic-03
-status: ready
+status: done
 dependencies: [07-DATABASE-supervisor-model,08-DATABASE-premises-model]
 ---
 

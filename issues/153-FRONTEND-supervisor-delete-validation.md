@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-03-02-03
 feature: feature-03-02
 epic: epic-03
-status: ready
+status: done
 dependencies: [33-BACKEND-supervisor-delete-validation-api]
 ---
 

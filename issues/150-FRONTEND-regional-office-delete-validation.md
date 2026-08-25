@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-03-01-03
 feature: feature-03-01
 epic: epic-03
-status: ready
+status: done
 dependencies: [30-BACKEND-regional-office-delete-validation-api]
 ---
 

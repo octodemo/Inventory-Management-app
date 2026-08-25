@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-05-02-03
 feature: feature-05-02
 epic: epic-05
-status: ready
+status: done
 dependencies: [47-BACKEND-report-column-sorting-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [47-BACKEND-report-column-sorting-api]
 Write Jest unit tests for report column sorting covering orderBy and direction parameters.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies all report endpoints accept orderBy and direction parameters and return sorted results
-- [ ] Unit test verifies sorting returns 400 Bad Request when orderBy references invalid column
+- [x] Unit test verifies all report endpoints accept orderBy and direction parameters and return sorted results
+- [x] Unit test verifies sorting returns 400 Bad Request when orderBy references invalid column

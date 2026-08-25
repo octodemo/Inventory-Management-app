@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-04-02-01
 feature: feature-04-02
 epic: epic-04
-status: ready
+status: done
 dependencies: [38-BACKEND-branch-usage-filter-api]
 ---
 

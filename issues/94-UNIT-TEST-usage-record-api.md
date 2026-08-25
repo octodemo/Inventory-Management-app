@@ -6,7 +6,7 @@ taskType: UNIT-TEST
 userStory: story-04-01-01
 feature: feature-04-01
 epic: epic-04
-status: ready
+status: done
 dependencies: [34-BACKEND-usage-record-api]
 ---
 
@@ -16,5 +16,5 @@ dependencies: [34-BACKEND-usage-record-api]
 Write Jest unit tests for POST /api/usage endpoint covering usage record creation and entity validation.
 
 ## Acceptance Criteria
-- [ ] Unit test verifies POST /api/usage creates usage record and returns 201 Created
-- [ ] Unit test verifies POST /api/usage returns 400 Bad Request when itemId or branchId reference non-existent entities
+- [x] Unit test verifies POST /api/usage creates usage record and returns 201 Created
+- [x] Unit test verifies POST /api/usage returns 400 Bad Request when itemId or branchId reference non-existent entities

@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-07-02-03
 feature: feature-07-02
 epic: epic-07
-status: ready
+status: done
 dependencies: [66-BACKEND-rbac-access-denied-api]
 ---
 

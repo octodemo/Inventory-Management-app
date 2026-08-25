@@ -6,7 +6,7 @@ taskType: FRONTEND
 userStory: story-05-02-01
 feature: feature-05-02
 epic: epic-05
-status: ready
+status: done
 dependencies: [45-BACKEND-tabular-report-format-api]
 ---
 

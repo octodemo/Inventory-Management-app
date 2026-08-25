@@ -6,7 +6,7 @@ taskType: BACKEND
 userStory: story-02-01-01
 feature: feature-02-01
 epic: epic-02
-status: ready
+status: done
 dependencies: [04-DATABASE-vendor-model]
 ---
 
