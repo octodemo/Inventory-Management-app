@@ -90,6 +90,7 @@ export const createApp = (dependencies: AppDependencies): Express => {
   if (catalogClient) {
     app.use(
       '/api',
+      createRateLimiter({ windowMs: 60_000, max: 600 }),
       createCatalogRouter({ client: catalogClient, authenticate, authorizeAdmin: requireAdmin() }),
     )
   }
